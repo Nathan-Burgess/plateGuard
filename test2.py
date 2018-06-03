@@ -52,6 +52,6 @@ try:
 
 
 
-finally:
-    if alpr:
-        alpr.unload()
+#finally:
+ #   if alpr:
+  #      alpr.unload()
