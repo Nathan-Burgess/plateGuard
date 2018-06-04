@@ -4,7 +4,7 @@ from openalpr import Alpr
 
 # Retreives coordinates and license plate
 def coordRetrv(conf, runtime, image_location):
-    alpr = Alpr("us", conf, runtime)
+    alpr = Alpr("gb", conf, runtime)
 
     # Tests if ALPR is able to open
     if not alpr.is_loaded():
@@ -22,6 +22,6 @@ def coordRetrv(conf, runtime, image_location):
 
     plate = result[0]
 
-    alpr.unload()
+   # alpr.unload()
 
     return plate

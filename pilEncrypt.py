@@ -56,6 +56,7 @@ def pilEncrypt(plate, image_location):
         ##displaying unecrypted image
         original.show()
 
+        original.save(image_location)
 
 
 
