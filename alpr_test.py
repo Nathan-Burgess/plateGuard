@@ -24,5 +24,7 @@ for plate in results['results']:
 
         print("  %s %12s%12f" % (prefix, candidate['plate'], candidate['confidence']))
 
+    print(plate['coordinates'])
+
 # Call when completely done to release memory
-#alpr.unload()
+alpr.unload()
