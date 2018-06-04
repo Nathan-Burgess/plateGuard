@@ -3,8 +3,8 @@ from openalpr import Alpr
 
 
 # Retreives coordinates and license plate
-def coord_retrv():
-    alpr = Alpr("us", "/etc/openalpr/openalpr.conf", "/home/michael/openalpr/runtime_data")
+def coordRetrv(conf, runtime, image_location):
+    alpr = Alpr("us", conf, runtime)
 
     # Tests if ALPR is able to open
     if not alpr.is_loaded():
@@ -16,9 +16,11 @@ def coord_retrv():
     alpr.set_default_region("md")
 
     # Loads results from the openALPR library
-    results = alpr.recognize_file("/home/michael/Pictures/test_plates/ea7the.jpg")
+    results = alpr.recognize_file(image_location)
 
-    plate = results['results']
+    result = results['results']
+
+    plate = result[0]
 
     alpr.unload()
 

@@ -3,17 +3,18 @@ from PIL import Image
 import random
 
 
-def pillEncrypt(plate):
-    try:
+def pilEncrypt(plate, image_location):
+    #try:
 
         # Load an image from the hard drive
-        original = Image.open("C:/Users/natha/Desktop/car_plate.jpg")
+        original = Image.open(image_location)
 
         # loading pixel values
         pixels = original.load()
 
         #licsense plate string
         LP = plate['plate']
+
 
         # seed from asci values of LP
         seed = 0
@@ -59,5 +60,5 @@ def pillEncrypt(plate):
 
 
 
-    except:
-        print("Error somewhere")
+    # except:
+    #     print("Error somewhere")
