@@ -3,7 +3,7 @@ from openalpr import Alpr
 
 
 # Retreives coordinates and license plate
-def coord_retrv()
+def coord_retrv():
     alpr = Alpr("us", "/etc/openalpr/openalpr.conf", "/home/michael/openalpr/runtime_data")
 
     # Tests if ALPR is able to open

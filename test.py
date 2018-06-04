@@ -32,6 +32,6 @@ for plate in results['results']:
 coordinates = plate['coordinates']
 
 print(coordinates[0])
-print(coordinates[2])
+print(type(coordinates[2]))
 
 alpr.unload()
