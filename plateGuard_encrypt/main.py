@@ -1,5 +1,5 @@
-from coordRetrv import *
-from pilEncrypt import *
+from plateGuard_encrypt.coordRetrv import *
+from plateGuard_encrypt.pilEncrypt import *
 import json
 
 with open("config.json", "r") as read_file:
