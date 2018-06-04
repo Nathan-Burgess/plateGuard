@@ -1,3 +1,12 @@
+#
+#
+#
+#PROOF OF CONCEPT STUFF
+#
+#
+#
+#
+
 import sys
 
 from openalpr import Alpr
@@ -19,5 +28,10 @@ for plate in results['results']:
     print("   %12s %12s" % ("Plate", "Coordinates"))
     print("   %12s %12s" % (plate['plate'], plate['coordinates']))
         # print(" %12s" % (results['coordinates']))
+
+coordinates = plate['coordinates']
+
+print(coordinates[0])
+print(coordinates[2])
 
 alpr.unload()
