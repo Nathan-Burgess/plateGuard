@@ -20,13 +20,19 @@ try:
 
     for x in range(x1,x2):
        for y in range(y1,y2):
-           pixels[x,y] = (x, y, 100)
+           pixels[x,y] = (x ^ ord(test[0]), y ^ ord(test[1]), 100)
 
 
     # Display both images
     original.show()
-    blurred.show()
+ #   blurred.show()
     cropped.save('C:/Users/natha/Desktop/car_plate2.jpg')
+
+    for x in range(x1,x2):
+       for y in range(y1,y2):
+           pixels[x,y] = (x ^ ord(test[0]), y ^ ord(test[1]), 100)
+
+    original.show()
 
     # save the new image
     blurred.save("blurred.png")
