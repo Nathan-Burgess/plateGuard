@@ -4,7 +4,9 @@ import random
 
 #pass in the liscence plate string
 
-def pilDecrypt(image_location):
+#TODO retreive plate coords from metadata
+
+def pilDecrypt(plate, image_location):
     #try:
 
         # Load an image from the hard drive

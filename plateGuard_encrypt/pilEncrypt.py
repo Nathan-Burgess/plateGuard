@@ -2,6 +2,7 @@
 from PIL import Image
 import random
 
+#TODO add number of plates and coords as metadata
 
 def pilEncrypt(plate, image_location):
     #try:
