@@ -41,7 +41,7 @@ Project to detect and encrypt license plates
   # Install the binaries/libraries to your local system (prefix is /usr)
   sudo make install
   
-Set up Python Bindings
-  ```bash
-  cd openalpr/src/bindings/python/
-  sudo python3 setup.py install
+ - Set up Python Bindings
+    ```bash
+    cd openalpr/src/bindings/python/
+    sudo python3 setup.py install
