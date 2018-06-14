@@ -1,6 +1,6 @@
 import json
 import sys
-from plateGuard_decrypt.pilDecrypt import *
+from pilDecrypt import *
 
 with open("config.json", "r") as read_file:
     config = json.load(read_file)

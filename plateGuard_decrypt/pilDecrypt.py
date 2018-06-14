@@ -1,5 +1,5 @@
 # Import the modules
-from PIL import Image
+#from PIL import Image
 import random
 import cv2
 

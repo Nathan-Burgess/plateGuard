@@ -1,5 +1,5 @@
 # Import the modules
-from PIL import Image
+#from PIL import Image
 import random
 import cv2
 
@@ -32,7 +32,7 @@ def pilEncrypt(plate, image_location):
         # print(seed)
 
         # Showing original unencrypted image
-        cv2.imshow('Origonal', img)
+        cv2.imshow('Original', img)
         k = cv2.waitKey(0)
 
         # #encypting image plate
@@ -95,7 +95,7 @@ def pilEncrypt(plate, image_location):
 
 
         # displaying ecrypted image
-        cv2.imshow('encrypted', img)
+        cv2.imshow('Encrypted', img)
         k = cv2.waitKey(0)
 
         # saving image
