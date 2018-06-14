@@ -77,15 +77,11 @@ def pilDecrypt(plate, image_location, save_location):
                     img.itemset((y, x, 1), g ^ random.randint(1, 255))
                     img.itemset((y, x, 2), r ^ random.randint(1, 255))
 
-            # displaying unecrypted image
-            # cv2.imshow('unencrypted', img)
-            # k = cv2.waitKey(0)
 
-        cv2.imwrite(save_location,img)
-        # x1 = 316
-        # y1 = 140
-        # x2 = 464
-        # y2 = 203
+        # displaying unecrypted image
+        cv2.imshow('unencrypted', img)
+        k = cv2.waitKey(0)
+
 
 
 
