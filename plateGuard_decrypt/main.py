@@ -9,4 +9,4 @@ if len(sys.argv) < 3:
     print("Usage: main.py <license plate> <image name>")
     sys.exit(1)
 
-pilDecrypt(sys.argv[1], sys.argv[2])
+pilDecrypt(sys.argv[1], sys.argv[2], config['image_location'])

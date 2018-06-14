@@ -22,11 +22,10 @@ def coordRetrv(conf, runtime, image_location):
 
     result = results['results']
 
+    print(result)
     # Prints the number of license plates
     print(len(result))
 
-    plate = result[0]
-
    # alpr.unload()
 
-    return plate
+    return result
