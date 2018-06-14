@@ -1,6 +1,8 @@
 import sys
 from openalpr import Alpr
-
+import signal
+from signalHandler import signal_handler
+import time
 
 # Retreives coordinates and license plate
 def coordRetrv(conf, runtime, image_location):
@@ -20,8 +22,10 @@ def coordRetrv(conf, runtime, image_location):
 
     result = results['results']
 
-    plate = result[0]
+    print(result)
+    # Prints the number of license plates
+    print(len(result))
 
    # alpr.unload()
 
-    return plate
+    return result
