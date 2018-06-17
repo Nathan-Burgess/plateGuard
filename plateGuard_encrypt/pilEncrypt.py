@@ -3,7 +3,7 @@
 import random
 import cv2
 
-#TODO add number of plates and coords as metadata
+#TODO
 
 def pilEncrypt(results, image_location):
 
@@ -14,17 +14,18 @@ def pilEncrypt(results, image_location):
         cv2.imshow('Original', img)
         k = cv2.waitKey(0)
 
-        # Adding number of plates meta data to image
-
         # how many license plates (#num of plates, 0, 0)
-        num_plates = len(results)
         # itemset((x, y, [B:0,G:1,R:2]), [new_value])
+        num_plates = len(results)
         img.itemset((0, 0, 0), num_plates)
 
+        #used to set Plate meta data, increased by 4 for each plate
         i = 1
 
+        #looping though for each plate in the image
         for plate in results:
-            #licsense plate string
+
+            #licsense plate string for plate
             LP = plate['plate']
             print(LP)
 
@@ -76,10 +77,11 @@ def pilEncrypt(results, image_location):
             i += 4
 
             # Display cords
-            print(x1)
-            print(y1)
-            print(x2)
-            print(y2)
+            print("Plate ", int(i/4), "coordinates")
+            print("x1", x1)
+            print("y1", y1)
+            print("x2", x2)
+            print("y2", y2, "\n")
 
         # displaying ecrypted image
         cv2.imshow('Encrypted', img)

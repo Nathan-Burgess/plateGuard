@@ -3,17 +3,14 @@
 import random
 import cv2
 
-#pass in the liscence plate string
-
-#TODO retreive plate coords from metadata
+#TODO
 
 def pilDecrypt(plate, image_location, save_location):
 
         # Load an image from the hard drive
-        #original = Image.open(image_location)
         img = cv2.imread(image_location)
 
-        #licsense plate string
+        #licsense plate string to use as decrypt key
         LP = plate.upper()
         print(plate)
 
@@ -25,49 +22,47 @@ def pilDecrypt(plate, image_location, save_location):
         #getting num plates
         num_plates = img[0, 0, 0]
 
-        #coords = [(0, 0), (0, 0)]
-
+        #prinitng out image too encypt with key
         cv2.imshow('encrypted', img)
         k = cv2.waitKey(0)
 
+        #setting starting address to gather coord of plates(increased by 4 for each plate)
         j = 1
+
+        #loop for gathering coords of plates from metadata
         for i in range(0, num_plates):
 
-            # x_data.append(img[0, 1, 0])
+            # format img[x,y,[B:0,G:1,R:2]))
+            # data = 1234, data1 = 12, data2 = 34. coord = str(data1 + data2)
+
             x_data1 = str(img[0, j, 1])
             x_data2 = str(img[0, j, 0])
-            # x_data.append(int(str(x_data1 + x_data2)))
             x1 = int(str(x_data1 + x_data2.zfill(2)))
 
             y_data1 = str(img[0, j+1, 1])
             y_data2 = str(img[0, j+1, 0])
-            #y_data.append(int(str(y_data1 + y_data2)))
             y1 = int(str(y_data1 + y_data2.zfill(2)))
 
             x_data1 = str(img[0, j+2, 1])
             x_data2 = str(img[0, j+2, 0])
-            #x_data.append(int(str(x_data1 + x_data2)))
             x2 = int(str(x_data1 + x_data2.zfill(2)))
 
             y_data1 = str(img[0, j+3, 1])
             y_data2 = str(img[0, j+3, 0])
-            #y_data.append(int(str(y_data1 + y_data2)))
             y2 = int(str(y_data1 + y_data2.zfill(2)))
 
             j += 4
-            # coords.append((x_data[0], y_data[0]), (x_data[1], y_data[1]))
 
-            print(x1)
-            print(y1)
-            print(x2)
-            print(y2)
+            print("Plate ", int(j/4), "coordinates")
+            print("x1", x1)
+            print("y1", y1)
+            print("x2", x2)
+            print("y2", y2, "\n")
 
+            # getting sequence of rand accourding to LP input
             random.seed(seed)
 
-            # unencrypting plate number
-            # for x in range(coords[0, 0], coords[1, 0], ):
-            #     for y in range(coords[0, 1], coords[1, 1], ):
-
+            # unencrypting plates
             for x in range(x1, x2, ):
                 for y in range(y1, y2, ):
                     # getting bgr value of pixel
@@ -78,9 +73,12 @@ def pilDecrypt(plate, image_location, save_location):
                     img.itemset((y, x, 2), r ^ random.randint(1, 255))
 
 
+        # saving unencrypted image
+        cv2.imwrite("output.png", img)
         # displaying unecrypted image
         cv2.imshow('unencrypted', img)
         k = cv2.waitKey(0)
+
 
 
 
