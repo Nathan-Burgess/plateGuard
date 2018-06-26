@@ -11,8 +11,8 @@ def pilEncrypt(results, image_location):
         img = cv2.imread(image_location)
 
         # Showing original unencrypted image
-        cv2.imshow('Original', img)
-        k = cv2.waitKey(0)
+        # cv2.imshow('Original', img)
+        # k = cv2.waitKey(0)
 
         # how many license plates (#num of plates, 0, 0)
         # itemset((x, y, [B:0,G:1,R:2]), [new_value])
@@ -84,8 +84,8 @@ def pilEncrypt(results, image_location):
             print("y2", y2, "\n")
 
         # displaying ecrypted image
-        cv2.imshow('Encrypted', img)
-        k = cv2.waitKey(0)
+        # cv2.imshow('Encrypted', img)
+        # k = cv2.waitKey(0)
 
         # saving image
         cv2.imwrite(image_location, img)

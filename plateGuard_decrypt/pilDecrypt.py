@@ -23,8 +23,8 @@ def pilDecrypt(plate, image_location, save_location):
         num_plates = img[0, 0, 0]
 
         #prinitng out image too encypt with key
-        cv2.imshow('encrypted', img)
-        k = cv2.waitKey(0)
+        # cv2.imshow('encrypted', img)
+        # k = cv2.waitKey(0)
 
         #setting starting address to gather coord of plates(increased by 4 for each plate)
         j = 1
@@ -76,8 +76,8 @@ def pilDecrypt(plate, image_location, save_location):
         # saving unencrypted image
         cv2.imwrite("output.png", img)
         # displaying unecrypted image
-        cv2.imshow('unencrypted', img)
-        k = cv2.waitKey(0)
+        # cv2.imshow('unencrypted', img)
+        # k = cv2.waitKey(0)
 
 
 
