@@ -7,8 +7,11 @@ import cv2
 
 def pilEncrypt(results, image_location):
 
+
+
         # Load an image from the hard drive
-        img = cv2.imread(image_location)
+        #img = cv2.imread(image_location)
+        img = image_location
 
         # Showing original unencrypted image
         # cv2.imshow('Original', img)
@@ -88,4 +91,5 @@ def pilEncrypt(results, image_location):
         # k = cv2.waitKey(0)
 
         # saving image
-        cv2.imwrite(image_location, img)
+        #cv2.imwrite(image_location, img)
+        return img

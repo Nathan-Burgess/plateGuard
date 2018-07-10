@@ -20,7 +20,7 @@ def coordRetrv(conf, runtime, image_location):
     alpr.set_default_region("md")
 
     # Loads results from the openALPR library
-    results = alpr.recognize_file(image_location)
+    results = alpr.recognize_ndarray(image_location)
 
     result = results['results']
 
@@ -29,7 +29,7 @@ def coordRetrv(conf, runtime, image_location):
     # print(len(result))
 
     # TODO: Figure out why this isnt working(maybe needs to be called at end of main
-    #alpr.unload()
+    alpr.unload()
 
     # return list of all liscening plates in picture according to ALPR
     return result
