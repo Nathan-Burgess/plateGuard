@@ -1,4 +1,5 @@
 import sys
+import cv2
 from openalpr import Alpr
 #import signal
 #from signalHandler import signal_handler
@@ -20,7 +21,11 @@ def coordRetrv(conf, runtime, image_location):
     alpr.set_default_region("md")
 
     # Loads results from the openALPR library
-    results = alpr.recognize_ndarray(image_location)
+    #jpeg_bytes = open(image_location, "rb").read()
+    #img_bytes = image_location.tobytes()
+    success, img_numpy = cv2.imencode('.jpg', image_location)
+    img_binary = img_numpy.tostring()
+    results = alpr.recognize_array(img_binary)
 
     result = results['results']
 
@@ -29,7 +34,7 @@ def coordRetrv(conf, runtime, image_location):
     # print(len(result))
 
     # TODO: Figure out why this isnt working(maybe needs to be called at end of main
-    alpr.unload()
+    #alpr.unload()
 
     # return list of all liscening plates in picture according to ALPR
     return result
