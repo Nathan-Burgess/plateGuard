@@ -31,6 +31,7 @@ def pilEncrypt(results, image_location):
             #licsense plate string for plate
             LP = plate['plate']
             print(LP)
+            print(plate['confidence'])
 
             # seed from asci values of LP
             seed = 0

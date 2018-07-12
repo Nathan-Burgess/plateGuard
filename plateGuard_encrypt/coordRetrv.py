@@ -18,7 +18,7 @@ def coordRetrv(conf, runtime, image_location):
 
     # Gets the top result from ALPR for each plate
     alpr.set_top_n(1)
-    alpr.set_default_region("md")
+    alpr.set_default_region("tx")
 
     # Loads results from the openALPR library
     #jpeg_bytes = open(image_location, "rb").read()
