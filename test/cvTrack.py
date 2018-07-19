@@ -1,12 +1,23 @@
-import cv2
-import sys
 import json
 from coordRetrv import *
 from statistics import mode
 import cv2
+from pilEncrypt import *
+
+class buffer:
+
+    # list of plate numbers
+    plates = []
+    # plate after finding mode
+    final_plate = ''
+    # list of frame objects
+    frame = []
+    # list of bbox objects
+    coords = []
 
 def main():
 
+    buff = buffer()
     # Set up tracker.
     tracker_types = ['BOOSTING', 'MIL', 'KCF', 'TLD', 'MEDIANFLOW', 'GOTURN', 'MOSSE']
     tracker_type = tracker_types[2]
@@ -18,60 +29,75 @@ def main():
 
     #opening video capture
     cap = cv2.VideoCapture(config['image_location'])
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    out = cv2.VideoWriter('output.avi', fourcc, 29.8, (1920, 1080))
 
     #running ALPR until a frame with a liscnce plate is found
     results = {}
+    counter = -1
+
     while(len(results) == 0):
         ret, frame = cap.read()
         if ret == True:
             results = coordRetrv(config['conf'], config['runtime'], frame)
+            counter += 1
+            buff.frame.append(frame)
+            bbox = (-1, -1, -1, -1)
+            buff.coords.append(bbox)
         else:
             break
 
-    #array to hold lisnce plate numbers
-    plate_num = []
-
-    #getting the coords of the liscnce plate and plate number
+    # getting the coords of the liscnce plate and plate number
     for plate in results:
         coordinates = plate['coordinates']
         LP = plate['plate']
-        plate_num.append(LP)
+        # Store plate guess in buffer
+        buff.plates.append(LP)
         a = coordinates[0]
         b = coordinates[2]
         x1 = a['x']
         x2 = b['x']
         y1 = a['y']
         y2 = b['y']
+        break
 
-    # Define an initial bounding box with coords of lisnce plate
+    # Define an initial bounding box with coords of license plate
     bbox = (x1, y1, (x2-x1), (y2-y1))
+
+    # Stores coordinates in the buffer
+    buff.coords[counter] = bbox
 
     # Initialize tracker with first frame and bounding box
     ok = tracker.init(frame, bbox)
 
-    #varible to track when to run ALPR every 6th frame it was last run
+    # varible to track when to run ALPR every 6th frame it was last run
     track = 0
 
-    #running for 60 frames
+    # running for 60 frames
     for i in range(60):
 
         # Read a new frame
         ok, frame = cap.read()
+        buff.frame.append(frame)
         if not ok:
             break
 
         # Start timer
         timer = cv2.getTickCount()
 
-        #running ALPR since its been the 6th time since it ran
-        if track == 99:
+        # running ALPR since its been the 6th time since it ran
+        if track == 6:
 
-            #running ALPR until a frame with a lisnce plate is found
+            # running ALPR until a frame with a lisnce plate is found
             results = {}
             while (len(results) == 0):
                 ret, frame = cap.read()
                 if ret == True:
                     results = coordRetrv(config['conf'], config['runtime'], frame)
+                    counter += 1
+                    buff.frame.append(frame)
+                    bbox = (-1, -1, -1, -1)
+                    buff.coords.append(bbox)
                 else:
                     break
             print(results)
@@ -79,7 +105,8 @@ def main():
             #getting the coords of the plate and the plate_num
             for plate in results:
                 LP = plate['plate']
-                plate_num.append(LP)
+                # adds to license plate list
+                buff.plates.append(LP)
                 coordinates = plate['coordinates']
                 a = coordinates[0]
                 b = coordinates[2]
@@ -91,8 +118,9 @@ def main():
 
             # Define an initial bounding box
             bbox = (x1, y1, (x2 - x1), (y2 - y1))
+            buff.coords[counter] = bbox
 
-            #making new tracking object
+            # making new tracking object
             tracker = cv2.TrackerKCF_create()
 
             # Initialize tracker with first frame and bounding box
@@ -106,9 +134,10 @@ def main():
         # Calculate Frames per second (FPS)
         fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)
 
-        #Checks if the tracker updated correctly, if so success, if not run ALPR and make new tracker
+        # Checks if the tracker updated correctly, if so success, if not run ALPR and make new tracker
         if ok:
             print("SUCCESS")
+            buff.coords[counter] = bbox
             # Tracking success
             #p1 = (int(bbox[0]), int(bbox[1]))
             #p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
@@ -124,6 +153,10 @@ def main():
                 ret, frame = cap.read()
                 if ret == True:
                     results = coordRetrv(config['conf'], config['runtime'], frame)
+                    counter += 1
+                    buff.frame.append(frame)
+                    bbox = (-1, -1, -1, -1)
+                    buff.coords.append(bbox)
                 else:
                     break
             print(results)
@@ -131,7 +164,7 @@ def main():
             #getting the coords and the plate_num
             for plate in results:
                 LP = plate['plate']
-                plate_num.append(LP)
+                buff.plates.append(LP)
                 coordinates = plate['coordinates']
                 a = coordinates[0]
                 b = coordinates[2]
@@ -143,6 +176,7 @@ def main():
 
             # Define an initial bounding box and creating a new tracker
             bbox = (x1, y1, (x2 - x1), (y2 - y1))
+            buff.coords[counter] = bbox
             tracker = cv2.TrackerKCF_create()
 
             # Initialize tracker with first frame and bounding box
@@ -150,7 +184,7 @@ def main():
             track = 0
             ok, bbox = tracker.update(frame)
 
-        #printing the box location of the tracker
+        # printing the box location of the tracker
         print("PRINT BBOX" + str(bbox))
         p1 = (int(bbox[0]), int(bbox[1]))
         p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
@@ -172,8 +206,16 @@ def main():
             break
 
     # printing the lisnce plates got and the mode
-    print(plate_num)
-    print(mode(plate_num))
+    print(buff.plates)
+    buff.final_plate = mode(buff.plates)
+    print(buff.final_plate)
+
+    print(len(buff.coords))
+    print(len(buff.frame))
+    for i in range(60):
+        tempframe = pilEncrypt(buff.final_plate, buff.frame[i], buff.coords[i])
+        out.write(tempframe)
+
     sys.exit()
 
 main()
