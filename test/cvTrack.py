@@ -18,6 +18,7 @@ class buffer:
 def main():
 
     buff = buffer()
+    buff_count = 60
     # Set up tracker.
     tracker_types = ['BOOSTING', 'MIL', 'KCF', 'TLD', 'MEDIANFLOW', 'GOTURN', 'MOSSE']
     tracker_type = tracker_types[2]
@@ -44,8 +45,7 @@ def main():
             buff.frame.append(frame)
             bbox = (-1, -1, -1, -1)
             buff.coords.append(bbox)
-        else:
-            break
+
 
     # getting the coords of the liscnce plate and plate number
     for plate in results:
@@ -74,11 +74,12 @@ def main():
     track = 0
 
     # running for 60 frames
-    for i in range(60):
+    for i in range(buff_count*5):
 
         # Read a new frame
         ok, frame = cap.read()
         buff.frame.append(frame)
+        #counter += 1
         if not ok:
             break
 
@@ -89,7 +90,7 @@ def main():
         if track == 6:
 
             # running ALPR until a frame with a lisnce plate is found
-            results = {}
+            results = coordRetrv(config['conf'], config['runtime'], frame)
             while (len(results) == 0):
                 ret, frame = cap.read()
                 if ret == True:
@@ -98,8 +99,7 @@ def main():
                     buff.frame.append(frame)
                     bbox = (-1, -1, -1, -1)
                     buff.coords.append(bbox)
-                else:
-                    break
+
             print(results)
 
             #getting the coords of the plate and the plate_num
@@ -137,7 +137,7 @@ def main():
         # Checks if the tracker updated correctly, if so success, if not run ALPR and make new tracker
         if ok:
             print("SUCCESS")
-            buff.coords[counter] = bbox
+            buff.coords.append(bbox)
             # Tracking success
             #p1 = (int(bbox[0]), int(bbox[1]))
             #p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
@@ -148,7 +148,7 @@ def main():
             print("TRACKING FAILED RUNNING ALPR AGAIN")
 
             #run ALPR until a frame with a liscnce plate is found
-            results = {}
+            results = coordRetrv(config['conf'], config['runtime'], frame)
             while (len(results) == 0):
                 ret, frame = cap.read()
                 if ret == True:
@@ -157,8 +157,7 @@ def main():
                     buff.frame.append(frame)
                     bbox = (-1, -1, -1, -1)
                     buff.coords.append(bbox)
-                else:
-                    break
+
             print(results)
 
             #getting the coords and the plate_num
@@ -212,7 +211,7 @@ def main():
 
     print(len(buff.coords))
     print(len(buff.frame))
-    for i in range(60):
+    for i in range(buff_count*5):
         tempframe = pilEncrypt(buff.final_plate, buff.frame[i], buff.coords[i])
         out.write(tempframe)
 

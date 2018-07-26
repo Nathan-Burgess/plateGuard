@@ -39,15 +39,19 @@ def pilEncrypt(plate, frame, coordinates):
         if(x1 == -1):
                 return img
 
-        x2 = x1 + width
-        y2 = y1 + height
+        x1 = int(x1)
+        y1 = int(y1)
+        x2 = int(x1 + width)
+        y2 = int(y1 + height)
 
         random.seed(seed)
         # print(seed)
 
+        print(x1)
+        print(x2)
         # #encypting image plate
-        for x in range(x1, x2, ):
-            for y in range(y1, y2, ):
+        for x in range(x1, x2):
+            for y in range(y1, y2 ):
                 # getting bgr value of pixel
                 b, g, r = img[y, x]
                 # encrypting image
