@@ -3,7 +3,7 @@
 import random
 import cv2
 
-#TODO
+# TODO
 
 def pilEncrypt(plate, frame, coordinates):
 
@@ -39,10 +39,10 @@ def pilEncrypt(plate, frame, coordinates):
         if(x1 == -1):
                 return img
 
-        x1 = int(x1)
-        y1 = int(y1)
-        x2 = int(x1 + width)
-        y2 = int(y1 + height)
+        # x1 = int(x1)
+        # y1 = int(y1)
+        x2 = x1 + width
+        y2 = y1 + height
 
         random.seed(seed)
         # print(seed)
@@ -62,19 +62,19 @@ def pilEncrypt(plate, frame, coordinates):
         # Adding coordinate metadata to the image
 
         # Sets metadata for x1
-        img.itemset((0, i, 0), int(x1%100))
+        img.itemset((0, i, 0), int(x1 % 100))
         img.itemset((0, i, 1), int(x1/100))
 
         # Sets metadata for y1
-        img.itemset((0, i+1, 0), int(y1%100))
+        img.itemset((0, i+1, 0), int(y1 % 100))
         img.itemset((0, i+1, 1), int(y1/100))
 
         # Sets metadata for x2
-        img.itemset((0, i+2, 0), int(x2%100))
+        img.itemset((0, i+2, 0), int(x2 % 100))
         img.itemset((0, i+2, 1), int(x2/100))
 
         # Sets metadata for y2
-        img.itemset((0, i+3, 0), int(y2%100))
+        img.itemset((0, i+3, 0), int(y2 % 100))
         img.itemset((0, i+3, 1), int(y2/100))
 
         i += 4

@@ -29,17 +29,19 @@ class Buffer:
         for plate in results:
             coord = plate['coordinates']
             LP = plate['plate']
-            self.update_car(n, coord, LP)
             a = coord[0]
             b = coord[2]
             x1 = a['x']
             x2 = b['x']
             y1 = a['y']
             y2 = b['y']
+
+            # Define initial box with coords of plate
+            self.bbox = (x1, y1, (x2 - x1), (y2 - y1))
+            self.update_car(n, self.bbox, LP)
             break       # TODO remove when multiplate
 
-        # Define initial box with coords of plate
-        self.bbox = (x1, y1, (x2-x1), (y2-y1))
+
 
         # initialize tracker for each found plate
         for i in range(len(results)):
@@ -56,6 +58,7 @@ class Buffer:
             # Go through each tracker to update the coordinates
             for i in range(0, len(self.tracker)):
                 ok, self.bbox = self.tracker[i].update(self.frame[-1])
+                print(ok)
 
                 if ok:
                     self.update_car(i, self.bbox)
@@ -82,6 +85,6 @@ class Buffer:
         #     self.final_plate[i] = mode(self.car[i].plate)
         self.final_plate.append(mode(self.car[0].plate))
 
-        for i in range(self.counter+1):
-            tempframe = pilEncrypt(self.final_plate[0], self.frame[i], self.car.coords[i])
+        for i in range(self.counter-1):
+            tempframe = pilEncrypt(self.final_plate[0], self.frame[i], self.car[0].coords[i])
             out.write(tempframe)
