@@ -23,7 +23,7 @@ class Buffer:
     def start(self, conf, runtime):
         print("starting...")
         results = coordRetrv(conf, runtime, self.frame[-1])
-
+        self.tracker = [cv2.TrackerKCF_create() for i in range(10)]
         n = 0
 
         for plate in results:
@@ -45,23 +45,28 @@ class Buffer:
 
         # initialize tracker for each found plate
         for i in range(len(results)):
+            print('results' ,len(results), 'i', i)
             self.tracker[i].init(self.frame[-1], self.bbox)
+            print('tracker', self.tracker[i])
 
     # updates the trackers, goes to start if tracker dies
     def update(self, conf, runtime):
         print("updating...")
         # calls start every 6 frames # TODO update to dynamic counts
+        print(self.counter)
         if (self.counter+1) % 6 == 0:
             print("Fail 1")
             self.start(conf, runtime)
         else:
             # Go through each tracker to update the coordinates
-            for i in range(0, len(self.tracker)):
+            for i in range(1):
+
                 ok, self.bbox = self.tracker[i].update(self.frame[-1])
                 print(ok)
 
                 if ok:
                     self.update_car(i, self.bbox)
+                    print('HALO')
                 else:
                     print("Fail 2")
                     self.start(conf, runtime)
@@ -83,7 +88,17 @@ class Buffer:
     def processing(self, out):
         # for i in range(len(self.car)-1):
         #     self.final_plate[i] = mode(self.car[i].plate)
-        self.final_plate.append(mode(self.car[0].plate))
+        data = ''
+        try:
+            print("PLATES: ", self.car[0].plate)
+            data = mode(self.car[0].plate)
+        except:
+            print("mode function invalid")
+            data = 'halo'
+
+        print("data", data)
+        #self.final_plate.append(mode(self.car[0].plate))
+        self.final_plate.append(data)
 
         for i in range(self.counter-1):
             tempframe = pilEncrypt(self.final_plate[0], self.frame[i], self.car[0].coords[i])

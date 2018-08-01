@@ -39,10 +39,10 @@ def pilEncrypt(plate, frame, coordinates):
         if(x1 == -1):
                 return img
 
-        # x1 = int(x1)
-        # y1 = int(y1)
-        x2 = x1 + width
-        y2 = y1 + height
+        x1 = int(x1)
+        y1 = int(y1)
+        x2 = int(x1 + width)
+        y2 = int(y1 + height)
 
         random.seed(seed)
         # print(seed)

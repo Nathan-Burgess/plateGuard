@@ -74,7 +74,7 @@ def main():
     track = 0
 
     # running for 60 frames
-    for i in range(buff_count*5):
+    for i in range(buff_count*9):
 
         # Read a new frame
         ok, frame = cap.read()
@@ -211,7 +211,7 @@ def main():
 
     print(len(buff.coords))
     print(len(buff.frame))
-    for i in range(buff_count*5):
+    for i in range(buff_count*10):
         tempframe = pilEncrypt(buff.final_plate, buff.frame[i], buff.coords[i])
         out.write(tempframe)
 
