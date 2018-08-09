@@ -27,7 +27,7 @@ def main():
             buff.update_frame(frame)
             buff.start(config['conf'], config['runtime'])
 
-        for i in range(1, 59):
+        for i in range(1, 599):
             ret, frame = cap.read()
 
             if ret == True:
