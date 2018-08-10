@@ -22,39 +22,28 @@ class Buffer:
     # Assigns new results from openALPR to correct car object
     # by finding nearest neighbor withing delta_min/delta_max
     def calculate_knn(self, results):
-        for plate in results:
+        for n, car in enumerate(self.car):
             min = sys.maxsize
-            num = 0
-            coord = plate['coordinates']
-            a = coord[0]
-            b = coord[2]
-            x = a['x']
-            x2 = b['x']
-            y = a['y']
-            y2 = b['y']
-            width = x2 - x
-            height = y2 - y
-            LP = plate['plate']
-            # Loops through cars to find nearest neighbor
-            for n, car in enumerate(self.car):
-                if car.coords[self.counter-1][0] != -1:
+            LP = 'halo'
+            if car.coords[self.counter-1][0] is not -1:
+                for plate in results:
+                    coord = plate['coordinates']
+                    x = coord[0]['x']
+                    y = coord[0]['y']
+                    width = coord[2]['x'] - x
+                    height = coord[2]['y'] - y
+
                     d = abs(x - car.coords[self.counter-1][0])
                     d += abs(y - car.coords[self.counter-1][1])
                     d = d / 2
 
                     if d < min:
                         min = d
-                        num = n
+                        self.bbox = (x, y, width, height)
+                        LP = plate['plate']
+            self.update_car(n, self.bbox, LP)
+            return
 
-            print("Min: ", min)
-            print("delta_min: ", self.car[num].delta_min)
-            print("delta_max: ", self.car[num].delta_max)
-            if min > self.car[num].delta_min and min < self.car[num].delta_max:
-                self.bbox = (x, y, width, height)
-                self.update_car(num, self.bbox, LP)
-                return
-            else:
-                print("different car...")
 
 
     # Starts tracker/runs openalpr for the initial coordinate
@@ -85,13 +74,8 @@ class Buffer:
                 self.update_car(n, self.bbox, LP)
                 break       # TODO remove when multi-plate
 
-
-
         # initialize tracker for each found plate
-        for i in range(len(results)):
-            print('results', len(results), 'i', i)
-            self.tracker[i].init(self.frame[-1], self.bbox)
-            print('tracker', self.tracker[i])
+        self.tracker[0].init(self.frame[-1], self.bbox)
 
     # updates the trackers, goes to start if tracker dies
     def update(self, conf, runtime):
@@ -139,8 +123,8 @@ class Buffer:
 
         if plate != None:
             self.car[n].plate.append(plate)
-        print("Calculating deltas")
-        self.car[n].calculate_delta(self.counter-1)
+        # print("Calculating deltas")
+        # self.car[n].calculate_delta(self.counter-1)
 
     def processing(self, out):
         # for i in range(len(self.car)-1):

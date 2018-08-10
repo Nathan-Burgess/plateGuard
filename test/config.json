@@ -1,0 +1,5 @@
+{
+  "conf":"C:/Users/j2reb/Desktop/openalpr-64/openalpr.conf",
+  "runtime":"C:/Users/j2reb/Desktop/openalpr-64/runtime_data/",
+  "image_location":"C:/Users/j2reb/PycharmProjects/plateGuard/test_plates/test_video_short.mp4"
+}

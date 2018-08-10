@@ -18,28 +18,28 @@ def main():
 
     ret = True
 
-    while(ret):
+    while ret:
         # Read in the frames
         buff = Buffer()
         ret, frame = cap.read()
 
-        if ret == True:
+        if ret is True:
             buff.update_frame(frame)
             buff.start(config['conf'], config['runtime'])
 
-        for i in range(1, 599):
-            ret, frame = cap.read()
-
-            if ret == True:
-                buff.update_frame(frame)
-                buff.update(config['conf'], config['runtime'])
-            else:
-                break
+            for i in range(1, 599):
+                ret, frame = cap.read()
+                if ret is True:
+                    buff.update_frame(frame)
+                    buff.update(config['conf'], config['runtime'])
+                else:
+                    break
 
         buff.processing(out)
 
     cap.release()
     out.release()
+
 
 if __name__ == "__main__":
     main()
