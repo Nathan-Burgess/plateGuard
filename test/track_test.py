@@ -14,8 +14,8 @@ def main():
 
     # Set up the video capture/writing
     cap = cv2.VideoCapture(config['image_location'])
-    fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    out = cv2.VideoWriter('output.avi', fourcc, 29.8, (1920,1080))
+    fourcc = cv2.VideoWriter_fourcc(*'HFYU')
+    out = cv2.VideoWriter('output', fourcc, 29.8, (1920,1080))
 
     ret = True
 

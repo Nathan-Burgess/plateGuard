@@ -34,7 +34,8 @@ def pilDecrypt(plate, frame):
 
             # format img[x,y,[B:0,G:1,R:2]))
             # data = 1234, data1 = 12, data2 = 34. coord = str(data1 + data2)
-
+            test = "test_frames/test"+str(i)+".png"
+            cv2.imwrite(test, frame)
             x_data1 = str(img[0, j, 1])
             x_data2 = str(img[0, j, 0])
             x1 = int(str(x_data1 + x_data2.zfill(2)))
@@ -59,18 +60,18 @@ def pilDecrypt(plate, frame):
             print("x2", x2)
             print("y2", y2, "\n")
 
-            # getting sequence of rand accourding to LP input
+            # getting sequence of rand according to LP input
             random.seed(seed)
 
             # unencrypting plates
-            for x in range(x1, x2, ):
-                for y in range(y1, y2, ):
-                    # getting bgr value of pixel
-                    b, g, r = img[y, x]
-                    # decrypting image
-                    img.itemset((y, x, 0), b ^ random.randint(1, 255))
-                    img.itemset((y, x, 1), g ^ random.randint(1, 255))
-                    img.itemset((y, x, 2), r ^ random.randint(1, 255))
+            # for x in range(x1, x2, ):
+            #     for y in range(y1, y2, ):
+            #         # getting bgr value of pixel
+            #         b, g, r = img[y, x]
+            #         # decrypting image
+            #         img.itemset((y, x, 0), b ^ random.randint(1, 255))
+            #         img.itemset((y, x, 1), g ^ random.randint(1, 255))
+            #         img.itemset((y, x, 2), r ^ random.randint(1, 255))
 
 
         # Return the decrypted frame

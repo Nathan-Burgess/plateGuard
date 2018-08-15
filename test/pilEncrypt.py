@@ -2,6 +2,7 @@
 #from PIL import Image
 import random
 import cv2
+import sys
 
 # TODO
 
@@ -20,6 +21,7 @@ def pilEncrypt(plate, frame, coordinates):
         # TODO CHANGE THIS FOR MULTIPLATES
         num_plates = 1
         img.itemset((0, 0, 0), num_plates)
+        cv2.imwrite("test.png", frame)
 
         #used to set Plate meta data, increased by 4 for each plate
         i = 1
@@ -62,7 +64,7 @@ def pilEncrypt(plate, frame, coordinates):
         img.itemset((0, i, 0), int(x1 % 100))
         img.itemset((0, i, 1), int(x1/100))
         print(x1 % 100)
-        print(x1 / 100)
+        print(int(x1 / 100))
 
         # Sets metadata for y1
         img.itemset((0, i+1, 0), int(y1 % 100))

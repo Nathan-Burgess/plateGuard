@@ -13,3 +13,9 @@ Sample output in raw format, good for nowing the field names when needing things
               'requested_topn': 20,
               'coordinates': [{'x': 208, 'y': 157}, {'x': 393, 'y': 157}, {'x': 393, 'y': 245}, {'x': 208, 'y': 245}],
  'candidates': [{'plate': 'EA7THE', 'confidence': 91.05777, 'matches_template': 0}, {'plate': 'EA7TBE', 'confidence': 84.132973, 'matches_template': 0}, {'plate': 'EA7T8E', 'confidence': 83.008331, 'matches_template': 0}, {'plate': 'EA7TRE', 'confidence': 82.786911, 'matches_template': 0}, {'plate': 'EA7TE', 'confidence': 82.596092, 'matches_template': 0}, {'plate': 'EA7TME', 'confidence': 80.29081, 'matches_template': 0}, {'plate': 'EA7TH6', 'confidence': 77.004456, 'matches_template': 0}, {'plate': 'EA7THB', 'confidence': 75.577858, 'matches_template': 0}, {'plate': 'EA7TH', 'confidence': 74.657646, 'matches_template': 0}, {'plate': 'EA7TB6', 'confidence': 70.079651, 'matches_template': 0}, {'plate': 'EA7T86', 'confidence': 68.955009, 'matches_template': 0}, {'plate': 'EA7TR6', 'confidence': 68.733589, 'matches_template': 0}, {'plate': 'EA7TBB', 'confidence': 68.653069, 'matches_template': 0}, {'plate': 'EA7T6', 'confidence': 68.54277, 'matches_template': 0}, {'plate': 'EA7TB', 'confidence': 67.732849, 'matches_template': 0}, {'plate': 'EA7T8B', 'confidence': 67.528419, 'matches_template': 0}, {'plate': 'EA7TRB', 'confidence': 67.306992, 'matches_template': 0}, {'plate': 'EA7T8', 'confidence': 66.6082, 'matches_template': 0}, {'plate': 'EA7TR', 'confidence': 66.38678, 'matches_template': 0}, {'plate': 'EA7TM6', 'confidence': 66.237488, 'matches_template': 0}]}]}
+
+
+x1 923
+y1 714
+x2 1005
+y2 758

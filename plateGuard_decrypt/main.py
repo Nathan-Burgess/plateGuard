@@ -11,7 +11,7 @@ def main():
 
     # set up the video capture/writing
     cap = cv2.VideoCapture(sys.argv[2])
-    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    fourcc = cv2.VideoWriter_fourcc(*'X264')
     out = cv2.VideoWriter('output.avi', fourcc, 29.8, (1920,1080))
 
     ret = True
