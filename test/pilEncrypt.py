@@ -45,10 +45,7 @@ def pilEncrypt(plate, frame, coordinates):
         y2 = int(y1 + height)
 
         random.seed(seed)
-        # print(seed)
 
-        print(x1)
-        print(x2)
         # #encypting image plate
         for x in range(x1, x2):
             for y in range(y1, y2 ):
@@ -64,6 +61,8 @@ def pilEncrypt(plate, frame, coordinates):
         # Sets metadata for x1
         img.itemset((0, i, 0), int(x1 % 100))
         img.itemset((0, i, 1), int(x1/100))
+        print(x1 % 100)
+        print(x1 / 100)
 
         # Sets metadata for y1
         img.itemset((0, i+1, 0), int(y1 % 100))

@@ -1,14 +1,28 @@
 import json
 import sys
 from pilDecrypt import *
+import cv2
 
-# reading from personal config file to get LP to decrypt and image location
-with open("config.json", "r") as read_file:
-    config = json.load(read_file)
 
-if len(sys.argv) < 3:
-    print("Usage: main.py <license plate> <image name>")
-    sys.exit(1)
+def main():
+    if len(sys.argv) < 3:
+        print("Usage: main.py <license plate> <image path>")
+        sys.exit(1)
 
-# run decrypt to run decryption on plates according to the LP provided
-pilDecrypt(sys.argv[1], sys.argv[2], config['image_location'])
+    # set up the video capture/writing
+    cap = cv2.VideoCapture(sys.argv[2])
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    out = cv2.VideoWriter('output.avi', fourcc, 29.8, (1920,1080))
+
+    ret = True
+
+    while ret:
+        # Read in the frames
+        ret, frame = cap.read()
+
+        if ret is True:
+            frame = pilDecrypt(sys.argv[1], frame,)
+            out.write(frame)
+
+if __name__ == "__main__":
+    main()

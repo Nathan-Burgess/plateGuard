@@ -5,10 +5,10 @@ import cv2
 
 #TODO
 
-def pilDecrypt(plate, image_location, save_location):
+def pilDecrypt(plate, frame):
 
         # Load an image from the hard drive
-        img = cv2.imread(image_location)
+        img = frame
 
         #licsense plate string to use as decrypt key
         LP = plate.upper()
@@ -73,8 +73,8 @@ def pilDecrypt(plate, image_location, save_location):
                     img.itemset((y, x, 2), r ^ random.randint(1, 255))
 
 
-        # saving unencrypted image
-        cv2.imwrite("output.png", img)
+        # Return the decrypted frame
+        return frame
         # displaying unecrypted image
         # cv2.imshow('unencrypted', img)
         # k = cv2.waitKey(0)
