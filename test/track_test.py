@@ -6,6 +6,7 @@ import cv2
 from pilEncrypt import *
 from buffer import *
 
+
 def main():
     # read from config file
     with open("config.json", "r") as read_file:

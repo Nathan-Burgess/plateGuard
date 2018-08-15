@@ -44,8 +44,6 @@ class Buffer:
             self.update_car(n, self.bbox, LP)
             return
 
-
-
     # Starts tracker/runs openalpr for the initial coordinate
     def start(self, conf, runtime):
         print("starting...")
@@ -110,7 +108,6 @@ class Buffer:
                     else:
                         self.track_counter = 0
                     break
-
 
     # Inserts frame into the frame array
     def update_frame(self, frame):
