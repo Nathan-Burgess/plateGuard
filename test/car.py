@@ -9,6 +9,7 @@ class Car:
         for i in range(600):
             self.exists.append(0)
         self.plate = []
+        self.final_plate = ""
         self.coords = []
         self.delta_min = sys.maxsize
         self.delta_max = 0

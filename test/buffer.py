@@ -12,7 +12,6 @@ import time
 class Buffer:
     def __init__(self):
         self.frame = []         # Holds each frame for the 2 second buffer
-        self.final_plate = []   # Holds the final moded plate number from cars
         self.car = [Car() for i in range(10)]
         self.tracker = [cv2.TrackerKCF_create() for i in range(10)]
         self.frame_counter = 0
@@ -22,23 +21,32 @@ class Buffer:
     # Assigns new results from openALPR to correct car object
     # by finding nearest neighbor withing delta_min/delta_max
     def calculate_knn(self, results):
+        used_plates = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
         for n, car in enumerate(self.car):
             minimum = sys.maxsize
             lp = 'halo'
             if car.coords[self.frame_counter - 1][0] is not -1:
-                for plate in results:
-                    x, y, width, height = self.convert_coords(plate['coordinates'])
+                for i, plate in enumerate(results):
+                    if i not in used_plates:
+                        x, y, width, height = self.convert_coords(plate['coordinates'])
 
-                    d = abs(x - car.coords[self.frame_counter - 1][0])
-                    d += abs(y - car.coords[self.frame_counter - 1][1])
-                    d = d / 2
+                        d = abs(x - car.coords[self.frame_counter - 1][0])
+                        d += abs(y - car.coords[self.frame_counter - 1][1])
+                        d = d / 2
 
-                    if d < minimum:
-                        minimum = d
-                        self.bbox = (x, y, width, height)
-                        lp = plate['plate']
+                        if d < minimum:
+                            minimum = d
+                            self.bbox = (x, y, width, height)
+                            lp = plate['plate']
+                            used_plates[n] = i
+            else:
+                break
             self.update_car(n, self.bbox, lp)
-            return
+
+        for i in range(len(results)):
+            if i not in used_plates:
+                self.update_car(n, self.convert_coords(results[i]['coordinates']), results[i]['plate'])
+                n += 1
 
     # Starts tracker/runs openalpr for the initial coordinate
     def start(self, conf, runtime):
@@ -62,6 +70,7 @@ class Buffer:
                 break       # TODO remove when multi-plate
 
         # initialize tracker for each found plate
+
         self.tracker[0].init(self.frame[-1], self.bbox)
 
     # updates the trackers, goes to start if tracker dies
@@ -74,7 +83,7 @@ class Buffer:
             self.start(conf, runtime)
         else:
             # Go through each tracker to update the coordinates
-            for i in range(1):
+            for i in range(10):
 
                 ok, self.bbox = self.tracker[i].update(self.frame[-1])
                 print(ok)
@@ -87,7 +96,7 @@ class Buffer:
                 # If it is not okay starts a new counter
                 # Only runs openALPR every 6 frames if tracker drops
                 # TODO: update to dynamic counts?
-                else:
+                elif self.car[i].coords[self.frame_counter-1][0] is not -1:
                     print("Error: Lost Tracker")
                     if self.track_counter == 0:
                         self.start(conf, runtime)
@@ -107,7 +116,7 @@ class Buffer:
     def update_car(self, n, coords, plate = None):
         self.car[n].coords[self.frame_counter] = coords
 
-        if plate != None:
+        if plate is not None:
             self.car[n].plate.append(plate)
         # print("Calculating deltas")
         # self.car[n].calculate_delta(self.counter-1)
@@ -115,20 +124,16 @@ class Buffer:
     def processing(self, out):
         # for i in range(len(self.car)-1):
         #     self.final_plate[i] = mode(self.car[i].plate)
-        data = ''
-        try:
-            print("PLATES: ", self.car[0].plate)
-            data = mode(self.car[0].plate)
-        except:
-            print("mode function invalid")
-            data = 'halo'
-
-        print("data", data)
-        # self.final_plate.append(mode(self.car[0].plate))
-        self.final_plate.append(data)
+        for car in self.car:
+            try:
+                print("PLATES: ", car.plate)
+                car.final_plate = mode(car.plate)
+            except:
+                print("mode function invalid")
+                car.final_plate = 'halo'
 
         for i in range(self.frame_counter - 1):
-            tempframe = pilEncrypt(self.final_plate[0], self.frame[i], self.car[0].coords[i])
+            tempframe = pilEncrypt(self.car, self.frame[i], i)
             out.write(tempframe)
 
     # Converts the coordinates from (x1, y1, x2, y2) to (x, y, width, height)
