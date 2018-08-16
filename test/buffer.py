@@ -17,7 +17,7 @@ class Buffer:
         self.tracker = [cv2.TrackerKCF_create() for i in range(10)]
         self.frame_counter = 0
         self.track_counter = 0
-        self.bbox = (-1, -1, -1, -1) # TODO Fix this for multiplates
+        self.bbox = (-1, -1, -1, -1)  # TODO Fix this for multiplates
 
     # Assigns new results from openALPR to correct car object
     # by finding nearest neighbor withing delta_min/delta_max
@@ -54,18 +54,11 @@ class Buffer:
             self.calculate_knn(results)
         else:
             for plate in results:
-                coord = plate['coordinates']
-                LP = plate['plate']
-                a = coord[0]
-                b = coord[2]
-                x1 = a['x']
-                x2 = b['x']
-                y1 = a['y']
-                y2 = b['y']
+                lp = plate['plate']
 
                 # Define initial box with coords of plate
-                self.bbox = (x1, y1, (x2 - x1), (y2 - y1))
-                self.update_car(n, self.bbox, LP)
+                self.bbox = self.convert_coords(plate['coordinates'])
+                self.update_car(n, self.bbox, lp)
                 break       # TODO remove when multi-plate
 
         # initialize tracker for each found plate
