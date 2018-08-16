@@ -21,8 +21,9 @@ def main():
         ret, frame = cap.read()
 
         if ret is True:
-            frame = pilDecrypt(sys.argv[1], frame,)
+            frame = pilDecrypt(sys.argv[1], frame)
             out.write(frame)
+
 
 if __name__ == "__main__":
     main()

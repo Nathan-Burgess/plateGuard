@@ -15,7 +15,7 @@ class Buffer:
         self.final_plate = []   # Holds the final moded plate number from cars
         self.car = [Car() for i in range(10)]
         self.tracker = [cv2.TrackerKCF_create() for i in range(10)]
-        self.counter = 0
+        self.frame_counter = 0
         self.track_counter = 0
         self.bbox = (-1, -1, -1, -1) # TODO Fix this for multiplates
 
@@ -23,25 +23,21 @@ class Buffer:
     # by finding nearest neighbor withing delta_min/delta_max
     def calculate_knn(self, results):
         for n, car in enumerate(self.car):
-            min = sys.maxsize
-            LP = 'halo'
-            if car.coords[self.counter-1][0] is not -1:
+            minimum = sys.maxsize
+            lp = 'halo'
+            if car.coords[self.frame_counter - 1][0] is not -1:
                 for plate in results:
-                    coord = plate['coordinates']
-                    x = coord[0]['x']
-                    y = coord[0]['y']
-                    width = coord[2]['x'] - x
-                    height = coord[2]['y'] - y
+                    x, y, width, height = self.convert_coords(plate['coordinates'])
 
-                    d = abs(x - car.coords[self.counter-1][0])
-                    d += abs(y - car.coords[self.counter-1][1])
+                    d = abs(x - car.coords[self.frame_counter - 1][0])
+                    d += abs(y - car.coords[self.frame_counter - 1][1])
                     d = d / 2
 
-                    if d < min:
-                        min = d
+                    if d < minimum:
+                        minimum = d
                         self.bbox = (x, y, width, height)
-                        LP = plate['plate']
-            self.update_car(n, self.bbox, LP)
+                        lp = plate['plate']
+            self.update_car(n, self.bbox, lp)
             return
 
     # Starts tracker/runs openalpr for the initial coordinate
@@ -54,7 +50,7 @@ class Buffer:
         self.tracker = [cv2.TrackerKCF_create() for i in range(10)]
         n = 0
 
-        if self.counter-1 > 0:
+        if self.frame_counter-1 > 0:
             self.calculate_knn(results)
         else:
             for plate in results:
@@ -79,8 +75,8 @@ class Buffer:
     def update(self, conf, runtime):
         print("updating...")
         # calls start every 6 frames # TODO update to dynamic counts
-        print(self.counter)
-        if (self.counter+1) % 6 == 0:
+        print(self.frame_counter)
+        if (self.frame_counter + 1) % 6 == 0:
             print("Reached 6 Frames")
             self.start(conf, runtime)
         else:
@@ -112,11 +108,11 @@ class Buffer:
     # Inserts frame into the frame array
     def update_frame(self, frame):
         self.frame.append(frame)
-        self.counter += 1
+        self.frame_counter += 1
 
     # Updates car object with information for the car
     def update_car(self, n, coords, plate = None):
-        self.car[n].coords[self.counter] = coords
+        self.car[n].coords[self.frame_counter] = coords
 
         if plate != None:
             self.car[n].plate.append(plate)
@@ -138,6 +134,14 @@ class Buffer:
         # self.final_plate.append(mode(self.car[0].plate))
         self.final_plate.append(data)
 
-        for i in range(self.counter-1):
+        for i in range(self.frame_counter - 1):
             tempframe = pilEncrypt(self.final_plate[0], self.frame[i], self.car[0].coords[i])
             out.write(tempframe)
+
+    # Converts the coordinates from (x1, y1, x2, y2) to (x, y, width, height)
+    def convert_coords(self, coord):
+        x = coord[0]['x']
+        y = coord[0]['y']
+        width = coord[2]['x'] - x
+        height = coord[2]['y'] - y
+        return x, y, width, height
