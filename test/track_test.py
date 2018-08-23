@@ -31,7 +31,6 @@ def main():
 
         if ret is True:
             log.add_mult(1)
-            print("HELLLLOOOO" + str(log.mult) + "HELLLLOOOO")
             buff.update_frame(frame)
             buff.start(config['conf'], config['runtime'])
 
