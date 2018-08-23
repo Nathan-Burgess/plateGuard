@@ -67,11 +67,14 @@ class Buffer:
                 # Define initial box with coords of plate
                 self.bbox = self.convert_coords(plate['coordinates'])
                 self.update_car(n, self.bbox, lp)
-                break       # TODO remove when multi-plate
+                # break       # TODO remove when multi-plate
 
         # initialize tracker for each found plate
 
-        self.tracker[0].init(self.frame[-1], self.bbox)
+        for i in range(len(results)):
+            self.tracker[i].init(self.frame[-1], self.bbox)
+            if i is 10:
+                break
 
     # updates the trackers, goes to start if tracker dies
     def update(self, conf, runtime):
