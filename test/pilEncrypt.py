@@ -26,7 +26,7 @@ def pilEncrypt(cars, frame, counter):
 
         img.itemset((0, 0, 0), num_plates)
 
-        for car in cars:
+        for n, car in enumerate(cars):
                 # coordinates of top left and bottom right points
                 x1, y1, width, height = car.coords[counter]
                 if x1 is -1:
@@ -67,8 +67,6 @@ def pilEncrypt(cars, frame, counter):
                 # Sets metadata for x1
                 img.itemset((0, i, 0), int(x1 % 100))
                 img.itemset((0, i, 1), int(x1/100))
-                print(x1 % 100)
-                print(int(x1 / 100))
 
                 # Sets metadata for y1
                 img.itemset((0, i+1, 0), int(y1 % 100))
@@ -85,7 +83,7 @@ def pilEncrypt(cars, frame, counter):
                 i += 4
 
                 # Display cords
-                print("Plate ", int(i/4), "coordinates")
+                print("Plate ", n, "coordinates")
                 print("x1", x1)
                 print("y1", y1)
                 print("x2", x2)
