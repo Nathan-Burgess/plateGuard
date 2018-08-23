@@ -7,16 +7,19 @@ import cv2
 import sys
 from statistics import mode
 import time
+import track_test
+
 
 
 class Buffer:
-    def __init__(self):
+    def __init__(self,count):
         self.frame = []         # Holds each frame for the 2 second buffer
         self.car = [Car() for i in range(10)]
         self.tracker = [cv2.TrackerKCF_create() for i in range(10)]
         self.frame_counter = 0
         self.track_counter = 0
         self.bbox = (-1, -1, -1, -1)  # TODO Fix this for multiplates
+        self.run_count = count
 
     # Assigns new results from openALPR to correct car object
     # by finding nearest neighbor withing delta_min/delta_max
@@ -54,6 +57,7 @@ class Buffer:
         start = time.time()
         results = coordRetrv(conf, runtime, self.frame[-1])
         finish = time.time()
+        track_test.log.alpr_print(self.frame_counter, self.run_count, results, finish-start)
         print("Time taken: ", finish-start)
         self.tracker = [cv2.TrackerKCF_create() for i in range(10)]
         n = 0
@@ -124,6 +128,7 @@ class Buffer:
     def processing(self, out):
         # for i in range(len(self.car)-1):
         #     self.final_plate[i] = mode(self.car[i].plate)
+        self.run_count += 1
         for car in self.car:
             try:
                 print("PLATES: ", car.plate)
@@ -143,3 +148,6 @@ class Buffer:
         width = coord[2]['x'] - x
         height = coord[2]['y'] - y
         return x, y, width, height
+
+    def frame_count(self):
+        return self.frame_counter

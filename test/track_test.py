@@ -5,7 +5,9 @@ from statistics import mode
 import cv2
 from pilEncrypt import *
 from buffer import *
+from Log import *
 
+log = Log()
 
 def main():
     # read from config file
@@ -16,15 +18,20 @@ def main():
     cap = cv2.VideoCapture(config['image_location'])
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     out = cv2.VideoWriter('output.avi', fourcc, 29.8, (1920, 1080))
-
+    j = 0
     ret = True
 
     while ret:
         # Read in the frames
-        buff = Buffer()
+
+        buff = Buffer(j)
+        j += 59
+
         ret, frame = cap.read()
 
         if ret is True:
+            log.add_mult(1)
+            print("HELLLLOOOO" + str(log.mult) + "HELLLLOOOO")
             buff.update_frame(frame)
             buff.start(config['conf'], config['runtime'])
 
@@ -35,6 +42,7 @@ def main():
                     buff.update(config['conf'], config['runtime'])
                 else:
                     break
+
 
         buff.processing(out)
 
