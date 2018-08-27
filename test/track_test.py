@@ -9,6 +9,7 @@ from Log import *
 
 log = Log()
 
+
 def main():
     # read from config file
     with open("config.json", "r") as read_file:
@@ -41,7 +42,6 @@ def main():
                     buff.update(config['conf'], config['runtime'])
                 else:
                     break
-
 
         buff.processing(out)
 

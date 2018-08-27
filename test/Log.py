@@ -1,19 +1,18 @@
 
 
 class Log:
-
     def __init__(self):
         self.alpr = open('AlprLog.txt', 'w+')
         self.mult = 0
 
-    def alpr_print(self,num, mult,results, finish):
+    def alpr_print(self, num, mult, results, finish):
         # self.alpr.write("FRAME " + str(num+mult) + '\n' + str(results['plate']) + '\n\n')
-        self.alpr.write("FRAME " + str(num + mult) + '\n' )
+        self.alpr.write("FRAME " + str(num + mult) + '\n')
         i = 1
         for plate in results:
             self.alpr.write('Plate ' + str(i) + ' ' + plate['plate'] + ' Confidence ' + str(plate['confidence']) + '\n')
             i += 1
-        self.alpr.write('Time Taken: '+ str(finish) + '\n')
+        self.alpr.write('Time Taken: ' + str(finish) + '\n')
         self.alpr.write('\n')
 
     def alpr_close(self):

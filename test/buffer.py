@@ -10,7 +10,6 @@ import time
 import track_test
 
 
-
 class Buffer:
     def __init__(self,count):
         self.frame = []         # Holds each frame for the 2 second buffer
@@ -76,8 +75,8 @@ class Buffer:
         # initialize tracker for each found plate
 
         for i in range(len(results)):
-            self.tracker[i].init(self.frame[-1], self.bbox)
-            if i is 10:
+            self.tracker[i].init(self.frame[-1], self.car[i].coords[self.frame_counter])
+            if i >= 10:
                 break
 
     # updates the trackers, goes to start if tracker dies
@@ -120,7 +119,7 @@ class Buffer:
         self.frame_counter += 1
 
     # Updates car object with information for the car
-    def update_car(self, n, coords, plate = None):
+    def update_car(self, n, coords, plate=None):
         self.car[n].coords[self.frame_counter] = coords
 
         if plate is not None:

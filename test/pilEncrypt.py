@@ -4,12 +4,11 @@ import random
 import cv2
 import sys
 
-# TODO
 
 def pilEncrypt(cars, frame, counter):
 
         # Load an image from the hard drive
-        #img = cv2.imread(image_location)
+        # img = cv2.imread(image_location)
         img = frame
 
         # Showing original unencrypted image
@@ -22,6 +21,7 @@ def pilEncrypt(cars, frame, counter):
 
         for car in cars:
             if car.coords[counter][0] is not -1:
+                print(car.coords[counter])
                 num_plates += 1
 
         img.itemset((0, 0, 0), num_plates)
@@ -36,11 +36,11 @@ def pilEncrypt(cars, frame, counter):
                 i = 1
 
                 # looping though for each plate in the image
-                # licsense plate string for plate
+                # license plate string for plate
                 lp = car.final_plate
                 print(lp)
 
-                # seed from asci values of lp
+                # seed from ascii values of lp
                 seed = 0
                 for p in range(0, len(lp)):
                     seed = seed + ord(lp[p])
@@ -52,7 +52,7 @@ def pilEncrypt(cars, frame, counter):
 
                 random.seed(seed)
 
-                # #encypting image plate
+                # encrypting image plate
                 for x in range(x1, x2):
                     for y in range(y1, y2 ):
                         # getting bgr value of pixel
@@ -89,10 +89,10 @@ def pilEncrypt(cars, frame, counter):
                 print("x2", x2)
                 print("y2", y2, "\n")
 
-        # displaying ecrypted image
+        # displaying encrypted image
         # cv2.imshow('Encrypted', img)
         # k = cv2.waitKey(0)
 
         # saving image
-        #cv2.imwrite(image_location, img)
+        # cv2.imwrite(image_location, img)
         return img
