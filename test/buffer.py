@@ -11,13 +11,14 @@ import track_test
 
 
 class Buffer:
-    def __init__(self,count):
+    def __init__(self, count):
         self.frame = []         # Holds each frame for the 2 second buffer
         self.car = [Car() for i in range(10)]
         self.tracker = [cv2.TrackerKCF_create() for i in range(10)]
         self.frame_counter = 0
         self.track_counter = 0
-        self.bbox = (-1, -1, -1, -1)  # TODO Fix this for multiplates
+        self.dynamic_counter = 6
+        self.bbox = (-1, -1, -1, -1)  # TODO Fix this for multi-plates
         self.run_count = count
 
     # Assigns new results from openALPR to correct car object
@@ -75,7 +76,8 @@ class Buffer:
         # initialize tracker for each found plate
 
         for i in range(len(results)):
-            self.tracker[i].init(self.frame[-1], self.car[i].coords[self.frame_counter])
+            if self.car[i].coords[self.frame_counter-1][0] is not -1:
+                self.tracker[i].init(self.frame[-1], self.car[i].coords[self.frame_counter-1])
             if i >= 10:
                 break
 
@@ -84,8 +86,8 @@ class Buffer:
         print("updating...")
         # calls start every 6 frames # TODO update to dynamic counts
         print(self.frame_counter)
-        if (self.frame_counter + 1) % 6 == 0:
-            print("Reached 6 Frames")
+        if (self.frame_counter + 1) % self.dynamic_counter == 0:
+            print("Reached " + str(self.dynamic_counter) + " Frames")
             self.start(conf, runtime)
         else:
             # Go through each tracker to update the coordinates
@@ -102,12 +104,12 @@ class Buffer:
                 # If it is not okay starts a new counter
                 # Only runs openALPR every 6 frames if tracker drops
                 # TODO: update to dynamic counts?
-                elif self.car[i].coords[self.frame_counter-1][0] is not -1:
+                elif self.car[i].coords[self.frame_counter-2][0] is not -1:
                     print("Error: Lost Tracker")
                     if self.track_counter == 0:
                         self.start(conf, runtime)
 
-                    if self.track_counter < 6:
+                    if self.track_counter < self.dynamic_counter:
                         self.track_counter += 1
                     else:
                         self.track_counter = 0
@@ -120,7 +122,7 @@ class Buffer:
 
     # Updates car object with information for the car
     def update_car(self, n, coords, plate=None):
-        self.car[n].coords[self.frame_counter] = coords
+        self.car[n].coords[self.frame_counter-1] = coords
 
         if plate is not None:
             self.car[n].plate.append(plate)
