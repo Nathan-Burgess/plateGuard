@@ -10,16 +10,18 @@ import time
 import track_test
 
 
-
 class Buffer:
-    def __init__(self,count):
+    def __init__(self, count):
         self.frame = []         # Holds each frame for the 2 second buffer
         self.car = [Car() for i in range(10)]
         self.tracker = [cv2.TrackerKCF_create() for i in range(10)]
         self.frame_counter = 0
         self.track_counter = 0
-        self.bbox = (-1, -1, -1, -1)  # TODO Fix this for multiplates
+        self.dynamic_max = 6
+        self.dynamic_count = 0
+        self.bbox = (-1, -1, -1, -1)  # TODO Fix this for multi-plates
         self.run_count = count
+        self.length = {'old': 0, 'new': 0}
 
     # Assigns new results from openALPR to correct car object
     # by finding nearest neighbor withing delta_min/delta_max
@@ -55,14 +57,24 @@ class Buffer:
     def start(self, conf, runtime):
         print("starting...")
         start = time.time()
+        # Pulls plate information from openALPR
         results = coordRetrv(conf, runtime, self.frame[-1])
         finish = time.time()
         track_test.log.alpr_print(self.frame_counter, self.run_count, results, finish-start)
         print("Time taken: ", finish-start)
         self.tracker = [cv2.TrackerKCF_create() for i in range(10)]
         n = 0
+        # Moves previous plates to old slot
+        self.length['old'] = self.length['new']
+        # Saves number of plates from newest run, up to 10
+        if len(results) > 10:
+            self.length['new'] = 10
+        else:
+            self.length['new'] = len(results)
 
         if self.frame_counter-1 > 0:
+            # Ensure same plates are linked across frames by checking for nearest neighbor
+            # Under average delta x/y change from last plate
             self.calculate_knn(results)
         else:
             for plate in results:
@@ -71,24 +83,29 @@ class Buffer:
                 # Define initial box with coords of plate
                 self.bbox = self.convert_coords(plate['coordinates'])
                 self.update_car(n, self.bbox, lp)
-                # break       # TODO remove when multi-plate
 
         # initialize tracker for each found plate
-
+        # Also checks to make sure the current coordinates are not -1, indicating
+        # that plate doesn't exist
         for i in range(len(results)):
-            self.tracker[i].init(self.frame[-1], self.bbox)
-            if i is 10:
+            if self.car[i].coords[self.frame_counter-1][0] is not -1:
+                self.tracker[i].init(self.frame[-1], self.car[i].coords[self.frame_counter-1])
+            if i >= 10:
                 break
+
+        self.update_d_counter()
 
     # updates the trackers, goes to start if tracker dies
     def update(self, conf, runtime):
         print("updating...")
         # calls start every 6 frames # TODO update to dynamic counts
         print(self.frame_counter)
-        if (self.frame_counter + 1) % 6 == 0:
-            print("Reached 6 Frames")
+        if self.dynamic_count is self.dynamic_max:
+            self.dynamic_count = 0
+            print("Reached " + str(self.dynamic_max) + " Frames")
             self.start(conf, runtime)
         else:
+            self.dynamic_count += 1
             # Go through each tracker to update the coordinates
             for i in range(10):
 
@@ -103,12 +120,12 @@ class Buffer:
                 # If it is not okay starts a new counter
                 # Only runs openALPR every 6 frames if tracker drops
                 # TODO: update to dynamic counts?
-                elif self.car[i].coords[self.frame_counter-1][0] is not -1:
+                elif self.car[i].coords[self.frame_counter-2][0] is not -1:
                     print("Error: Lost Tracker")
                     if self.track_counter == 0:
                         self.start(conf, runtime)
 
-                    if self.track_counter < 6:
+                    if self.track_counter < self.dynamic_max:
                         self.track_counter += 1
                     else:
                         self.track_counter = 0
@@ -120,8 +137,8 @@ class Buffer:
         self.frame_counter += 1
 
     # Updates car object with information for the car
-    def update_car(self, n, coords, plate = None):
-        self.car[n].coords[self.frame_counter] = coords
+    def update_car(self, n, coords, plate=None):
+        self.car[n].coords[self.frame_counter-1] = coords
 
         if plate is not None:
             self.car[n].plate.append(plate)
@@ -154,3 +171,10 @@ class Buffer:
 
     def frame_count(self):
         return self.frame_counter
+
+    def update_d_counter(self):
+        if self.length['old'] is self.length['new']:
+            if self.dynamic_max <= 30:
+                self.dynamic_max = self.dynamic_max * 3
+        else:
+            self.dynamic_max = 2

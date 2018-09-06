@@ -1,13 +1,17 @@
 plateGuard
 ==========
-Project to detect and encrypt license plates 
+## Purpose
+To be able to protect personal information in mass video data collection
 
-## Installation
-### Requirements
+## Proof of Concept:
+License plate encryption in mass collection of videos through security cameras, traffic cameras and autonomous vehicles.
+
+### Installation
+#### Requirements
 - Python 3.6.5
 - OpenALPR
 
-### Linux
+#### Linux
 - Python 3.6.5
   ```bash
   sudo apt-get update

@@ -9,6 +9,7 @@ from Log import *
 
 log = Log()
 
+
 def main():
     # read from config file
     with open("config.json", "r") as read_file:
@@ -31,7 +32,6 @@ def main():
 
         if ret is True:
             log.add_mult(1)
-            print("HELLLLOOOO" + str(log.mult) + "HELLLLOOOO")
             buff.update_frame(frame)
             buff.start(config['conf'], config['runtime'])
 
@@ -42,7 +42,6 @@ def main():
                     buff.update(config['conf'], config['runtime'])
                 else:
                     break
-
 
         buff.processing(out)
 

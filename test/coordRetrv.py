@@ -2,9 +2,9 @@ import sys
 import cv2
 from openalpr import Alpr
 
-# Retreives coordinates and license plate
-def coordRetrv(conf, runtime, image_location):
 
+# Retrieves coordinates and license plate
+def coordRetrv(conf, runtime, image_location):
     # configure ALPR setting according to config file
     alpr = Alpr("us", conf, runtime)
 
@@ -33,5 +33,5 @@ def coordRetrv(conf, runtime, image_location):
     # TODO: Figure out why this isnt working(maybe needs to be called at end of main
     # alpr.unload()
 
-    # return list of all liscening plates in picture according to ALPR
+    # return list of all license plates in picture according to ALPR
     return result
