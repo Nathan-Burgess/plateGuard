@@ -11,7 +11,7 @@ class Log:
         self.alpr.write("FRAME " + str(num + mult) + '\n' )
         i = 1
         for plate in results:
-            self.alpr.write('Plate ' + str(i) + ' ' + plate['plate'] + ' Confidence ' + str(plate['confidence']) + '\n')
+            self.alpr.write('Plate ' + str(i) + ' ' + plate['plate'] + ' Confidence ' + str(plate['confidence']) + ' Coordinates ' + str(plate['coordinates']) + '\n')
             i += 1
         self.alpr.write('Time Taken: '+ str(finish) + '\n')
         self.alpr.write('\n')
