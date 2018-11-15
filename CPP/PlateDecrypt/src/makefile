@@ -1,9 +1,12 @@
-HDIR=../headers
+HDIR1=/usr/local/include
+HDIR2=../headers
 CC=g++
-CFLAGS=-I$(HDIR)
+CFLAGS=-I$(HDIR1) -I$(HDIR2) -std=c++11
 
 ODIR=obj
-LDIR=../lib
+LDIR=/usr/local/lib
+
+LIBS=-lopencv_core -lopencv_highgui -lopencv_videoio
 
 # Enter .h files here
 _DEPS=
