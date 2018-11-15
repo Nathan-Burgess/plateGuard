@@ -1,4 +1,4 @@
-HDIR1=/usr/local/include
+HDIR1=/usr/local/include/opencv4
 HDIR2=../headers
 CC=g++
 CFLAGS=-I$(HDIR1) -I$(HDIR2) -std=c++11
