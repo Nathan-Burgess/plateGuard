@@ -1,26 +1,31 @@
-HDIR1=/usr/local/include/opencv4
+HDIR1=/usr/local/include
 HDIR2=../headers
+HDIR3=../../sharedHeaders
 CC=g++
-CFLAGS=-I$(HDIR1) -I$(HDIR2) -std=c++11
+CFLAGS=-I$(HDIR2) -I$(HDIR3) -std=c++11
 
 ODIR=obj
-LDIR=/usr/local/lib
+LDIR=../lib
 
 LIBS=-lopencv_core -lopencv_highgui -lopencv_videoio
 
 # Enter .h files here
-_DEPS=
-DEPS = $(patsubst %$(HDIR)/%,$(_DEPS))
+_DEPS= Transmit.h
+DEPS = $(patsubst %,$(HDIR2)/%,$(_DEPS))
 
 # Enter .o files here
-_OBJ=
+_OBJ= Transmit.o
 OBJ = $(patsubst %, $(ODIR)/%,$(_OBJ))
 
+$(ODIR)/%.o: %.cpp $(DEPS)
+		$(CC) -c -o $@ $< $(CFLAGS)
+
 # Enter output name
-ImageEncrypt: $(OBJ)
-		$(CC) ImageEncrypt.cpp -o $@ $^ $(CFLAGS) $(LIBS)
+ImageEncrypt: ImageEncrypt.cpp $(OBJ)
+		$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
 
 clean:
 	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~
+	rm ImageEncrypt

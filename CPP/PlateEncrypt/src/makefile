@@ -10,11 +10,14 @@ LIBS=-lopencv_core -lopencv_highgui -lopencv_videoio
 
 # Enter .h files here
 _DEPS=
-DEPS = $(patsubst %$(HDIR)/%,$(_DEPS))
+DEPS = $(patsubst %,$(HDIR)/%,$(_DEPS))
 
 # Enter .o files here
 _OBJ=
 OBJ = $(patsubst %, $(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: %.cpp $(DEPS)
+		$(CC) -c -o $@ $< $(CFLAGS)
 
 PlateEncrypt: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
@@ -23,3 +26,4 @@ PlateEncrypt: $(OBJ)
 
 clean:
 	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~
+	rm PlateEncrypt
