@@ -33,3 +33,11 @@ test_plates/twoplates\.png
 
 test/config\.json
 
+
+CPP/build/
+
+CPP/ImageDecrypt/build/
+
+CPP/ImageEncrypt/build/
+
+*.o

@@ -26,6 +26,12 @@ Receive::Receive()
     error("Error opening sockets", 1);
   }
 
+  memset((char*) &servaddr, 0, sizeof(servaddr));
+
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_port = htons(port);
+  servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+
   if(bind(conn_fd, (struct sockaddr*) &servaddr, sizeof(servaddr)) == -1)
   {
     error("Unale to bind socket", 1);
@@ -39,9 +45,10 @@ Receive::~Receive()
 
 void Receive::receiveMessage()
 {
+  message = new char(255);
   cout << "Waiting for data..." << endl;
   fflush(stdout);
-  if((recvlen = recvfrom(conn_fd, message, sizeof(message), 0, (struct sockaddr*) &cliaddr, &clilen)) == -1)
+  if((recvlen = recvfrom(conn_fd, message, 255, 0, (struct sockaddr*) &cliaddr, &clilen)) == -1)
   {
     error("Unable to receive", 1);
   }
