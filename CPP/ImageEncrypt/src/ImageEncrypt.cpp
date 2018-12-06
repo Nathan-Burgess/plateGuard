@@ -11,10 +11,8 @@ using namespace std;
 int main()
 {
   Capture capturer;
-  Transmit *transmitter = new Transmit;
 
   capturer.captureVideo("../data/test.mp4");
-  transmitter->send(capturer.getFrames());
 
   return 0;
 }

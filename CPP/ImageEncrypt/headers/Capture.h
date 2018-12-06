@@ -20,7 +20,8 @@ class Capture{
   vector<Mat> frames;
 public:
   void captureVideo(string);
-  Mat getFrames();
+  Mat getFrames(int);
+  int getFramesSize(){return frames.size();}
 };
 
 #endif

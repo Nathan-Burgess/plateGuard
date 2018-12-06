@@ -29,8 +29,7 @@ private:
 public:
   Transmit();
   ~Transmit();
-  void connect();
-  void send(Mat);
+  void sendFrame(Mat);
 };
 
 #endif

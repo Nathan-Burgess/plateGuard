@@ -20,9 +20,9 @@ using namespace std;
 Transmit::Transmit()
 {
   // Server port number
-  port = 1234;
+  port = 6676;
   // Set up socket
-  conn_fd = socket(AF_INET, SOCK_DGRAM, 0);
+  conn_fd = socket(AF_INET, SOCK_STREAM, 0);
 
   serv_len = sizeof(servaddr);
 
@@ -47,15 +47,24 @@ Transmit::Transmit()
 
 Transmit::~Transmit()
 {
+  shutdown(conn_fd, SHUT_RDWR);
   close(conn_fd);
 }
 
-void Transmit::send(Mat frame)
+void Transmit::sendFrame(Mat frame)
 {
-  cout << "Sending message...\n";
+  char message[5];
+  // Encode message before sending
+  int frameSize = frame.total() * frame.elemSize();
 
-  if(sendto(conn_fd, &frame, sizeof(frame), 0, (struct sockaddr *) &servaddr, serv_len) == -1)
+  // cout << frame << endl;
+
+  connect(conn_fd, (struct sockaddr *) &servaddr, sizeof(servaddr));
+
+  if(send(conn_fd, frame.data, frameSize, 0) < 0)
   {
     error("Error: Unable to send", 1);
   }
+
+  cout << message << endl;
 }

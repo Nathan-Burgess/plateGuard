@@ -21,13 +21,14 @@ private:
   struct sockaddr_in servaddr;
   struct sockaddr_in cliaddr;
   int conn_fd;
+  int listen_fd;
   int port;
   int recvlen;
   socklen_t clilen;
-  Mat message;
+  unsigned char* frame;
 public:
   Receive();
-  // ~Receive();
+  ~Receive();
   void receiveMessage();
 };
 

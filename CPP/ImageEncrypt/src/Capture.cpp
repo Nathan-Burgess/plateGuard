@@ -11,13 +11,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Capture.h"
+#include "Transmit.h"
 using namespace std;
 using namespace cv;
 
 void Capture::captureVideo(string filename)
 {
   VideoCapture cap;
-  Mat tempFrame;
+  int i = 0;
+  Mat tempFrame = Mat::zeros(720, 1280, CV_8UC3);
+  Transmit *transmitter = new Transmit;
+
+  if(!tempFrame.isContinuous())
+  {
+    tempFrame =tempFrame.clone();
+  }
 
   if(!cap.open(filename))
   {
@@ -29,15 +37,25 @@ void Capture::captureVideo(string filename)
 
   while(cap.read(tempFrame))
   {
-    frames.push_back(tempFrame);
+    if( (i % 8) == 0)
+    {
+      cout << "Frame #" << i << endl;
+      transmitter->sendFrame(tempFrame);
+    }
+    i++;
+
   }
 
-  cout << frames[0] << endl;
+  cout << endl << endl;
+
+  // cout << sizeof(frames[0]) << endl;
 
   return;
 }
 
-Mat Capture::getFrames()
+Mat Capture::getFrames(int i)
 {
-  return frames[0];
+  Mat frame = frames[i];
+
+  return frame;
 }
