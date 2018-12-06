@@ -10,6 +10,10 @@
 #include <cstdlib>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#include <opencv2/core.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/highgui.hpp>
+using namespace cv;
 
 class Transmit
 {
@@ -26,7 +30,7 @@ public:
   Transmit();
   ~Transmit();
   void connect();
-  void send();
+  void send(Mat);
 };
 
 #endif

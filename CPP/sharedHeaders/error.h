@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #ifndef ERROR_H_
+#define ERROR_H_
 
 void error(const char * message, int num)
 {
@@ -14,6 +15,5 @@ void error(const char * message, int num)
     exit(num);
 }
 
-#define ERROR_H_
 
 #endif //HW6_ERROR_H

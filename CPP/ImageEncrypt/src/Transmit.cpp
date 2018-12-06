@@ -10,6 +10,9 @@
 #include <string.h>
 #include <unistd.h>
 #include <iostream>
+#include <opencv2/core.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/highgui.hpp>
 #include "Transmit.h"
 #include "error.h"
 using namespace std;
@@ -47,13 +50,11 @@ Transmit::~Transmit()
   close(conn_fd);
 }
 
-void Transmit::send()
+void Transmit::send(Mat frame)
 {
-  char msg[] = "Test Message";
   cout << "Sending message...\n";
-  cout << serv_len << endl;
 
-  if(sendto(conn_fd, msg, strlen(msg), 0, (struct sockaddr *) &servaddr, serv_len) == -1)
+  if(sendto(conn_fd, &frame, sizeof(frame), 0, (struct sockaddr *) &servaddr, serv_len) == -1)
   {
     error("Error: Unable to send", 1);
   }

@@ -10,9 +10,13 @@
 #include <string.h>
 #include <unistd.h>
 #include <iostream>
+#include <opencv2/core.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/highgui.hpp>
 #include "Receive.h"
 #include "error.h"
 using namespace std;
+using namespace cv;
 
 Receive::Receive()
 {
@@ -38,17 +42,16 @@ Receive::Receive()
   }
 }
 
-Receive::~Receive()
-{
-  close(conn_fd);
-}
+// Receive::~Receive()
+// {
+//   close(conn_fd);
+// }
 
 void Receive::receiveMessage()
 {
-  message = new char(255);
   cout << "Waiting for data..." << endl;
   fflush(stdout);
-  if((recvlen = recvfrom(conn_fd, message, 255, 0, (struct sockaddr*) &cliaddr, &clilen)) == -1)
+  if((recvlen = recvfrom(conn_fd, &message, sizeof(Mat), 0, (struct sockaddr*) &cliaddr, &clilen)) == -1)
   {
     error("Unable to receive", 1);
   }

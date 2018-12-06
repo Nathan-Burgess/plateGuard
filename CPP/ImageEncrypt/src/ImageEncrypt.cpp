@@ -5,12 +5,16 @@
 
 #include <iostream>
 #include "Transmit.h"
+#include "Capture.h"
 using namespace std;
 
 int main()
 {
+  Capture capturer;
   Transmit *transmitter = new Transmit;
-  transmitter->send();
+
+  capturer.captureVideo("../data/test.mp4");
+  transmitter->send(capturer.getFrames());
 
   return 0;
 }

@@ -10,11 +10,11 @@ LDIR=../lib
 LIBS=-lopencv_core -lopencv_highgui -lopencv_videoio
 
 # Enter .h files here
-_DEPS= Transmit.h
+_DEPS= Transmit.h Capture.h
 DEPS = $(patsubst %,$(HDIR2)/%,$(_DEPS))
 
 # Enter .o files here
-_OBJ= Transmit.o
+_OBJ= Transmit.o Capture.o
 OBJ = $(patsubst %, $(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.cpp $(DEPS)
