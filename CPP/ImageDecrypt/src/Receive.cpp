@@ -21,7 +21,7 @@ using namespace cv;
 Receive::Receive()
 {
   // Server port number
-  port = 6676;
+  port = 6666;
   // Set up socket
   conn_fd = socket(AF_INET, SOCK_STREAM, 0);
 
