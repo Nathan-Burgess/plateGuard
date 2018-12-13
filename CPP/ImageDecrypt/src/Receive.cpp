@@ -38,7 +38,7 @@ Receive::Receive()
 
   if(bind(conn_fd, (struct sockaddr*) &servaddr, sizeof(servaddr)) < 0)
   {
-    error("Unale to bind socket", 1);
+    error("Unable to bind socket", 1);
   }
 
   cout << "conn_fd1: " << conn_fd << endl;
@@ -77,7 +77,8 @@ void Receive::receiveMessage()
       cerr << "Receive failed, received bytes: " << bytes << endl;
       break;
     }
-    imshow("Frame", frame);
+    // imshow("Frame", frame);
+    cout << "Received frame..." << endl;
     waitKey(8);
   }
 
