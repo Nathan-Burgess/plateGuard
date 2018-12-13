@@ -17,7 +17,7 @@
 #include "error.h"
 using namespace std;
 
-#define IP_ADDRESS "10.125.214.81"
+#define IP_ADDRESS "10.125.155.46"
 
 Transmit::Transmit()
 {
