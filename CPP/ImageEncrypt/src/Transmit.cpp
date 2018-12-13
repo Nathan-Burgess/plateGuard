@@ -17,6 +17,8 @@
 #include "error.h"
 using namespace std;
 
+#define IP_ADDRESS "10.125.214.81"
+
 Transmit::Transmit()
 {
   // Server port number
@@ -38,7 +40,7 @@ Transmit::Transmit()
   memset((char*)&servaddr, 0, sizeof(servaddr));
   servaddr.sin_family = AF_INET;
   servaddr.sin_port = htons(port);
-  if(inet_aton("127.0.0.1", &servaddr.sin_addr) == 0)
+  if(inet_aton(IP_ADDRESS, &servaddr.sin_addr) == 0)
   {
     fprintf(stderr, "inet_aton() failed\n");
     exit(1);
