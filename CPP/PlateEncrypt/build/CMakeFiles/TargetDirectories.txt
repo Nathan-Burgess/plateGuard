@@ -1,0 +1,3 @@
+/home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/build/CMakeFiles/edit_cache.dir
+/home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/build/CMakeFiles/rebuild_cache.dir
+/home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/build/CMakeFiles/PlateEncrypt.dir
