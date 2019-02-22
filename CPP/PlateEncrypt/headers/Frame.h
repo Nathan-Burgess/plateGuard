@@ -4,9 +4,7 @@
 
 #include <vector>
 #include <string>
-#include <opencv2/core.hpp>
-#include <opencv2/videoio.hpp>
-#include <opencv2/highgui.hpp>
+#include "opencv2/opencv.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 using namespace cv;

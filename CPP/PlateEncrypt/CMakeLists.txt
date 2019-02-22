@@ -2,17 +2,18 @@ cmake_minimum_required(VERSION 2.8.9)
 project(PlateEncrypt)
 
 set ( GLOB PROJECT_LINK_LIBS *.so )
-link_directories( /usr/local/lib )
-link_directories( /usr/lib )
 
-find_package(OpenCV)
 
-include_directories( ../sharedHeaders )
+
+include_directories( /home/nathan/Desktop/opencv-opencv-e7c915a )
+
+SET(OPENALPR_LIB /usr/lib/libopenalpr.so)
 include_directories( headers )
 include_directories( /usr/local/include )
 include_directories( /usr/include )
-include_directories(/usr/lib)
 file(GLOB SOURCES "src/*.cpp" )
 
+
+
 add_executable(PlateEncrypt ${SOURCES})
-target_link_libraries(PlateEncrypt ${OpenCV_LIBS} ${PROJECT_LINK_LIBS})
+target_link_libraries(PlateEncrypt ${OPENALPR_LIB} ${PROJECT_LINK_LIBS})

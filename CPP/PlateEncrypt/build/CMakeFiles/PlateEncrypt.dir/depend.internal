@@ -14,7 +14,6 @@ CMakeFiles/PlateEncrypt.dir/src/Encrypt.cpp.o
 CMakeFiles/PlateEncrypt.dir/src/Frame.cpp.o
  ../headers/Frame.h
  /home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/src/Frame.cpp
- /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
  /usr/local/include/opencv2/core.hpp
@@ -151,7 +150,6 @@ CMakeFiles/PlateEncrypt.dir/src/Frame.cpp.o
 CMakeFiles/PlateEncrypt.dir/src/PlateEncrypt.cpp.o
  ../headers/Frame.h
  /home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/src/PlateEncrypt.cpp
- /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
  /usr/local/include/opencv2/core.hpp

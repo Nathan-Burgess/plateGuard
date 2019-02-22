@@ -1,8 +1,9 @@
 #include <iostream>
 #include <alpr.h>
-#include <opencv2/core.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/videoio.hpp>
+//#include <opencv2/core.hpp>
+#include <opencv2/opencv.hpp>
+//#include <opencv2/highgui.hpp>
+//#include <opencv2/videoio.hpp>
 #include "Frame.h"
 
 using namespace cv;
@@ -12,13 +13,14 @@ using namespace alpr;
 int main()
 {
   Frame f;
-  //Alpr openalpr("us", "/etc/openalpr/openalpr.conf");
-
+  Alpr openalpr("us", "/home/nathan/Desktop/openalpr/openalpr/openalpr.conf");
+/*
 
   f.setLink("../../data/117.mp4");
 
 /*
 */
+/*
 //  Mat tempframe = Mat::zeros(720, 1280, CV_8UC3);
   Mat tempframe;
   namedWindow("w",1);
@@ -31,6 +33,7 @@ int main()
       }
     waitKey(0);
     cout << "HALO1" << endl;
+*/
     return 0;
 
 

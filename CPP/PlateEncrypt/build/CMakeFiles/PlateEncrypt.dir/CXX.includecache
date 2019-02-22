@@ -11,12 +11,8 @@ vector
 -
 string
 -
-opencv2/core.hpp
--
-opencv2/videoio.hpp
--
-opencv2/highgui.hpp
--
+opencv2/opencv.hpp
+../headers/opencv2/opencv.hpp
 bits/stdc++.h
 -
 
@@ -37,11 +33,7 @@ string
 -
 alpr.h
 -
-opencv2/core.hpp
--
-opencv2/highgui.hpp
--
-opencv2/videoio.hpp
+opencv2/opencv.hpp
 -
 Frame.h
 /home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/src/Frame.h
@@ -51,11 +43,7 @@ iostream
 -
 alpr.h
 -
-opencv2/core.hpp
--
-opencv2/highgui.hpp
--
-opencv2/videoio.hpp
+opencv2/opencv.hpp
 -
 Frame.h
 /home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/src/Frame.h
@@ -63,10 +51,6 @@ Frame.h
 /home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/src/Processing.cpp
 
 /home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/src/Save.cpp
-
-/usr/local/include/opencv/cxcore.h
-opencv2/core/core_c.h
-/usr/local/include/opencv/opencv2/core/core_c.h
 
 /usr/local/include/opencv2/calib3d.hpp
 opencv2/core.hpp
