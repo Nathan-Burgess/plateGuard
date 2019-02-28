@@ -42,4 +42,4 @@ CPP/ImageEncrypt/build/
 
 *.o
 
-CPP/PlateEncrypt/build/CMakeFiles/
+CPP/*/build/
