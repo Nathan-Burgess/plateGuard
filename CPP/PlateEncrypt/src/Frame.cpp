@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <string>
 #include <alpr.h>
 #include <opencv2/core.hpp>
@@ -27,7 +27,7 @@ Mat Frame::grabFrame(){
 
 }
 
-
+*/
 /*
 
 int main(){
