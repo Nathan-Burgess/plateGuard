@@ -6,5 +6,9 @@ CXX_FLAGS =
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/../sharedHeaders -I/home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/headers -isystem /usr/local/include -I/usr/lib -isystem /usr/local/include/opencv 
+<<<<<<< Updated upstream
+CXX_INCLUDES = -I/home/nathan/Desktop/opencv-opencv-e7c915a -I/home/nathan/Desktop/plateGuard/CPP/PlateEncrypt/headers -I/usr/local/include 
+=======
+CXX_INCLUDES = -I/home/nathan/Desktop/opencv-opencv-e7c915a -I/home/michael/Projects/plateGuard/CPP/PlateEncrypt/headers -I/usr/local/include 
+>>>>>>> Stashed changes
 
