@@ -1,4 +1,4 @@
-Sample output in raw format, good for nowing the field names when needing things out of results
+Sample output in raw format, good for knowing the field names when needing things out of results
 
 
 

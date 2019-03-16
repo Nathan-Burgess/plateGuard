@@ -13,14 +13,14 @@ License plate encryption in mass collection of videos through security cameras, 
 
 #### Linux
 - Python 3.6.5
-  ```bash
+  ```
   sudo apt-get update
   sudo apt-get install python3.6
-  
+  ```
 - OpenALPR
   Installation steps taken from OpenALPR documentation found: https://github.com/openalpr/openalpr/wiki/Compilation-instructions-(Ubuntu-Linux)
   Followed Ubuntu 14.04+ steps for installation as follows:
-  ```bash
+  ```
   # Install Prerequisites
   sudo apt-get install libopencv-dev libtesseract-dev git cmake build-essential libleptonica-dev
   sudo apt-get install liblog4cplus-dev libcurl3-dev
@@ -44,8 +44,10 @@ License plate encryption in mass collection of videos through security cameras, 
 
   # Install the binaries/libraries to your local system (prefix is /usr)
   sudo make install
-  
- - Set up Python Bindings
-    ```bash
-    cd openalpr/src/bindings/python/
-    sudo python3 setup.py install
+  ```
+
+- Set up Python Bindings
+  ```
+  cd openalpr/src/bindings/python/
+  sudo python3 setup.py install
+  ```
