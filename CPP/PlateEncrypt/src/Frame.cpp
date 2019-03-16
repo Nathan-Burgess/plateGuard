@@ -1,7 +1,8 @@
-/*#include <iostream>
+#include <iostream>
 #include <string>
 #include <alpr.h>
-#include <opencv2/opencv.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
 #include "Frame.h"
 
 using namespace cv;
@@ -25,7 +26,7 @@ Mat Frame::grabFrame(){
 
 }
 
-*/
+
 /*
 
 int main(){
