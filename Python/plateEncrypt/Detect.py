@@ -7,6 +7,7 @@ import sys
 import cv2
 from openalpr import Alpr
 
+
 def Detect(image_location = "/home/michael/Projects/plateGuard/test_plates/backup"):
     # Configure ALPR setting according to config file
     print("Test2")
@@ -25,14 +26,15 @@ def Detect(image_location = "/home/michael/Projects/plateGuard/test_plates/backu
     alpr.set_default_region("tx")
 
     # Loads results from the openALPR library
-    succes, img_numpy = cv2.imencode('.jpg', image_location)
+    success, img_numpy = cv2.imencode('.jpg', image_location)
     img_binary = img_numpy.tostring()
     results = alpr.recognize_array(img_binary)
 
     results = results['results']
 
-    print(result)
+    print(results)
     print("Done")
+
 
 if __name__ == '__main__':
     Detect()
@@ -41,8 +43,8 @@ if __name__ == '__main__':
 Testing Functions
 """
 
-class TestDetect(unittest.TestCase):
-
-    def test_detect_license_plate(self):
-
-        self.assertTrue()
+# class TestDetect(unittest.TestCase):
+#
+#     def test_detect_license_plate(self):
+#
+#         self.assertTrue()

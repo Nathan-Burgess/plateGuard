@@ -5,6 +5,7 @@ Holds car information found in buffer
 import sys
 import unittest
 
+
 class Car:
 
     def __init__(self):
@@ -17,6 +18,7 @@ class Car:
         for i in range(600):
             self.exists.append(False)
             self.coords.append((-1,-1,-1,-1))
+
 
 class TestCar(unittest.TestCase):
 
@@ -40,6 +42,7 @@ class TestCar(unittest.TestCase):
         car = Car()
         car.coords[15] = (1,5,3,2)
         self.assertTrue(car.coords[15] == (1,5,3,2))
+
 
 if __name__ == '__main__':
     unittest.main()
