@@ -4,6 +4,7 @@ Main program for plateEncrypt system
 
 import cv2
 import json
+from detect import detect
 
 
 def main():
