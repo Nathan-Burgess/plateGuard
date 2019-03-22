@@ -3,15 +3,23 @@ Holds car and frame objects
 '''
 
 import car
+import unittest
 
 class Buffer:
 
     def __init__(self):
         self.cars = []
         self.frames = []
-        for i in range(60):
-            self.cars.append(car.Car())
+
+
+class TestBuffer(unittest.TestCase):
+    def test_init(self):
+        buff = Buffer()
+        buff.car = "car"
+        buff.frames = "frame"
+        self.assertEquals("car", buff.car)
+        self.assertEquals("frame", buff.frames)
+
 
 if __name__ == "__main__":
-    buf = Buffer()
-    buf.test()
+    unittest.main()

@@ -43,3 +43,9 @@ CPP/ImageEncrypt/build/
 *.o
 
 CPP/*/build/
+
+Python/\.idea/workspace\.xml
+
+Python/plateEncrypt/__pycache__/
+
+Python/plateEncrypt/output\.avi
