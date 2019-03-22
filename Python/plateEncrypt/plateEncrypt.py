@@ -42,7 +42,7 @@ def main():
             else:
                 break
 
-        proc = processing.Processing(buff, out)
+        proc = processing.Processing(buff, out, config)
 
     cap.release()
     out.release()

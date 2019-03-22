@@ -26,9 +26,9 @@ def detect(frame, runtime):
     img_binary = img_numpy.tostring()
     results = alpr.recognize_array(img_binary)
 
-    results = results['results']
+    result = results['results']
 
-    return results
+    return result
 
 
 """
