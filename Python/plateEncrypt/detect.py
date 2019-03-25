@@ -18,7 +18,7 @@ def detect(frame, runtime):
         sys.exit(1)
 
     # Get the top result from ALPR for each plate
-    alpr.set_top_n(1)
+    alpr.set_top_n(10)
     alpr.set_default_region("tx")
 
     # Loads results from the openALPR library
@@ -41,7 +41,7 @@ Testing Functions
 class TestDetect(unittest.TestCase):
 
     def test_detect_license_plate(self):
-        image_location = "/home/michael/Projects/plateGuard/test_plates/backup/ea7the.jpg"
+        image_location = "/home/nathan/PycharmProjects/plateGuard/test_plates/backup/ea7the.jpg"
 
         # Read from config file
         with open("config.json", "r") as read_file:
@@ -54,6 +54,7 @@ class TestDetect(unittest.TestCase):
             sys.exit(1)
 
         results = detect(frame, config['runtime'])
+        print(results)
 
         for plate in results:
             results = plate['plate']
