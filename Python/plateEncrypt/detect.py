@@ -26,17 +26,15 @@ def detect(frame, runtime):
     img_binary = img_numpy.tostring()
     results = alpr.recognize_array(img_binary)
 
-    results = results['results']
+    result = results['results']
 
-    return results
+    return result
 
-
-if __name__ == '__main__':
-    TestDetect.test_detect_license_plate()
 
 """
 Testing Functions
 """
+
 
 class TestDetect(unittest.TestCase):
 
@@ -59,4 +57,8 @@ class TestDetect(unittest.TestCase):
         for plate in results:
             results = plate['plate']
 
-        self.assertTrue("EA7THE", results)
+        self.assertEqual("EA7THE", results)
+
+
+if __name__ == '__main__':
+    unittest.main()
