@@ -36,10 +36,12 @@ def main():
                 buff.frames.append(frame)
             else:
                 break
-
-        proc = processing.Processing(buff, out)
+        processing.call_detect(buff)
+        buff.frame_num = j
+        processing.clear_plate_area(buff)
+        j += 60
         save.save_frame(buff, out)
-
+        ret = False
     cap.release()
     out.release()
 
