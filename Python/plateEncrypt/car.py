@@ -8,11 +8,11 @@ import unittest
 
 class Car:
 
-    def __init__(self, plate, coords):
-        self.exists = []            # Which frames the car shows up in
-        self.plate = plate             # Plate numbers for each frame found in
+    def __init__(self):
+        self.exists = [0 for i in range(60)]                # Which frames the car shows up in
+        self.plate = []                                     # Plate numbers for each frame found in
         self.final_plate = ""
-        self.coords = coords            # Coordinates of plate area in each frame
+        self.coords = [(-1, -1, -1, -1) for i in range(60)]    # Coordinates of plate area in each frame
         self.delta_min = sys.maxsize
         self.delta_max = 0
 
@@ -37,8 +37,8 @@ class TestCar(unittest.TestCase):
 
     def test_coords(self):
         car = Car()
-        car.coords[15] = (1,5,3,2)
-        self.assertTrue(car.coords[15] == (1,5,3,2))
+        car.coords[15] = (1, 5, 3, 2)
+        self.assertTrue(car.coords[15] == (1, 5, 3, 2))
 
 
 if __name__ == '__main__':
