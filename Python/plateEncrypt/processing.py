@@ -12,16 +12,15 @@ import random
 
 
 class Processing:
-    def __init__(self, buff, out, config):
+    def __init__(self, buff, out):
         self.buff = buff
         self.out = out
-        self.config = config
         self.results = []
 
     # Calls openALPR and appends results to self.results
     def call_detect(self, frame_num):
         # Gets results from openALPR
-        result = detect.detect(self.buff.frames[frame_num], self.config['runtime'])
+        result = detect.detect(self.buff.frames[frame_num])
         # Saves results to car per frame
         # TODO Update to make sure it's working with actually multiple frames
         for plate in result:
@@ -59,16 +58,13 @@ Unit tests for Processing class
 
 class TestProcessing(unittest.TestCase):
     def set_up(self):
-        # Read from config file
-        with open("config.json", "r") as read_file:
-            config = json.load(read_file)
 
         # Set up buffer
         buff = buffer.Buffer()
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         out = cv2.VideoWriter('output.avi', fourcc, 29.8, (1920, 1080))
 
-        self.proc = Processing(buff, out, config)
+        self.proc = Processing(buff, out)
 
     def test_call_detect(self):
         # Read from video, just one frame to test

@@ -3,20 +3,15 @@ Main program for plateEncrypt system
 """
 
 import cv2
-import json
 import buffer
 import processing
 from detect import detect
 
 
 def main():
-    # Read from config file
-    with open("config.json", "r") as read_file:
-        config = json.load(read_file)
-
     # TODO Change to pipe from ImageDecrypt
     # Read from file to import video
-    cap = cv2.VideoCapture("../../test_plates/")
+    cap = cv2.VideoCapture("../../test_plates/test_video_short.mp4")
     # Something for writing out the video, codec related probably
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     # Set up output file
@@ -42,7 +37,7 @@ def main():
             else:
                 break
 
-        proc = processing.Processing(buff, out, config)
+        proc = processing.Processing(buff, out)
 
     cap.release()
     out.release()
