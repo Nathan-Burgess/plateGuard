@@ -9,9 +9,9 @@ from openalpr import Alpr
 import json
 
 
-def detect(frame, runtime):
+def detect(frame):
     # Configure ALPR setting according to config file
-    alpr = Alpr("us", "/usr/share/openalpr/config/openalpr.defaults.conf", runtime)
+    alpr = Alpr("us", "/usr/share/openalpr/config/openalpr.defaults.conf", "/usr/share/openalpr/runtime_data/")
 
     if not alpr.is_loaded():
         print("Error loading OpenALPR")
@@ -36,11 +36,7 @@ Testing Functions
 class TestDetect(unittest.TestCase):
 
     def test_detect_license_plate(self):
-        image_location = "/home/nathan/PycharmProjects/plateGuard/test_plates/backup/ea7the.jpg"
-
-        # Read from config file
-        with open("config.json", "r") as read_file:
-            config = json.load(read_file)
+        image_location = "../../test_plates/backup/ea7the.jpg"
 
         frame = cv2.imread(image_location)
 
@@ -48,7 +44,7 @@ class TestDetect(unittest.TestCase):
             print("Error loading image")
             sys.exit(1)
 
-        results = detect(frame, config['runtime'])
+        results = detect(frame)
         print(results)
 
         for plate in results:
