@@ -6,19 +6,21 @@ import unittest
 import buffer
 import cv2
 import detect
-import car
+import car as CAR
 import random
 import sys
 
 
 # Calls openALPR and appends results to self.results
-def call_detect(buff, frame_num):
+def call_detect(buff):
     # Gets results from openALPR
-    result = detect.detect(buff.frames[frame_num])
-    # Saves results to car per frame
-    # TODO Update to make sure it's working with actually multiple frames
-    for plate in result:
-        buff.cars.append(car.Car(plate['plate'], plate['coordinates']))
+    for i in range(60):
+        result = detect.detect(buff.frames[i])
+        # Saves results to car per frame
+        # TODO Update to make sure it's working with actually multiple frames
+        # TODO Update after KNN
+        for plate in result:
+            buff.cars.append(CAR.Car(plate['plate'], plate['coordinates']))
 
 
 # Blanks out license plate area after encrypting
@@ -30,7 +32,6 @@ def clear_plate_area(buff):
         # Loop through cars per frame
         for n, car in enumerate(buff.cars):
             # Get (x1,y1), (x2,y2) coordinates for each plate area
-            print(car.coords)
             a, b, c, d = car.coords
             x1 = int(a['x'])
             x2 = int(c['x'])
@@ -45,12 +46,52 @@ def clear_plate_area(buff):
                     frame.itemset((y, x, 1), random.randint(1, 255))
                     frame.itemset((y, x, 2), random.randint(1, 255))
 
+
 # Assigns new results from openALPR to correct car object
 # by finding nearest neighbor with delta_min/delta_max
-# def calculate_knn(self):
-#     # Holds previously found license plates
-#     used_plates = []
-#     for car in self.car
+def calculate_knn(buff, result, frame_count):
+    # Holds previously found license plates
+    used_plates = [-1 for i in range(10)]
+    for n, car in enumerate(buff.cars):
+        minimum = sys.maxsize
+        lp = 'halo'
+        # Check if coordinates are present for the plate
+        if car.coords[frame_count-1][0] is not -1:
+            # Loop through plates found
+            for i, plate in enumerate(result):
+                # See if the plate is already known
+                if i not in used_plates:
+                    a, b, c, d = plate['coordinates']
+                    x = int(a['x'])
+                    y = int(a['y'])
+
+                    """
+                    Calculates the delta from license plate coordinates
+                    Average the two delta values
+                    """
+                    d = abs(x - car.coords[frame_count-1][0])
+                    d += abs(y - car.coords[frame_count-1][1])
+                    d = d/2
+
+                    # Checks if the delta is less than the currently lowest delta
+                    if d < minimum:
+                        minimum = d
+                        lp = plate['plate']
+                        used_plates[n] = i
+                        coords = plate['coordinates']
+        else:
+            break
+        # Update car with license plate data
+        car.coords[frame_count-1] = coords
+        car.plate.append(lp)
+
+    # Add new plates found
+    for i in range(len(result)):
+        if i not in used_plates:
+            buff.cars[n].coords = result[i]['coordinates']
+            buff.cars[n].plate.append(result[i]['plate'])
+            n += 1
+
 
 """
 Unit tests for Processing class
