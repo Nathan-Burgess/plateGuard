@@ -18,14 +18,11 @@ def detect(frame, runtime):
         sys.exit(1)
 
     # Get the top result from ALPR for each plate
-    alpr.set_top_n(10)
+    alpr.set_top_n(1)
     alpr.set_default_region("tx")
 
     # Loads results from the openALPR library
-    success, img_numpy = cv2.imencode('.jpg',frame)
-    img_binary = img_numpy.tostring()
-    results = alpr.recognize_array(img_binary)
-
+    results = alpr.recognize_ndarray(frame)
     result = results['results']
 
     return result
