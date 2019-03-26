@@ -5,7 +5,7 @@ Main program for plateEncrypt system
 import cv2
 import buffer
 import processing
-from detect import detect
+import save
 
 
 def main():
@@ -33,11 +33,12 @@ def main():
             ret, frame = cap.read()
 
             if ret is True:
-                buff.frame.append(frame)
+                buff.frames.append(frame)
             else:
                 break
 
         proc = processing.Processing(buff, out)
+        save.save_frame(buff, out)
 
     cap.release()
     out.release()
