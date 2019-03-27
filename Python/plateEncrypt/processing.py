@@ -9,6 +9,7 @@ import detect
 import car as CAR
 import random
 import sys
+import encrypt
 
 
 # Calls openALPR and appends results to self.results
@@ -20,32 +21,43 @@ def call_detect(buff):
         # TODO Update to make sure it's working with actually multiple frames
         # TODO Update after KNN
         for plate in result:
-            buff.cars.append(CAR.Car(plate['plate'], plate['coordinates']))
+            buff.cars[0].coords[i] = plate['coordinates']
+            buff.cars[0].final_plate = plate['plate']
+            # buff.cars.append(CAR.Car(plate['plate'], plate['coordinates']))
 
 
 # Blanks out license plate area after encrypting
 def clear_plate_area(buff):
     # TODO call encrypt for each plate
 
+
     # Loop through all frames in buffer
     for i, frame in enumerate(buff.frames):
         # Loop through cars per frame
         for n, car in enumerate(buff.cars):
+            strp = ""
+            strc = ""
             # Get (x1,y1), (x2,y2) coordinates for each plate area
-            a, b, c, d = car.coords
-            x1 = int(a['x'])
-            x2 = int(c['x'])
-            y1 = int(a['y'])
-            y2 = int(c['y'])
+            if car.coords[i][0] is not -1:
+                a, b, c, d = car.coords[i]
+                x1 = int(a['x'])
+                x2 = int(c['x'])
+                y1 = int(a['y'])
+                y2 = int(c['y'])
+                strc = str(x1) + "," + str(y1) + "," + str(x2) + "," + str(y2) + "*"
 
-            # Blank each plate to black
-            for x in range(x1, x2):
-                for y in range(y1, y2):
-                    b, g, r = frame[y, x]
-                    frame.itemset((y, x, 0), random.randint(1, 255))
-                    frame.itemset((y, x, 1), random.randint(1, 255))
-                    frame.itemset((y, x, 2), random.randint(1, 255))
+                # Blank each plate to static
+                for x in range(x1, x2):
+                    for y in range(y1, y2):
+                        b, g, r = frame[y, x]
+                        strp = strp + "(" + str(b) + "," + str(g) + "," + str(r) + "),"
+                        frame.itemset((y, x, 0), random.randint(1, 255))
+                        frame.itemset((y, x, 1), random.randint(1, 255))
+                        frame.itemset((y, x, 2), random.randint(1, 255))
 
+                strp = strp + "*"
+                strf = car.final_plate + "*" + strc + strp
+                encrypt.encrypt(i, n, strf, car.final_plate, buff.encrypt_path)
 
 # Assigns new results from openALPR to correct car object
 # by finding nearest neighbor with delta_min/delta_max

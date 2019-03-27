@@ -15,7 +15,7 @@ def main():
     # Something for writing out the video, codec related probably
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     # Set up output file
-    out = cv2.VideoWriter('output.avi', fourcc, 29.8, (1920,1080))
+    out = cv2.VideoWriter('../20190401/0000/output.avi', fourcc, 29.8, (1920, 1080))
 
     # Counter for number of frames
     j = 0
@@ -27,7 +27,8 @@ def main():
     while ret:
         # Initialize buffer object
         buff = buffer.Buffer()
-
+        buff.day_path = "../20190401/0000/"
+        buff.encrypt_path = "../20190401//0000/"
         # Read in frames
         for i in range(60):
             ret, frame = cap.read()

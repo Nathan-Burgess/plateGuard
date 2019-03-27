@@ -12,6 +12,8 @@ class Buffer:
         self.cars = [car.Car() for i in range(10)]
         self.frames = []
         self.frame_num = 0
+        self.day_path = ""
+        self.encrypt_path = ""
 
 
 class TestBuffer(unittest.TestCase):
