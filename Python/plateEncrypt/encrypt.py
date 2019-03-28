@@ -24,12 +24,17 @@ def encrypt(frame_num, car_num, string, key, path):
 class TestEncrypt(unittest.TestCase):
     def test_decrypt(self):
         bE = str.encode("This is a test string")
-        ciphertext, tag, nonce = encrypt(bE, "halo")
-        # file_i
-        key1 = ("halo" * 16)[0:16]
+        key1 = ('halo' * 16)[0:16]
         key = str.encode(key1)
 
-        cipher = AES.new(key, AES.MODE_EAX, nonce)
+        cipher = AES.new(key, AES.MODE_EAX)
+        ciphertext, tag = cipher.encrypt_and_digest(bE)
+        # ciphertext, tag, nonce = encrypt(bE, "halo")
+        # file_i
+        key1 = ("halo1" * 16)[0:16]
+        key = str.encode(key1)
+
+        cipher = AES.new(key, AES.MODE_EAX, cipher.nonce)
         data1 = cipher.decrypt_and_verify(ciphertext, tag)
 
         data = data1.decode()

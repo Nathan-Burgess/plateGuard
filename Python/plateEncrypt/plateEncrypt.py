@@ -22,7 +22,6 @@ def main():
     # Return boolean to ensure reading in frames
     ret = True
 
-
     # Loops through while video is reading in
     while ret:
         # Initialize buffer object
@@ -32,9 +31,9 @@ def main():
         # Read in frames
         for i in range(60):
             ret, frame = cap.read()
-
             if ret is True:
                 buff.frames.append(frame)
+                buff.num_frames = i + 1
             else:
                 break
         processing.call_detect(buff)
@@ -42,7 +41,7 @@ def main():
         processing.clear_plate_area(buff)
         j += 60
         save.save_frame(buff, out)
-        ret = False
+
     cap.release()
     out.release()
 
