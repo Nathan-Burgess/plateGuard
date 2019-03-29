@@ -1,6 +1,5 @@
 
 
-# TODO add ability to put metadata to front of frame showing time-data, also add file namin convention
 def save_encypt(nonce, tag, ciphertext, frame_num, car_num, path):
 
     file_name = str(frame_num) + "_" + str(car_num)

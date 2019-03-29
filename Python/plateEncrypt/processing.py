@@ -10,6 +10,7 @@ import car as CAR
 import random
 import sys
 import encrypt
+import json
 from statistics import mode
 
 
@@ -21,12 +22,6 @@ def call_detect(buff):
         if result:
             # Saves results to car per frame
             calculate_knn(buff, result, i)
-
-      #  print(result)
-       # for plate in result:
-        #    buff.cars[0].coords[i] = plate['coordinates']
-         #   buff.cars[0].final_plate = plate['plate']
-            # buff.cars.append(CAR.Car(plate['plate'], plate['coordinates']))
 
 
 # Blanks out license plate area after encrypting
@@ -43,14 +38,15 @@ def clear_plate_area(buff):
         for n, car in enumerate(buff.cars):
             strp = ""
             strc = ""
+            data = {'coords':{}, 'pixel_data':[], 'frame':i+buff.frame_num}
             # Get (x1,y1), (x2,y2) coordinates for each plate area
             if car.coords[i] is not -1:
                 a, b, c, d = car.coords[i]
+                data['coords'] = {'x1':a['x'], 'x2':c['x'], 'y1':a['y'], 'y2':c['y']}
                 x1 = int(a['x'])
                 x2 = int(c['x'])
                 y1 = int(a['y'])
                 y2 = int(c['y'])
-                strc = str(x1) + "," + str(y1) + "," + str(x2) + "," + str(y2) + "*"
 
                 # Blank each plate to static
                 for x in range(x1, x2):
@@ -62,11 +58,8 @@ def clear_plate_area(buff):
                         frame.itemset((y, x, 2), random.randint(1, 255))
 
                 # TODO - change to json dump in byte data
-                strp = strp + "*"
-                strf = car.final_plate + "*" + strc + strp
-                # TODO, fix this garbage
-                # TODO - just pass buff, n and json dump so we don't have to pass so many variables
-                encrypt.encrypt(buff.frame_num + i, n, strf, car.final_plate, buff.encrypt_path)
+                bin = json.dumps(data).encode('utf-8')
+                encrypt.encrypt(buff.frame_num + i, n, bin, car.final_plate, buff.encrypt_path)
 
 
 # Assigns new results from openALPR to correct car object
