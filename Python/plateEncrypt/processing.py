@@ -21,13 +21,6 @@ def call_detect(buff):
         if result:
             # Saves results to car per frame
             calculate_knn(buff, result, i)
-        # TODO Update to make sure it's working with actually multiple frames
-        # TODO Update after KNN
-        # for plate in result:
-        #     buff.cars[0].coords[i] = plate['coordinates']
-        #     buff.cars[0].final_plate = plate['plate']
-        #     buff.cars.append(CAR.Car(plate['plate'], plate['coordinates']))
-        # TODO Update after
 
       #  print(result)
        # for plate in result:
@@ -38,7 +31,6 @@ def call_detect(buff):
 
 # Blanks out license plate area after encrypting
 def clear_plate_area(buff):
-    # TODO call encrypt for each plate
     for car in buff.cars:
         try:
             car.final_plate = mode(car.plate)
@@ -69,8 +61,11 @@ def clear_plate_area(buff):
                         frame.itemset((y, x, 1), random.randint(1, 255))
                         frame.itemset((y, x, 2), random.randint(1, 255))
 
+                # TODO - change to json dump in byte data
                 strp = strp + "*"
                 strf = car.final_plate + "*" + strc + strp
+                # TODO, fix this garbage
+                # TODO - just pass buff, n and json dump so we don't have to pass so many variables
                 encrypt.encrypt(buff.frame_num + i, n, strf, car.final_plate, buff.encrypt_path)
 
 
