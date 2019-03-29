@@ -2,11 +2,10 @@
 Manages processing of incoming frames, lp detection and encryption
 """
 
-import unittest
-import buffer
-import cv2
+# import buffer
+# import cv2
 import detect
-import car as CAR
+# import car as CAR
 import random
 import sys
 import encrypt
@@ -114,45 +113,3 @@ def calculate_knn(buff, result, frame_count):
             buff.cars[n].coords[frame_count] = result[i]['coordinates']
             buff.cars[n].plate.append(result[i]['plate'])
             n += 1
-
-
-"""
-Unit tests for Processing class
-"""
-
-
-class TestProcessing(unittest.TestCase):
-
-    def test_call_detect(self):
-        # Read from video, just one frame to test
-        cap = cv2.VideoCapture("../../test_plates/test_video_short.mp4")
-        ret, frame = cap.read()
-        self.assertTrue(ret)
-
-        buff = buffer.Buffer()
-
-        buff.frames.append(frame)
-
-        call_detect(buff, 0)
-        plate = buff.cars[0].plate
-
-        self.assertEqual("JTX0178", plate)
-
-    def test_clear_plate_area(self):
-        # Read from video, just one frame to test
-        cap = cv2.VideoCapture("../../test_plates/test_video_short.mp4")
-        ret, frame = cap.read()
-        self.assertTrue(ret)
-
-        buff = buffer.Buffer()
-
-        buff.frames.append(frame)
-
-        call_detect(buff, 0)
-
-        clear_plate_area(buff)
-        cv2.imwrite("test_picture.jpg", buff.frames[0])
-
-
-if __name__ == "__main__":
-    unittest.main()

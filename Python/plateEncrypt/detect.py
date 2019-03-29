@@ -2,11 +2,8 @@
 Runs openalpr to detect license plate number for cars
 """
 
-import unittest
 import sys
-import cv2
 from openalpr import Alpr
-import json
 
 
 def detect(frame):
@@ -26,32 +23,3 @@ def detect(frame):
     result = results['results']
 
     return result
-
-
-"""
-Testing Functions
-"""
-
-
-class TestDetect(unittest.TestCase):
-
-    def test_detect_license_plate(self):
-        image_location = "../../test_plates/backup/ea7the.jpg"
-
-        frame = cv2.imread(image_location)
-
-        if frame is None:
-            print("Error loading image")
-            sys.exit(1)
-
-        results = detect(frame)
-        print(results)
-
-        for plate in results:
-            results = plate['plate']
-
-        self.assertEqual("EA7THE", results)
-
-
-if __name__ == '__main__':
-    unittest.main()
