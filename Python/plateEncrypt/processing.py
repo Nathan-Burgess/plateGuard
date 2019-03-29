@@ -27,6 +27,13 @@ def call_detect(buff):
         #     buff.cars[0].coords[i] = plate['coordinates']
         #     buff.cars[0].final_plate = plate['plate']
         #     buff.cars.append(CAR.Car(plate['plate'], plate['coordinates']))
+        # TODO Update after
+
+      #  print(result)
+       # for plate in result:
+        #    buff.cars[0].coords[i] = plate['coordinates']
+         #   buff.cars[0].final_plate = plate['plate']
+            # buff.cars.append(CAR.Car(plate['plate'], plate['coordinates']))
 
 
 # Blanks out license plate area after encrypting
