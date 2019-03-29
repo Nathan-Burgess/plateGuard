@@ -16,7 +16,6 @@ from statistics import mode
 # Calls openALPR and appends results to self.results
 def call_detect(buff):
     # Gets results from openALPR
-    print(len(buff.frames))
     for i in range(len(buff.frames)):
         result = detect.detect(buff.frames[i])
         if result:
@@ -65,13 +64,12 @@ def clear_plate_area(buff):
 
                 strp = strp + "*"
                 strf = car.final_plate + "*" + strc + strp
-                encrypt.encrypt(i, n, strf, car.final_plate, buff.encrypt_path)
+                encrypt.encrypt(buff.frame_num + i, n, strf, car.final_plate, buff.encrypt_path)
 
 
 # Assigns new results from openALPR to correct car object
 # by finding nearest neighbor with delta_min/delta_max
 def calculate_knn(buff, result, frame_count):
-    print(frame_count)
     if frame_count is 0:
         for i, plate in enumerate(result):
             buff.cars[i].coords[0] = plate['coordinates']
@@ -84,7 +82,6 @@ def calculate_knn(buff, result, frame_count):
         coords = -1
         minimum = sys.maxsize
         lp = 'halo'
-        print(car.coords)
         # Check if coordinates are present for the plate
         if car.coords[frame_count-1] is not -1:
             # Loop through plates found
@@ -119,7 +116,7 @@ def calculate_knn(buff, result, frame_count):
     # Add new plates found
     for i in range(len(result)):
         if i not in used_plates:
-            buff.cars[n].coords = result[i]['coordinates']
+            buff.cars[n].coords[frame_count] = result[i]['coordinates']
             buff.cars[n].plate.append(result[i]['plate'])
             n += 1
 

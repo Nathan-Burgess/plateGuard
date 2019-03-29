@@ -12,6 +12,7 @@ class Buffer:
         self.cars = [car.Car() for i in range(10)]
         self.frames = []
         self.num_frames = 0
+        self.frame_num = 0
         self.day_path = ""
         self.encrypt_path = ""
 
