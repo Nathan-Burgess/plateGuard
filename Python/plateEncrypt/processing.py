@@ -2,14 +2,14 @@
 Manages processing of incoming frames, lp detection and encryption
 """
 
-import unittest
-import buffer
-import cv2
+# import buffer
+# import cv2
 import detect
-import car as CAR
+# import car as CAR
 import random
 import sys
 import encrypt
+import json
 from statistics import mode
 
 
@@ -21,24 +21,10 @@ def call_detect(buff):
         if result:
             # Saves results to car per frame
             calculate_knn(buff, result, i)
-        # TODO Update to make sure it's working with actually multiple frames
-        # TODO Update after KNN
-        # for plate in result:
-        #     buff.cars[0].coords[i] = plate['coordinates']
-        #     buff.cars[0].final_plate = plate['plate']
-        #     buff.cars.append(CAR.Car(plate['plate'], plate['coordinates']))
-        # TODO Update after
-
-      #  print(result)
-       # for plate in result:
-        #    buff.cars[0].coords[i] = plate['coordinates']
-         #   buff.cars[0].final_plate = plate['plate']
-            # buff.cars.append(CAR.Car(plate['plate'], plate['coordinates']))
 
 
 # Blanks out license plate area after encrypting
 def clear_plate_area(buff):
-    # TODO call encrypt for each plate
     for car in buff.cars:
         try:
             car.final_plate = mode(car.plate)
@@ -51,14 +37,15 @@ def clear_plate_area(buff):
         for n, car in enumerate(buff.cars):
             strp = ""
             strc = ""
+            data = {'coords':{}, 'pixel_data':[], 'frame':i+buff.frame_num}
             # Get (x1,y1), (x2,y2) coordinates for each plate area
             if car.coords[i] is not -1:
                 a, b, c, d = car.coords[i]
+                data['coords'] = {'x1':a['x'], 'x2':c['x'], 'y1':a['y'], 'y2':c['y']}
                 x1 = int(a['x'])
                 x2 = int(c['x'])
                 y1 = int(a['y'])
                 y2 = int(c['y'])
-                strc = str(x1) + "," + str(y1) + "," + str(x2) + "," + str(y2) + "*"
 
                 # Blank each plate to static
                 for x in range(x1, x2):
@@ -69,9 +56,9 @@ def clear_plate_area(buff):
                         frame.itemset((y, x, 1), random.randint(1, 255))
                         frame.itemset((y, x, 2), random.randint(1, 255))
 
-                strp = strp + "*"
-                strf = car.final_plate + "*" + strc + strp
-                encrypt.encrypt(buff.frame_num + i, n, strf, car.final_plate, buff.encrypt_path)
+                # TODO - change to json dump in byte data
+                bin = json.dumps(data).encode('utf-8')
+                encrypt.encrypt(buff.frame_num + i, n, bin, car.final_plate, buff.encrypt_path)
 
 
 # Assigns new results from openALPR to correct car object
@@ -126,45 +113,3 @@ def calculate_knn(buff, result, frame_count):
             buff.cars[n].coords[frame_count] = result[i]['coordinates']
             buff.cars[n].plate.append(result[i]['plate'])
             n += 1
-
-
-"""
-Unit tests for Processing class
-"""
-
-
-class TestProcessing(unittest.TestCase):
-
-    def test_call_detect(self):
-        # Read from video, just one frame to test
-        cap = cv2.VideoCapture("../../test_plates/test_video_short.mp4")
-        ret, frame = cap.read()
-        self.assertTrue(ret)
-
-        buff = buffer.Buffer()
-
-        buff.frames.append(frame)
-
-        call_detect(buff, 0)
-        plate = buff.cars[0].plate
-
-        self.assertEqual("JTX0178", plate)
-
-    def test_clear_plate_area(self):
-        # Read from video, just one frame to test
-        cap = cv2.VideoCapture("../../test_plates/test_video_short.mp4")
-        ret, frame = cap.read()
-        self.assertTrue(ret)
-
-        buff = buffer.Buffer()
-
-        buff.frames.append(frame)
-
-        call_detect(buff, 0)
-
-        clear_plate_area(buff)
-        cv2.imwrite("test_picture.jpg", buff.frames[0])
-
-
-if __name__ == "__main__":
-    unittest.main()
