@@ -1,11 +1,13 @@
 
 import cv2
 import read
-
+import decrypt
 
 def main():
 
-    read.read_encrypted()
+    files = read.read_encrypted()
+
+    decrypt.print_decrypt(files, "halohalohalohalo")
     path = input("Enter path")
 
     cap = cv2.VideoCapture(path)
