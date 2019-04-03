@@ -6,9 +6,20 @@ import cv2
 import buffer
 import processing
 import save
+import glob
+import os
+import tracking
+
+DEBUG = True
 
 
 def main():
+
+    if DEBUG:
+        files = glob.glob("../20190401/0000/*")
+        for f in files:
+            os.remove(f)
+
     # TODO Change to pipe from ImageDecrypt
     # Read from file to import video
     cap = cv2.VideoCapture("../../test_plates/test_video3.mp4")
@@ -17,6 +28,7 @@ def main():
     # Set up output file
     out = cv2.VideoWriter('../20190401/0000/output.avi', fourcc, 30, (3840, 2160))
 
+    track = tracking.Tracker()
     # Counter for number of frames
     j = 0
     # Return boolean to ensure reading in frames
@@ -36,7 +48,8 @@ def main():
             else:
                 break
         print("Finding Plates...")
-        processing.call_detect(buff)
+        track.frame_counter = 0
+        track.start(buff)
         buff.frame_num = j
         print("Encrypt License Plates...")
         processing.clear_plate_area(buff)

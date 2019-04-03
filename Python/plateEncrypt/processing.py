@@ -10,6 +10,7 @@ import random
 import sys
 import encrypt
 import pickle
+import tracking
 from statistics import mode
 
 
@@ -21,6 +22,7 @@ def call_detect(buff):
         if result:
             # Saves results to car per frame
             calculate_knn(buff, result, i)
+            # Trackers.start(result)
 
 
 # Blanks out license plate area after encrypting
@@ -52,7 +54,6 @@ def clear_plate_area(buff):
                     for y in range(y1, y2):
                         b, g, r = frame[y, x]
                         strp = (b, g, r)
-                        print(strp)
                         data['pixel_data'].append(strp)
                         frame.itemset((y, x, 0), random.randint(1, 255))
                         frame.itemset((y, x, 1), random.randint(1, 255))
