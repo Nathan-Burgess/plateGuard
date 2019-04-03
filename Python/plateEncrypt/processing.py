@@ -51,7 +51,8 @@ def clear_plate_area(buff):
                 for x in range(x1, x2):
                     for y in range(y1, y2):
                         b, g, r = frame[y, x]
-                        strp = strp + "(" + str(b) + "," + str(g) + "," + str(r) + "),"
+                        strp = "(" + str(b) + "," + str(g) + "," + str(r) + ")"
+                        data['pixel_data'].append(strp)
                         frame.itemset((y, x, 0), random.randint(1, 255))
                         frame.itemset((y, x, 1), random.randint(1, 255))
                         frame.itemset((y, x, 2), random.randint(1, 255))
