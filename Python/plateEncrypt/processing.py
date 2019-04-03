@@ -22,7 +22,7 @@ def call_detect(buff):
         if result:
             # Saves results to car per frame
             calculate_knn(buff, result, i)
-            tracking.start(result)
+            # Trackers.start(result)
 
 
 # Blanks out license plate area after encrypting
