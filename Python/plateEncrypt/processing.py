@@ -9,7 +9,7 @@ import detect
 import random
 import sys
 import encrypt
-import json
+import pickle
 from statistics import mode
 
 
@@ -37,11 +37,11 @@ def clear_plate_area(buff):
         for n, car in enumerate(buff.cars):
             strp = ""
             strc = ""
-            data = {'coords':{}, 'pixel_data':[], 'frame':i+buff.frame_num}
+            data = {'coords': {}, 'pixel_data': [], 'frame': i+buff.frame_num}
             # Get (x1,y1), (x2,y2) coordinates for each plate area
             if car.coords[i] is not -1:
                 a, b, c, d = car.coords[i]
-                data['coords'] = {'x1':a['x'], 'x2':c['x'], 'y1':a['y'], 'y2':c['y']}
+                data['coords'] = {'x1': a['x'], 'x2': c['x'], 'y1': a['y'], 'y2': c['y']}
                 x1 = int(a['x'])
                 x2 = int(c['x'])
                 y1 = int(a['y'])
@@ -51,15 +51,15 @@ def clear_plate_area(buff):
                 for x in range(x1, x2):
                     for y in range(y1, y2):
                         b, g, r = frame[y, x]
-                        strp = "(" + str(b) + "," + str(g) + "," + str(r) + ")"
+                        strp = (b, g, r)
+                        print(strp)
                         data['pixel_data'].append(strp)
                         frame.itemset((y, x, 0), random.randint(1, 255))
                         frame.itemset((y, x, 1), random.randint(1, 255))
                         frame.itemset((y, x, 2), random.randint(1, 255))
 
-                # TODO - change to json dump in byte data
-                bin = json.dumps(data).encode('utf-8')
-                encrypt.encrypt(buff.frame_num + i, n, bin, car.final_plate, buff.encrypt_path)
+                bin_data = pickle.dumps(data)
+                encrypt.encrypt(buff.frame_num + i, n, bin_data, car.final_plate, buff.encrypt_path)
 
 
 # Assigns new results from openALPR to correct car object
