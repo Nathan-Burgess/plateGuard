@@ -57,3 +57,11 @@ Python/plateEncrypt/config\.json
 Python/20190401/0000/
 
 test_plates/
+
+Python/plateDecrypt/\.idea/
+
+Python/plateEncrypt/\.idea/
+
+Python/20190401/\.idea/
+
+Python/old/\.idea/

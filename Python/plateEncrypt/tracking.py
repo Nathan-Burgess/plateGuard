@@ -25,13 +25,13 @@ class Tracker:
             if car.coords[self.frame_counter] is not -1:
                 self.bbox[i] = self.convert_to_hw(car.coords[self.frame_counter])
                 self.tracker[i].init(buff.frames[self.frame_counter], self.bbox[i])
+        self.frame_counter += 1
         self.update(buff)
 
     def update(self, buff):
-        self.frame_counter += 1
         ok = True
 
-        if self.frame_counter >= 60:
+        if self.frame_counter >= len(buff.frames):
             return
 
         while ok:
@@ -42,7 +42,7 @@ class Tracker:
                 # Update coordinates on car
                 if ok:
                     buff.cars[i].coords[self.frame_counter] = self.convert_to_xy(self.bbox[i])
-            if self.frame_counter >= 60:
+            if self.frame_counter >= len(buff.frames):
                 return
             self.frame_counter += 1
 
@@ -61,9 +61,27 @@ class Tracker:
         return x, y, width, height
 
     def convert_to_xy(self, coords):
+        # Converts back to x,y from x,y,width,height
+        # Also checks to ensure in the bounds of the frame
         a = {'x': coords[0], 'y': coords[1]}
+        if a['x'] < 0:
+            a['x'] = 0
+        if a['y'] < 0:
+            a['y'] = 0
         b = {'x': coords[0]+coords[2], 'y': coords[1]}
+        if b['x'] >= 3840:
+            b['x'] = 3839
+        if b['y'] < 0:
+            b['y'] = 0
         c = {'x': coords[0]+coords[2], 'y': coords[1]+coords[3]}
+        if c['x'] >= 3840:
+            c['x'] = 3839
+        if c['y'] >= 2160:
+            c['y'] = 2159
         d = {'x': coords[0], 'y': coords[1]+coords[3]}
+        if d['x'] < 0:
+            d['x'] = 0
+        if d['y'] >= 2160:
+            d['y'] = 2159
 
         return a, b, c, d
