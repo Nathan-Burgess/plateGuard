@@ -44,7 +44,7 @@ def main():
         buff.encrypt_path = "../20190401/0000/"
         # Read in frames
         print("Read in frames...")
-        for i in range(200):
+        for i in range(27000):
             ret, frame = cap.read()
             if ret is True:
                 buff.frames.append(frame)

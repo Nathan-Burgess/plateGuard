@@ -61,7 +61,7 @@ def clear_plate_area(buff):
                         frame.itemset((y, x, 2), random.randint(1, 255))
 
                 bin_data = pickle.dumps(data)
-                encrypt.encrypt(buff.frame_num + i, n, bin_data, car.final_plate, buff.encrypt_path)
+                encrypt.encrypt(buff.frame_num + i, n, bin_data, car.final_plate.upper(), buff.encrypt_path)
 
 
 # Assigns new results from openALPR to correct car object
