@@ -35,7 +35,7 @@ def decrypt_frame(data, frame):
     y2 = data['coords']['y2']
 
     a = 0
-    for x in range(x1, x2):
+    for x in range(int(x1), int(x2)):
         for y in range(int(y1), int(y2)):
             b,g,r  = data["pixel_data"][a]
             frame.itemset((y, x, 0), b)

@@ -6,7 +6,7 @@ import save
 
 
 def main():
-    key = "LNH3046"
+    key = input("Enter Plate#:").upper()
     key = (key * 16)[0:16]
 
     files = read.read_encrypted()
