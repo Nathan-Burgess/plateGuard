@@ -9,6 +9,7 @@ import save
 import glob
 import os
 import tracking
+import dcounter
 
 DEBUG = True
 
@@ -34,6 +35,8 @@ def main():
     # Return boolean to ensure reading in frames
     ret = True
 
+    d_counter = dcounter.DCounter()
+
     # Loops through while video is reading in
     while ret:
         # Initialize buffer object
@@ -50,6 +53,8 @@ def main():
         print("Finding Plates...")
         track.frame_counter = 0
         track.start(buff)
+        for i in range(1, len(buff.frames)):
+            track.update(buff, d_counter)
         buff.frame_num = j
         print("Encrypt License Plates...")
         processing.clear_plate_area(buff)

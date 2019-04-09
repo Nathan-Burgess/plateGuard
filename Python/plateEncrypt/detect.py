@@ -22,4 +22,6 @@ def detect(frame):
     results = alpr.recognize_ndarray(frame)
     result = results['results']
 
+    alpr.unload()
+
     return result

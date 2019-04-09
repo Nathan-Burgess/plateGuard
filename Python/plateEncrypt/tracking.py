@@ -3,7 +3,6 @@ import cv2
 import detect
 import processing
 
-
 class Tracker:
     def __init__(self):
         self.tracker = []
@@ -26,12 +25,12 @@ class Tracker:
                 self.bbox[i] = self.convert_to_hw(car.coords[self.frame_counter])
                 self.tracker[i].init(buff.frames[self.frame_counter], self.bbox[i])
         self.frame_counter += 1
-        self.update(buff)
 
-    def update(self, buff):
+    def update(self, buff, d_counter):
         ok = True
 
-        if self.frame_counter >= len(buff.frames):
+        if d_counter.counter is d_counter.max:
+            self.start(buff)
             return
 
         while ok:
@@ -42,15 +41,13 @@ class Tracker:
                 # Update coordinates on car
                 if ok:
                     buff.cars[i].coords[self.frame_counter] = self.convert_to_xy(self.bbox[i])
-            if self.frame_counter >= len(buff.frames):
-                return
             self.frame_counter += 1
+
+        d_counter.update_counter()
 
         if buff.cars[i].coords[self.frame_counter-2] is not -1:
             print("Lost Tracker")
             self.start(buff)
-        else:
-            self.update(buff)
 
     def convert_to_hw(self, coords):
         x = coords[0]['x']
