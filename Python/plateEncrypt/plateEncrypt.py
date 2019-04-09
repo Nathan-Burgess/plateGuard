@@ -44,7 +44,7 @@ def main():
         buff.encrypt_path = "../20190401/0000/"
         # Read in frames
         print("Read in frames...")
-        for i in range(60):
+        for i in range(200):
             ret, frame = cap.read()
             if ret is True:
                 buff.frames.append(frame)
@@ -52,8 +52,9 @@ def main():
                 break
         print("Finding Plates...")
         track.frame_counter = 0
-        track.start(buff)
+        track.start(buff, d_counter)
         for i in range(1, len(buff.frames)):
+            print(d_counter.counter)
             track.update(buff, d_counter)
         buff.frame_num = j
         print("Encrypt License Plates...")

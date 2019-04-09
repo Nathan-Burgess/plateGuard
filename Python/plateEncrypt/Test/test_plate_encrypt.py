@@ -53,6 +53,7 @@ class TestDetect(unittest.TestCase):
             sys.exit(1)
 
         results = detect.detect(frame)
+        print(results[0])
 
         self.assertTrue(results)
 

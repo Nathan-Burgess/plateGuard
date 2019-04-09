@@ -9,7 +9,9 @@ class DCounter:
         self.max = 1
 
     def update_counter(self):
-        if self.max <= 30:
+        if self.max < 30:
             self.max *= 3
+            if self.max > 30:
+                self.max = 30
         else:
             self.max = 1
