@@ -23,7 +23,7 @@ def main():
 
     # TODO Change to pipe from ImageDecrypt
     # Read from file to import video
-    cap = cv2.VideoCapture("../../test_plates/test_video3.mp4")
+    cap = cv2.VideoCapture("../../test_plates/test_video5.mp4")
     # Something for writing out the video, codec related probably
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     # Set up output file
@@ -44,7 +44,7 @@ def main():
         buff.encrypt_path = "../20190401/0000/"
         # Read in frames
         print("Read in frames...")
-        for i in range(27000):
+        for i in range(400):
             ret, frame = cap.read()
             if ret is True:
                 buff.frames.append(frame)

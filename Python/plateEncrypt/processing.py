@@ -28,12 +28,13 @@ def call_detect(buff):
 # Blanks out license plate area after encrypting
 def clear_plate_area(buff):
     for car in buff.cars:
-        print(car.plate)
-        try:
-            car.final_plate = mode(car.plate)
-        except:
-            car.final_plate = "halo"
-        print("Final: " + car.final_plate)
+        if car.plate:
+            try:
+                car.final_plate.append(mode(car.plate))
+            except:
+                car.final_plate.append("halo")
+            print("After mode: " + str(car.final_plate))
+
     # Loop through all frames in buffer
     for i, frame in enumerate(buff.frames):
         # Loop through cars per frame
@@ -43,6 +44,7 @@ def clear_plate_area(buff):
             data = {'coords': {}, 'pixel_data': [], 'frame': i+buff.frame_num}
             # Get (x1,y1), (x2,y2) coordinates for each plate area
             if car.coords[i] is not -1:
+                print("In if " + str(car.final_plate))
                 a, b, c, d = car.coords[i]
                 data['coords'] = {'x1': a['x'], 'x2': c['x'], 'y1': a['y'], 'y2': c['y']}
                 x1 = int(a['x'])
@@ -61,7 +63,11 @@ def clear_plate_area(buff):
                         frame.itemset((y, x, 2), random.randint(1, 255))
 
                 bin_data = pickle.dumps(data)
-                encrypt.encrypt(buff.frame_num + i, n, bin_data, car.final_plate.upper(), buff.encrypt_path)
+                encrypt.encrypt(buff.frame_num + i, n, bin_data, car.final_plate[0].upper(), buff.encrypt_path)
+            else:
+                if car.coords[i-1] is not -1 and len(car.final_plate) > 1:
+                    car.final_plate.pop(0)
+                print("After potential pop: " + str(car.final_plate))
 
 
 # Assigns new results from openALPR to correct car object

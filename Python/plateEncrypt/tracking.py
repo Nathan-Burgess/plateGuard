@@ -2,6 +2,7 @@
 import cv2
 import detect
 import processing
+from statistics import mode
 
 
 class Tracker:
@@ -47,6 +48,16 @@ class Tracker:
                     buff.cars[i].coords[self.frame_counter] = self.convert_to_xy(self.bbox[i])
             self.frame_counter += 1
             d_counter.counter += 1
+
+        # Check if car has left frame
+        for car in buff.cars:
+            if car.coords[self.frame_counter-1] is -1 and car.coords[self.frame_counter-2] is not -1:
+                try:
+                    car.final_plate.append(mode(car.plate))
+                except:
+                    car.final_plate.append("halo")
+                print(car.final_plate[-1])
+                car.plate.clear()
 
         if buff.cars[i].coords[self.frame_counter-2] is not -1:
             print("Lost Tracker")
