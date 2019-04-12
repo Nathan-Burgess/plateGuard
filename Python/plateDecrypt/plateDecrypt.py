@@ -35,7 +35,7 @@ def main():
         # Initialize buffer object
         # Read in frames
         print("Read in frames...")
-        for i in range(60):
+        for i in range(300):
             ret, frame = cap.read()
             if ret is True:
                 z = i+j
@@ -51,7 +51,7 @@ def main():
         print("Finding Plates...")
 
 
-        j += 60
+        j += 300
         print("Saving Buffer...")
         # save.save_frame(buff, out)
 

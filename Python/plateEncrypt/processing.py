@@ -28,12 +28,12 @@ def call_detect(buff):
 # Blanks out license plate area after encrypting
 def clear_plate_area(buff):
     for car in buff.cars:
-        print(car.plate)
         try:
             car.final_plate = mode(car.plate)
         except:
             car.final_plate = "halo"
-        print("Final: " + car.final_plate)
+        if car.final_plate is not "halo":
+            print("Final: " + car.final_plate)
     # Loop through all frames in buffer
     for i, frame in enumerate(buff.frames):
         # Loop through cars per frame
