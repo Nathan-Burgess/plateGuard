@@ -3,6 +3,7 @@ import cv2
 import read
 import decrypt
 import save
+import datetime
 
 
 def main():
@@ -15,7 +16,9 @@ def main():
     # path = input("Enter path")
     path = '../20190401/0000/output.avi'
     cap = cv2.VideoCapture(path)
-    frame_nums=[]
+    frame_nums = []
+
+    plate_found = False
 
     for h in hits:
         frame_nums.append(h['frame'])
@@ -40,7 +43,11 @@ def main():
             if ret is True:
                 z = i+j
                 if z in frame_nums:
-                    print("decrypting at frame" + str(z))
+                    if not plate_found:
+                        plate_found = True
+                        timestamp = z / 30
+                        print("Plate found at " + str(datetime.timedelta(seconds=timestamp)) + " minutes.")
+                    # print("decrypting at frame" + str(z))
                     data_d = give_data(hits, z)
                     new_frame = decrypt.decrypt_frame(data_d, frame)
                     save.save_frame(new_frame, out)
