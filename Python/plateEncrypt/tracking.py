@@ -13,6 +13,8 @@ class Tracker:
         self.frame_counter = 0
 
     def start(self, buff, d_counter):
+        print(".")
+        self.length['new'] = 0
         d_counter.counter = 0
         # Calls openalpr and receives results
         results = detect.detect(buff.frames[self.frame_counter])
@@ -27,10 +29,18 @@ class Tracker:
             if car.coords[self.frame_counter] is not -1:
                 self.bbox[i] = self.convert_to_hw(car.coords[self.frame_counter])
                 self.tracker[i].init(buff.frames[self.frame_counter], self.bbox[i])
+                self.length['new'] += 1
+
+        if self.length['new'] is not self.length['old']:
+            d_counter.max = 1
+
+        self.length['old'] = self.length['new']
+
         self.frame_counter += 1
         d_counter.counter += 1
 
     def update(self, buff, d_counter):
+        print("." * d_counter.counter)
         ok = True
 
         if d_counter.counter >= d_counter.max:

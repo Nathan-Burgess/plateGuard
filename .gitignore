@@ -67,3 +67,7 @@ Python/20190401/\.idea/
 Python/old/\.idea/
 
 *.pyc
+
+*.avi
+
+Python/plateEncrypt/output\.png
