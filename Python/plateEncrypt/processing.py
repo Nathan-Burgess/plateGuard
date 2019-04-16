@@ -13,6 +13,7 @@ import pickle
 import tracking
 from statistics import mode
 
+DEBUG = True
 
 # Calls openALPR and appends results to self.results
 def call_detect(buff):
@@ -32,7 +33,7 @@ def clear_plate_area(buff):
             car.final_plate = mode(car.plate)
         except:
             car.final_plate = "halo"
-        if car.final_plate is not "halo":
+        if car.final_plate is not "halo" and DEBUG:
             print("Final: " + car.final_plate)
     # Loop through all frames in buffer
     for i, frame in enumerate(buff.frames):

@@ -27,7 +27,7 @@ def main():
 
     # TODO Change to pipe from ImageDecrypt
     # Read from file to import video
-    cap = cv2.VideoCapture("../../test_plates/test_video3.mp4")
+    cap = cv2.VideoCapture("../../test_plates/test_video6.mp4")
     # Something for writing out the video, codec related probably
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     # Set up output file
@@ -41,6 +41,7 @@ def main():
 
     d_counter = dcounter.DCounter()
 
+    k = 0
     # Loops through while video is reading in
     while ret:
         # Initialize buffer object
@@ -55,6 +56,7 @@ def main():
                 buff.frames.append(frame)
             else:
                 break
+        d_counter.max = 1
         total_frames += i
         print("Finding Plates...")
         track.frame_counter = 0
@@ -64,12 +66,16 @@ def main():
             track.update(buff, d_counter)
         buff.frame_num = j
         total_time += (time.time() - start)
+
         print("Encrypt License Plates...")
         processing.clear_plate_area(buff)
         j += 300
         print("Saving Buffer...")
         save.save_frame(buff, out)
         buff.frames.clear()
+        k += 1
+        if k is 6:
+            break
 
     cap.release()
     out.release()

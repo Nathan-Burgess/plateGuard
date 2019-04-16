@@ -50,14 +50,12 @@ def main():
                 break
         print("Finding Plates...")
 
-
         j += 300
         print("Saving Buffer...")
         # save.save_frame(buff, out)
 
     cap.release()
     out.release()
-
 
 
 def give_data(hits, num):
