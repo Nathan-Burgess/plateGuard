@@ -17,7 +17,7 @@ class Server:
 
         self.sock.bind(('', self.port))
         self.sock.listen(1)
-        self.end = 'halo'
+        self.end = 'halo'.encode()
         self.key = ""
 
     def handshake(self, client):
@@ -70,6 +70,7 @@ if __name__ == "__main__":
         s.handshake(client)
         s.receiveframes(client, buff)
         print("Writing picture to file...")
-        cv2.imwrite("unencrypted.jpg", buff.encrypted_frames[0])
+        frame2 = cv2.imdecode(numpy.frombuffer(buff.encrypted_frames[0], numpy.uint8), -1)
+        cv2.imwrite("unencrypted.jpg", frame2)
         # s.decryptframes(buff)
         client.close()
