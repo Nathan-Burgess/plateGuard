@@ -48,7 +48,9 @@ class Server:
                     break
         frame = ''
         for part in total_data:
-            frame += cv2.imdecode(numpy.frombuffer(part, numpy.uint8), -1)
+            frame += part
+
+        frame = cv2.imdecode(numpy.frombuffer(frame, numpy.uint8), -1)
         print("Saving picture to buffer...")
         buff.encrypted_frames.append(frame)
 
