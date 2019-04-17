@@ -33,7 +33,7 @@ class Server:
         total_data = []
         data = ''
 
-        for i in range(2):
+        for i in range(300):
             while True:
                 data = client.recv(8192)
                 if self.end in data:
@@ -52,6 +52,7 @@ class Server:
                 frame += part
 
             buff.encrypted_frames.append(frame)
+        cv2.imwrite("encrypted.jpg", buff.encrypted_frames[0])
 
     def decryptframes(self, buff):
         for i, frame in enumerate(buff.encrypted_frames):
