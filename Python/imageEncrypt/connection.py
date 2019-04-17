@@ -29,3 +29,9 @@ def connect_to_host(host_name, port, s):
 def send_message(message, s):
 
     s.sendall(message)
+
+
+def recv_message(bytes, s):
+
+    return s.recv(bytes)
+

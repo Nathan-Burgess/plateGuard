@@ -11,8 +11,7 @@ def set_salsa():
     return cipher
 
 
-def set_chacha():
-    key = b'12345678912345671234567891234567'
+def set_chacha(key):
     cipher = ChaCha20.new(key=key)
     return cipher
 
