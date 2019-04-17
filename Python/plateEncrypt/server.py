@@ -46,8 +46,11 @@ class Server:
                     total_data[-2] = last_pair[:last_pair.find(self.end)]
                     total_data.pop()
                     break
+        frame = ''
+        for part in total_data:
+            frame += cv2.imdecode(numpy.frombuffer(part, numpy.uint8), -1)
         print("Saving picture to buffer...")
-        buff.encrypted_frames.append(total_data)
+        buff.encrypted_frames.append(frame)
 
     def decryptframes(self, buff):
         for frame in buff.encrypted_frames:
@@ -72,7 +75,7 @@ if __name__ == "__main__":
         print("Writing picture to file...")
         frame = buff.encrypted_frames[0]
         print(frame)
-        frame2 = cv2.imdecode(numpy.frombuffer(frame, numpy.uint8), -1)
+        frame2 = cv2.imdecode(numpy.frombuffer(frame[0], numpy.uint8), -1)
         cv2.imwrite("unencrypted.jpg", frame2)
         # s.decryptframes(buff)
         client.close()
