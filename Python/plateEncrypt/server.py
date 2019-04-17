@@ -61,6 +61,7 @@ class Server:
             cipher = ChaCha20.new(key=self.key, nonce=nounce)
             decoded = cipher.decrypt(ciphertext)
             frame2 = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
+            print("Writing picture to file")
             cv2.imwrite("decoded.jpg", frame2)
             buff.frames.append(frame2)
 
@@ -74,9 +75,9 @@ if __name__ == "__main__":
         print("Client connected from " + str(addr))
         s.handshake(client)
         s.receiveframes(client, buff)
-        print("Writing picture to file...")
-        frame = buff.encrypted_frames[0]
-        print(frame)
-        cv2.imwrite("unencrypted.jpg", frame)
-        # s.decryptframes(buff)
+        # print("Writing picture to file...")
+        # frame = buff.encrypted_frames[0]
+        # print(frame)
+        # cv2.imwrite("unencrypted.jpg", frame)
+        s.decryptframes(buff)
         client.close()
