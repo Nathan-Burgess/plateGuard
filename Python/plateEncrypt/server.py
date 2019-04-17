@@ -10,10 +10,9 @@ class Server:
         else:
             self.sock = sock
 
-        self.hostname = socket.gethostname()
         self.port = 3000
 
-        self.sock.bind((self.hostname, self.port))
+        self.sock.bind(('', self.port))
         self.sock.listen(1)
 
     def handshake(self, client):
@@ -21,7 +20,7 @@ class Server:
         print("Received partial key...")
         key = get_random_bytes(16)
         print("Built full key...")
-        key += halfkey
+        key = halfkey + key
         print("Sending key...")
         client.sendall(key)
 
