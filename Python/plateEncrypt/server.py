@@ -77,7 +77,6 @@ if __name__ == "__main__":
         print("Writing picture to file...")
         frame = buff.encrypted_frames[0]
         print(frame)
-        frame2 = cv2.imdecode(numpy.frombuffer(frame[0], numpy.uint8), -1)
-        cv2.imwrite("unencrypted.jpg", frame2)
+        cv2.imwrite("unencrypted.jpg", frame)
         # s.decryptframes(buff)
         client.close()
