@@ -50,8 +50,6 @@ class Server:
         for part in total_data[1:]:
             frame += part
 
-        frame = cv2.imdecode(numpy.frombuffer(frame, numpy.uint8), -1)
-        print("Saving picture to buffer...")
         buff.encrypted_frames.append(frame)
 
     def decryptframes(self, buff):
