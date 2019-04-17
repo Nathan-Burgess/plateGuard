@@ -69,4 +69,5 @@ if __name__ == "__main__":
         print("Client connected from " + str(addr))
         s.handshake(client)
         s.receiveframes(client, buff)
-        s.decryptframes(buff)
+        cv2.imwrite("unencrypted.jpg", buff.encrypted_frames[0])
+        # s.decryptframes(buff)
