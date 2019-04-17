@@ -2,8 +2,9 @@ import numpy as np
 
 import cv2
 import encrypt
+import connection
 from Crypto.Cipher import ChaCha20
-
+from Crypto.Random import get_random_bytes
 
 def main():
     # Read from file to import video
@@ -12,6 +13,14 @@ def main():
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     # Set up output file
     out = cv2.VideoWriter('../imageFiles/output.avi', fourcc, 30, (3840, 2160))
+
+    s = connection.start_connection()
+    host_ip = connection.connect_to_host("vmware.cse.unt.edu", 3000, s)
+    print("the socket has successfully connected")
+
+    key = get_random_bytes(16)
+    connection.send_message(key, s)
+    
 
     ret = True
     # cipher = encrypt.set_salsa()
