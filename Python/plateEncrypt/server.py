@@ -70,7 +70,9 @@ if __name__ == "__main__":
         s.handshake(client)
         s.receiveframes(client, buff)
         print("Writing picture to file...")
-        frame2 = cv2.imdecode(numpy.frombuffer(buff.encrypted_frames[0], numpy.uint8), -1)
+        frame = buff.encrypted_frames[0]
+        print(frame)
+        frame2 = cv2.imdecode(numpy.frombuffer(frame, numpy.uint8), -1)
         cv2.imwrite("unencrypted.jpg", frame2)
         # s.decryptframes(buff)
         client.close()
