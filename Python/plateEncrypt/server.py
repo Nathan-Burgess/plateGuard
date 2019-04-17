@@ -46,7 +46,7 @@ class Server:
                     total_data[-2] = last_pair[:last_pair.find(self.end)]
                     total_data.pop()
                     break
-
+        print("Saving picture to buffer...")
         buff.encrypted_frames.append(total_data)
 
     def decryptframes(self, buff):
@@ -69,5 +69,6 @@ if __name__ == "__main__":
         print("Client connected from " + str(addr))
         s.handshake(client)
         s.receiveframes(client, buff)
+        print("Writing picture to file...")
         cv2.imwrite("unencrypted.jpg", buff.encrypted_frames[0])
         # s.decryptframes(buff)
