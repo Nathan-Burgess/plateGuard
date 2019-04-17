@@ -1,6 +1,9 @@
 import socket
-from Crypto.Cipher import Salsa20
+import numpy
+from Crypto.Cipher import ChaCha20
 from Crypto.Random import get_random_bytes
+import buffer
+import cv2
 
 
 class Server:
@@ -14,27 +17,56 @@ class Server:
 
         self.sock.bind(('', self.port))
         self.sock.listen(1)
+        self.end = 'halo'.encode()
+        self.key = ""
 
     def handshake(self, client):
         halfkey = client.recv(16)
         print("Received partial key...")
-        key = get_random_bytes(16)
+        self.key = get_random_bytes(16)
         print("Built full key...")
-        key = halfkey + key
+        self.key = halfkey + self.key
         print("Sending key...")
-        client.sendall(key)
+        client.sendall(self.key)
 
-    def receiveframes(self, buff):
-        return
+    def receiveframes(self, client, buff):
+        total_data = []
+        data = ''
+
+        while True:
+            data = client.recv(8192)
+            if self.end in data:
+                total_data.append(data[:data.find(self.end)])
+                break
+            total_data.append(data)
+            if len(total_data) > 1:
+                # check if end_of_data was split
+                last_pair = total_data[-2] + total_data[-1]
+                if self.end in last_pair:
+                    total_data[-2] = last_pair[:last_pair.find(self.end)]
+                    total_data.pop()
+                    break
+
+        buff.encrypted_frames.append(total_data)
 
     def decryptframes(self, buff):
-        return
+        for frame in buff.encrypted_frames:
+            nounce = frame[:8]
+            ciphertext = frame[8:]
+            cipher = ChaCha20.new(key=self.key, nonce=nounce)
+            decoded = cipher.decrypt(ciphertext)
+            frame2 = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
+            cv2.imwrite("decoded.jpg", frame2)
+            buff.frames.append(frame2)
 
 
 if __name__ == "__main__":
     s = Server()
+    buff = buffer.Buffer()
     while True:
         print("Waiting for client")
         client, addr = s.sock.accept()
         print("Client connected from " + str(addr))
         s.handshake(client)
+        s.receiveframes(client, buff)
+        s.decryptframes(buff)

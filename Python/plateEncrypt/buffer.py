@@ -12,3 +12,4 @@ class Buffer:
         self.frames = []
         self.frame_num = 0
         self.encrypt_path = ""
+        self.encrypted_frames = []
