@@ -3,12 +3,12 @@ import unittest
 from Crypto.Cipher import AES
 import pickle
 
+
 def print_decrypt(files, key):
 
     FRAMES = []
     keys = key.encode()
     for file in files:
-
 
         file_in = open(file, "rb")
         nonce, tag, ciphertext = [ file_in.read(x) for x in (16, 16, -1) ]
@@ -26,9 +26,10 @@ def print_decrypt(files, key):
 
     return FRAMES
 
+
 def decrypt_frame(data, frame):
 
-   # for b, g, r in data['pixel_data']:
+    # for b, g, r in data['pixel_data']:
     x1 = data['coords']['x1']
     x2 = data['coords']['x2']
     y1 = data['coords']['y1']
