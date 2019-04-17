@@ -46,8 +46,8 @@ class Server:
                     total_data[-2] = last_pair[:last_pair.find(self.end)]
                     total_data.pop()
                     break
-        frame = ''
-        for part in total_data:
+        frame = total_data[0]
+        for part in total_data[1:]:
             frame += part
 
         frame = cv2.imdecode(numpy.frombuffer(frame, numpy.uint8), -1)
