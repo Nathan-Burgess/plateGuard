@@ -1,9 +1,7 @@
-import numpy as np
 
 import cv2
 import encrypt
 import connection
-from Crypto.Cipher import ChaCha20
 from Crypto.Random import get_random_bytes
 
 def main():
@@ -31,19 +29,21 @@ def main():
     #Setting up cipher with correct key
     cipher = encrypt.set_chacha(key)
 
-
     while ret:
         for i in range(300):
             ret, frame = cap.read()
             if ret is True:
-                #encrypting frame
+                #Encrypting frame
                 output = encrypt.encrypt_chacha(frame, cipher)
                 #adding ending terminator
                 output = output + str.encode("halo")
-                #sending frame
+                print("About to send a message")
                 connection.send_message(output, s)
+                print("Sent a message")
             else:
                 break
+            i += 1
+
 
         ret = False
 
