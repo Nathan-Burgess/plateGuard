@@ -19,36 +19,43 @@ def main():
     print("the socket has successfully connected")
 
     key = get_random_bytes(16)
+    print(key)
     connection.send_message(key, s)
-    
+
+    key = connection.recv_message(32, s)
+    print(key)
 
     ret = True
     # cipher = encrypt.set_salsa()
-    cipher = encrypt.set_chacha()
+    cipher = encrypt.set_chacha(key)
 
 
     while ret:
-        for i in range(1):
+        for i in range(300):
             ret, frame = cap.read()
             print(frame)
             cv2.imwrite("origional.jpg", frame)
             if ret is True:
                # encrypt.encrypt_salsa(frame, cipher)
                # encrypt.encrypt_AES(frame)
-               output = encrypt.encrypt_chacha(frame, cipher)
+                data = cv2.imencode('.jpg', frame)[1].tostring()
+                data = data + str.encode("halo")
+                output = encrypt.encrypt_chacha(frame, cipher)
+                output = output + str.encode("halo")
+                connection.send_message(output, s)
             else:
                 break
 
         print("Finding Plates...NOTTTTTTTT")
-        key = b'12345678912345671234567891234567'
-        nounce = output[:8]
-        ciphertext = output[8:]
-        cipher = ChaCha20.new(key=key, nonce=nounce)
-        decoded = cipher.decrypt(ciphertext)
+       # nounce = output[:8]
+       # ciphertext = output[8:]
+       # cipher = ChaCha20.new(key=key, nonce=nounce)
+       # decoded = cipher.decrypt(ciphertext)
         #frame2 = cv2.imdecode(decoded, cv2.IMREAD_COLOR)
-        frame2 = cv2.imdecode(np.frombuffer(decoded, np.uint8), -1)
-        cv2.imwrite("decoded.jpg", frame2)
-        print(frame2)
+        #frame2 = cv2.imdecode(np.frombuffer(data, np.uint8), -1)
+        #cv2.imwrite("deco2ded.jpg", frame2)
+        #print(frame2)
+        print(data)
         ret = False
 
 
