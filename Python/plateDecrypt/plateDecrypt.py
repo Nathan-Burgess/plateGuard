@@ -46,7 +46,7 @@ def main():
                     if not plate_found:
                         plate_found = True
                         timestamp = z / 30
-                        print("Plate found at " + str(datetime.timedelta(seconds=timestamp)) + " minutes.")
+                        print("Plate found at " + str(datetime.timedelta(seconds=timestamp)))
                     # print("decrypting at frame" + str(z))
                     data_d = give_data(hits, z)
                     new_frame = decrypt.decrypt_frame(data_d, frame)

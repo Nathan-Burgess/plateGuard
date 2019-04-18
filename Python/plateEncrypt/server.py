@@ -33,6 +33,7 @@ class Server:
         total_data = []
         data = ''
 
+        print("Starting to receive frames...")
         for i in range(300):
             while True:
                 data = client.recv(8192)
@@ -51,6 +52,7 @@ class Server:
             for part in total_data[1:]:
                 frame += part
 
+            print("Inserting frame " + str(i+1) + " to buffer")
             buff.encrypted_frames.append(frame)
         cv2.imwrite("encrypted.jpg", buff.encrypted_frames[0])
 
