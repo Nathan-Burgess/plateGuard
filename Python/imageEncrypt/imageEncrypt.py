@@ -29,22 +29,22 @@ def main():
     # cipher = encrypt.set_salsa()
     cipher = encrypt.set_chacha(key)
 
-
     while ret:
         for i in range(300):
-            ret, frame = cap.read()
-            print(frame)
-            cv2.imwrite("origional.jpg", frame)
-            if ret is True:
-               # encrypt.encrypt_salsa(frame, cipher)
-               # encrypt.encrypt_AES(frame)
-                data = cv2.imencode('.jpg', frame)[1].tostring()
-                data = data + str.encode("halo")
-                output = encrypt.encrypt_chacha(frame, cipher)
-                output = output + str.encode("halo")
-                connection.send_message(output, s)
-            else:
-                break
+            if i % 2 is 0:
+                ret, frame = cap.read()
+                print(frame)
+                cv2.imwrite("origional.jpg", frame)
+                if ret is True:
+                    # encrypt.encrypt_salsa(frame, cipher)
+                    # encrypt.encrypt_AES(frame)
+                    data = cv2.imencode('.jpg', frame)[1].tostring()
+                    data = data + str.encode("halo")
+                    output = encrypt.encrypt_chacha(frame, cipher)
+                    output = output + str.encode("halo")
+                    connection.send_message(output, s)
+                else:
+                    break
 
         print("Finding Plates...NOTTTTTTTT")
        # nounce = output[:8]
