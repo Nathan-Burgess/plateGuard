@@ -31,20 +31,20 @@ def main():
 
     while ret:
         for i in range(300):
-            if i % 2 is 0:
-                ret, frame = cap.read()
-                print(frame)
-                cv2.imwrite("origional.jpg", frame)
-                if ret is True:
-                    # encrypt.encrypt_salsa(frame, cipher)
-                    # encrypt.encrypt_AES(frame)
-                    data = cv2.imencode('.jpg', frame)[1].tostring()
-                    data = data + str.encode("halo")
-                    output = encrypt.encrypt_chacha(frame, cipher)
-                    output = output + str.encode("halo")
-                    connection.send_message(output, s)
-                else:
-                    break
+            ret, frame = cap.read()
+            print(frame)
+            cv2.imwrite("origional.jpg", frame)
+            if ret is True:
+                # encrypt.encrypt_salsa(frame, cipher)
+                # encrypt.encrypt_AES(frame)
+                output = encrypt.encrypt_chacha(frame, cipher)
+                output = output + str.encode("halo")
+                print("About to send a message")
+                connection.send_message(output, s)
+                print("Sent a message")
+            else:
+                break
+            i += 1
 
         print("Finding Plates...NOTTTTTTTT")
        # nounce = output[:8]
@@ -55,7 +55,6 @@ def main():
         #frame2 = cv2.imdecode(np.frombuffer(data, np.uint8), -1)
         #cv2.imwrite("deco2ded.jpg", frame2)
         #print(frame2)
-        print(data)
         ret = False
 
 

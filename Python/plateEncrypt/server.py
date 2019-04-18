@@ -4,6 +4,7 @@ from Crypto.Cipher import ChaCha20
 from Crypto.Random import get_random_bytes
 import buffer
 import cv2
+import sys
 
 
 class Server:
@@ -77,7 +78,12 @@ if __name__ == "__main__":
         client, addr = s.sock.accept()
         print("Client connected from " + str(addr))
         s.handshake(client)
-        s.receiveframes(client, buff)
+        print("About to receive")
+        try:
+            s.receiveframes(client, buff)
+        except KeyboardInterrupt:
+            client.close()
+            sys.exit()
         # print("Writing picture to file...")
         # frame = buff.encrypted_frames[0]
         # print(frame)
