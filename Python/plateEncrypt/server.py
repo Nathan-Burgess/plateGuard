@@ -59,7 +59,7 @@ class Server:
         cipher = ChaCha20.new(key=self.key, nonce=nounce)
         decoded = cipher.decrypt(ciphertext)
         print("Decoded size " + str(len(decoded)))
-        frame = numpy.fromstring(decoded.decode("utf-16"), numpy.uint8)
+        frame = numpy.fromstring(decoded.decode("ascii"), numpy.uint8)
         frame2 = cv2.imdecode(frame, cv2.IMREAD_COLOR)  # cv2.IMREAD_COLOR in OpenCV 3.1
         outname = "decoded_" + str(i+1) + ".jpg"
         print("Frame2 size: " + str(len(frame2)))
