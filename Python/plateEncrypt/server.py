@@ -50,7 +50,7 @@ class Server:
         for part in total_data[1:]:
             frame += part
 
-        buff.encrypted_frames.append(frame)
+        buff.encrypted_frames = frame
 
     def decryptframes(self, buff, i):
         frame = buff.encrypted_frames
