@@ -33,9 +33,11 @@ class Server:
         total_data = []
         data = ''
 
-        frame_size = client.recv(1024)
-        print(frame_size)
+        fsize = client.recv(1024)
+        print(f.decode())
         count = 8192
+
+        frame_size = int(fsize.decode)
 
         while frame_size:
             if frame_size < count:
