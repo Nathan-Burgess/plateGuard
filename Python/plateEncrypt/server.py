@@ -34,7 +34,7 @@ class Server:
         data = ''
 
         fsize = client.recv(1024)
-        print(f.decode())
+        print(fsize.decode())
         count = 8192
 
         frame_size = int(fsize.decode)
