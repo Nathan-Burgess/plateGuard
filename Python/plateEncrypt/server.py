@@ -49,7 +49,7 @@ class Server:
         frame = total_data[0]
         for part in total_data[1:]:
             frame += part
-
+        print("Frame size: " + str(len(frame)))
         buff.encrypted_frames.append(frame)
 
     def decryptframes(self, buff, i):
@@ -59,7 +59,7 @@ class Server:
         cipher = ChaCha20.new(key=self.key, nonce=nounce)
         decoded = cipher.decrypt(ciphertext)
         frame2 = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
-        print("Writing picture to file")
+        print("Writing frame " + str(i+1))
         outname = "decoded_" + str(i+1) + ".jpg"
         cv2.imwrite(outname, frame2)
         buff.frames.append(frame2)
