@@ -60,7 +60,7 @@ class Server:
         decoded = cipher.decrypt(ciphertext)
         frame2 = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
         print("Writing picture to file")
-        outname = "decoded_" + i + ".jpg"
+        outname = "decoded_" + str(i+1) + ".jpg"
         cv2.imwrite(outname, frame2)
         buff.frames.append(frame2)
 
