@@ -50,10 +50,10 @@ class Server:
         for part in total_data[1:]:
             frame += part
 
-        buff.encrypted_frames = frame
+        buff.encrypted_frames.append(frame)
 
     def decryptframes(self, buff, i):
-        frame = buff.encrypted_frames
+        frame = buff.encrypted_frames[-1]
         nounce = frame[:8]
         ciphertext = frame[8:]
         cipher = ChaCha20.new(key=self.key, nonce=nounce)

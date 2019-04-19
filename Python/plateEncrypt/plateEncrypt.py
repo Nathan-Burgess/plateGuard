@@ -11,6 +11,7 @@ import os
 import tracking
 import dcounter
 import time
+import server
 
 DEBUG = True
 
@@ -27,7 +28,7 @@ def main():
 
     # TODO Change to pipe from ImageDecrypt
     # Read from file to import video
-    cap = cv2.VideoCapture("../../test_plates/test_video6.mp4")
+    # cap = cv2.VideoCapture("../../test_plates/test_video6.mp4")
     # Something for writing out the video, codec related probably
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     # Set up output file
@@ -43,19 +44,29 @@ def main():
 
     k = 0
     # Loops through while video is reading in
-    while ret:
-        # Initialize buffer object
-        buff = buffer.Buffer()
-        buff.encrypt_path = "../20190401/0000/"
-        # Read in frames
-        print("Read in frames...")
-        for i in range(300):
-            ret, frame = cap.read()
+    # Initialize buffer object
+    buff = buffer.Buffer()
+    buff.encrypt_path = "../20190401/0000/"
+    # Read in frames
+    print("Read in frames...")
+    s = server.Server()
+    buff = buffer.Buffer()
+    while True:
+        print("Waiting for client")
+        client, addr = s.sock.accept()
+        print("Client connected from " + str(addr))
+        s.handshake(client)
+        for i in range(150):
+            print("Receiving frame " + str(i + 1))
+            s.receiveframes(client, buff)
+            # print("Writing picture to file...")
+            # frame = buff.encrypted_frames[0]
+            # print(frame)
+            # cv2.imwrite("unencrypted.jpg", frame)
+            print("Decrypting frame " + str(i + 1))
+            s.decryptframes(buff, i)
+        client.close()
 
-            if ret is True:
-                buff.frames.append(frame)
-            else:
-                break
         d_counter.max = 1
         total_frames += i
         print("Finding Plates...")
@@ -73,15 +84,11 @@ def main():
         print("Saving Buffer...")
         save.save_frame(buff, out)
         buff.frames.clear()
-        k += 1
-        if k is 6:
-            break
 
     cap.release()
     out.release()
 
     print("Average Time Per Frame: " + str(total_time/total_frames))
-
 
 
 if __name__ == "__main__":
