@@ -44,7 +44,7 @@ class Server:
                 count = frame_size
 
             newbuff = client.recv(count)
-            if not data: return None
+            if not newbuff: break
             data += newbuff
             frame_size -= len(newbuff)
 
