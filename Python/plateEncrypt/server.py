@@ -73,6 +73,7 @@ class Server:
     def decryptframes(self, buff, i):
         frame = buff.encrypted_frames[-1]
         nounce = frame[:8]
+        print(len(nounce))
         ciphertext = frame[8:]
         cipher = ChaCha20.new(key=self.key, nonce=nounce)
         decoded = cipher.decrypt(ciphertext)
