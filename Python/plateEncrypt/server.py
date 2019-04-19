@@ -31,7 +31,7 @@ class Server:
 
     def receiveframes(self, client, buff):
         total_data = []
-        data = ''
+        data = b''
 
         fsize = client.recv(1024)
         print(fsize.decode())
