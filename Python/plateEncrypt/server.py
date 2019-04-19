@@ -37,7 +37,7 @@ class Server:
         print(fsize.decode())
         count = 8192
 
-        frame_size = int(fsize.decode)
+        frame_size = int(fsize.decode())
 
         while frame_size:
             if frame_size < count:
