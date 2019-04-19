@@ -46,9 +46,11 @@ class Server:
                     total_data[-2] = last_pair[:last_pair.find(self.end)]
                     total_data.pop()
                     break
+                    
         frame = total_data[0]
         for part in total_data[1:]:
             frame += part
+
         print("Frame size: " + str(len(frame)))
         buff.encrypted_frames.append(frame)
 
@@ -59,8 +61,7 @@ class Server:
         cipher = ChaCha20.new(key=self.key, nonce=nounce)
         decoded = cipher.decrypt(ciphertext)
         print("Decoded size " + str(len(decoded)))
-        frame = numpy.fromstring(decoded.decode("ascii"), numpy.uint8)
-        frame2 = cv2.imdecode(frame, cv2.IMREAD_COLOR)  # cv2.IMREAD_COLOR in OpenCV 3.1
+        frame2 = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
         outname = "decoded_" + str(i+1) + ".jpg"
         print("Frame2 size: " + str(len(frame2)))
         cv2.imwrite(outname, frame2)
