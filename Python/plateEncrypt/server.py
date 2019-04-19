@@ -46,12 +46,13 @@ class Server:
                     total_data[-2] = last_pair[:last_pair.find(self.end)]
                     total_data.pop()
                     break
-                    
+
         frame = total_data[0]
         for part in total_data[1:]:
             frame += part
 
         print("Frame size: " + str(len(frame)))
+        print(frame)
         buff.encrypted_frames.append(frame)
 
     def decryptframes(self, buff, i):
@@ -77,8 +78,8 @@ if __name__ == "__main__":
         print("Client connected from " + str(addr))
         s.handshake(client)
         for i in range(150):
-            print("Receiving frame " + str(i+1))
             s.receiveframes(client, buff)
+            print("Received frame " + str(i+1))
             # print("Writing picture to file...")
             # frame = buff.encrypted_frames[0]
             # print(frame)

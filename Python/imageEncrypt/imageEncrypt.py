@@ -34,8 +34,10 @@ def main():
         for i in range(300):
             ret, frame = cap.read()
             if ret is True:
+                print(frame)
                 # Encrypting frame
                 output = encrypt.encrypt_chacha(frame, cipher)
+                print(output)
                 # adding ending terminator
                 output = output + str.encode("halo")
                 print("Sending frame " + str(i+1))
