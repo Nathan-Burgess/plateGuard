@@ -35,9 +35,13 @@ class Server:
 
         frame_size = client.recv(1024)
         print(frame_size)
+        count = 8192
 
         while frame_size:
-            newbuff = client.recv(frame_size)
+            if frame_size < count:
+                count = frame_size
+
+            newbuff = client.recv(count)
             if not data: return None
             data += newbuff
             frame_size -= len(newbuff)
