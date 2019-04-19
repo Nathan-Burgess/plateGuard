@@ -58,9 +58,10 @@ class Server:
         ciphertext = frame[8:]
         cipher = ChaCha20.new(key=self.key, nonce=nounce)
         decoded = cipher.decrypt(ciphertext)
+        print("Decoded size " + str(len(decoded)))
         frame2 = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
-        print("Writing frame " + str(i+1))
         outname = "decoded_" + str(i+1) + ".jpg"
+        print("Frame2 size: " + str(len(frame2)))
         cv2.imwrite(outname, frame2)
         buff.frames.append(frame2)
 
