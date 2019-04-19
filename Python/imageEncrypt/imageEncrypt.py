@@ -37,9 +37,9 @@ def main():
                 print(frame)
                 # Encrypting frame
                 output = encrypt.encrypt_chacha(frame, cipher)
-                print(output)
                 # adding ending terminator
-                output = output + str.encode("halo")
+                connection.send_message(len(output))
+                # output = output + str.encode("halo")
                 print("Sending frame " + str(i+1))
                 connection.send_message(output, s)
             else:
