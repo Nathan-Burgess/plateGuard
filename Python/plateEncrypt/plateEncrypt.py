@@ -58,13 +58,12 @@ def main():
         client, addr = s.sock.accept()
         print("Client connected from " + str(addr))
         s.handshake(client)
-        for i in range(300):
+        for i in range(60):
             for j in range(5):
-                print("Receiving frame " + str(i + 1))
+                print("Receiving frame " + str(i + j))
                 s.recv_msg(client, buff)
-                print("Received frame " + str(i+1))
-                print("Writing frame " + str(i + 1))
-                i+=1
+                print("Received frame " + str(i+j))
+                print("Writing frame " + str(i + j))
             client.sendall("halo".encode())
         client.close()
 
