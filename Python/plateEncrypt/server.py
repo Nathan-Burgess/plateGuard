@@ -5,6 +5,7 @@ from Crypto.Random import get_random_bytes
 import buffer
 import cv2
 import struct
+import pysnooper
 
 
 class Server:
@@ -38,16 +39,17 @@ class Server:
 
         return self.receiveframes(client, msglen)
 
+    @pysnooper.snoop()
     def receiveframes(self, client, n):
         data = b''
 
         while len(data) < n:
-            print("In while...")
+            # print("In while...")
             packet = client.recv(n - len(data))
             if not packet:
                 return None
             data += packet
-            print("Data += packet")
+            # print("Data += packet")
         return data
 
         # while True:
