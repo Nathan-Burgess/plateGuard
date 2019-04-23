@@ -3,6 +3,8 @@ Main program for plateEncrypt system
 """
 
 import cv2
+import numpy
+
 import buffer
 import processing
 import save
