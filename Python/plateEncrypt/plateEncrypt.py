@@ -66,11 +66,12 @@ def main():
             decoded = buff.encrypted_frames[i]
             decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
             outname = "decoded_" + str(i + 1) + ".jpg"
-            if decoded is None:
-                pass
-            print("Decoded_frame size: " + str(len(decoded_frame)))
-            cv2.imwrite(outname, decoded_frame)
-            buff.frames.append(decoded_frame)
+            try:
+                print("Decoded_frame size: " + str(len(decoded_frame)))
+                cv2.imwrite(outname, decoded_frame)
+                buff.frames.append(decoded_frame)
+            except TypeError:
+                print("Errored")
             # print("Writing picture to file...")
             # frame = buff.encrypted_frames[0]
             # print(frame)
