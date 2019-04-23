@@ -136,7 +136,7 @@ if __name__ == "__main__":
             # cv2.imwrite("unencrypted.jpg", frame)
         for i in range(20):
             print("Decrypting frame " + str(i+1))
-            s.decryptframes(buff, i)
+            s.decryptframes(buff, i+1)
             # s.decryptframes(data, buff)
         client.sendall("halo".encode())
         client.close()
