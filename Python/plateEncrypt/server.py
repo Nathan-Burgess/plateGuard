@@ -31,7 +31,7 @@ class Server:
         client.sendall(self.key)
 
     def recv_msg(self, client):
-        raw_msglen = self.receiveframes(4)
+        raw_msglen = self.receiveframes(client, 4)
         if not raw_msglen:
             return None
         msglen = struct.unpack('>I', raw_msglen)[0]
