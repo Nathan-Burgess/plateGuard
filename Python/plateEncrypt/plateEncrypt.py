@@ -65,7 +65,7 @@ def main():
                 print("Received frame " + str(i+1))
                 print("Writing frame " + str(i + 1))
                 i+=1
-            client.sendall("halo".encode)
+            client.sendall("halo".encode())
         client.close()
 
         for i in range(len(buff.encrypted_frames)):
