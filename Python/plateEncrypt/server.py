@@ -128,7 +128,7 @@ if __name__ == "__main__":
         print("Client connected from " + str(addr))
         s.handshake(client)
         for i in range(20):
-            s.recv_msg(client)
+            s.recv_msg(client, buff)
             print("Received frame " + str(i+1))
             # print("Writing picture to file...")
             # frame = buff.encrypted_frames[0]
