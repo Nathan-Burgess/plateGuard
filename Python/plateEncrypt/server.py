@@ -42,10 +42,12 @@ class Server:
         data = b''
 
         while len(data) < n:
+            print("In while...")
             packet = client.recv(n - len(data))
             if not packet:
                 return None
             data += packet
+            print("Data += packet")
         return data
 
         # while True:
