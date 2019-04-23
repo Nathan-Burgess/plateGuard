@@ -134,8 +134,8 @@ if __name__ == "__main__":
             # frame = buff.encrypted_frames[0]
             # print(frame)
             # cv2.imwrite("unencrypted.jpg", frame)
-            print("Decrypting frame " + str(i+1))
         for i in range(20):
+            print("Decrypting frame " + str(i+1))
             s.decryptframes(buff, i)
             # s.decryptframes(data, buff)
         client.sendall("halo".encode())
