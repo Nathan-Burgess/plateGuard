@@ -31,8 +31,8 @@ class Server:
         print("Sending key...")
         client.sendall(self.key)
 
-    @pysnooper.snoop()
-    def recv_msg(self, client):
+    # @pysnooper.snoop()
+    def recv_msg(self, client, buff):
         # BUFF_SIZE = 4096  # 4 KiB
         # data = b''
         #
@@ -64,9 +64,9 @@ class Server:
         for part in total_data[1:]:
             frame += part
 
-        return frame
+        buff.encrypted_frames.append(frame)
 
-    @pysnooper.snoop()
+    # @pysnooper.snoop()
     def receiveframes(self, client, n):
         data = b''
 
@@ -102,9 +102,10 @@ class Server:
         # print(frame)
         # buff.encrypted_frames.append(frame)
 
-    @pysnooper.snoop()
-    def decryptframes(self, data, buff):
+    # @pysnooper.snoop()
+    def decryptframes(self, buff, i):
         # frame = buff.encrypted_frames[-1]
+        data = buff.encrypted_frames[i]
         nounce = data[:8]
         print(len(nounce))
         ciphertext = data[8:]
@@ -113,7 +114,7 @@ class Server:
         print("Decoded size " + str(len(decoded)))
         decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
         outname = "decoded_" + str(i+1) + ".jpg"
-        print("Frame2 size: " + str(len(decoded_frame)))
+        print("Decoded_frame size: " + str(len(decoded_frame)))
         cv2.imwrite(outname, decoded_frame)
         buff.frames.append(decoded_frame)
 
@@ -126,16 +127,16 @@ if __name__ == "__main__":
         client, addr = s.sock.accept()
         print("Client connected from " + str(addr))
         s.handshake(client)
-        for i in range(30):
-            for j in range(5):
-                data = s.recv_msg(client)
-                print("Received frame " + str(i+1))
-                # print("Writing picture to file...")
-                # frame = buff.encrypted_frames[0]
-                # print(frame)
-                # cv2.imwrite("unencrypted.jpg", frame)
-                print("Decrypting frame " + str(i+1))
-                # s.decryptframes(buff, i)
-                s.decryptframes(data, buff)
-            client.sendall("halo".encode())
+        for i in range(20):
+            s.recv_msg(client)
+            print("Received frame " + str(i+1))
+            # print("Writing picture to file...")
+            # frame = buff.encrypted_frames[0]
+            # print(frame)
+            # cv2.imwrite("unencrypted.jpg", frame)
+            print("Decrypting frame " + str(i+1))
+        for i in range(20):
+            s.decryptframes(buff, i)
+            # s.decryptframes(data, buff)
+        client.sendall("halo".encode())
         client.close()
