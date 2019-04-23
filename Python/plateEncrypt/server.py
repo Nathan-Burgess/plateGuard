@@ -111,7 +111,7 @@ class Server:
         cipher = ChaCha20.new(key=self.key, nonce=nounce)
         decoded = cipher.decrypt(ciphertext)
         print("Decoded size " + str(len(decoded)))
-        decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8))
+        decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
         outname = "decoded_" + str(i+1) + ".jpg"
         print("Frame2 size: " + str(len(decoded_frame)))
         cv2.imwrite(outname, decoded_frame)
