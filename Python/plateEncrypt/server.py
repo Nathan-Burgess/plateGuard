@@ -31,6 +31,7 @@ class Server:
         print("Sending key...")
         client.sendall(self.key)
 
+    @pysnooper.snoop()
     def recv_msg(self, client):
         raw_msglen = self.receiveframes(client, 4)
         if not raw_msglen:
@@ -74,6 +75,7 @@ class Server:
         # print(frame)
         # buff.encrypted_frames.append(frame)
 
+    @pysnooper.snoop()
     def decryptframes(self, data, buff):
         # frame = buff.encrypted_frames[-1]
         nounce = data[:8]
