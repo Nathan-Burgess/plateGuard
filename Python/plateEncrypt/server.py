@@ -46,6 +46,7 @@ class Server:
 
         while len(data) < n:
             # print("In while...")
+            print(n + " " + len(data))
             packet = client.recv(n - len(data))
             if not packet:
                 return None
