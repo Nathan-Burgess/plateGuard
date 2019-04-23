@@ -33,44 +33,44 @@ class Server:
         total_data = []
         data = b''
 
-        fsize = client.recv(1024)
-        print(fsize.decode())
-        count = 8192
-
-        frame_size = int(fsize.decode())
-
-        while frame_size:
-            if frame_size < count:
-                count = frame_size
-
-            newbuff = client.recv(count)
-            if not newbuff: break
-            data += newbuff
-            frame_size -= len(newbuff)
-
-        buff.encrypted_frames.append(data)
-
-        # while True:
-        #     data = client.recv(8192)
-        #     if self.end in data:
-        #         total_data.append(data[:data.find(self.end)])
-        #         break
-        #     total_data.append(data)
-        #     if len(total_data) > 1:
-        #         # check if end_of_data was split
-        #         last_pair = total_data[-2] + total_data[-1]
-        #         if self.end in last_pair:
-        #             total_data[-2] = last_pair[:last_pair.find(self.end)]
-        #             total_data.pop()
-        #             break
+        # fsize = client.recv(1024)
+        # print(fsize.decode())
+        # count = 8192
         #
-        # frame = total_data[0]
-        # for part in total_data[1:]:
-        #     frame += part
+        # frame_size = int(fsize.decode())
         #
-        # print("Frame size: " + str(len(frame)))
-        # print(frame)
-        # buff.encrypted_frames.append(frame)
+        # while frame_size:
+        #     if frame_size < count:
+        #         count = frame_size
+        #
+        #     newbuff = client.recv(count)
+        #     if not newbuff: break
+        #     data += newbuff
+        #     frame_size -= len(newbuff)
+        #
+        # buff.encrypted_frames.append(data)
+
+        while True:
+            data = client.recv(8192)
+            if self.end in data:
+                total_data.append(data[:data.find(self.end)])
+                break
+            total_data.append(data)
+            if len(total_data) > 1:
+                # check if end_of_data was split
+                last_pair = total_data[-2] + total_data[-1]
+                if self.end in last_pair:
+                    total_data[-2] = last_pair[:last_pair.find(self.end)]
+                    total_data.pop()
+                    break
+
+        frame = total_data[0]
+        for part in total_data[1:]:
+            frame += part
+
+        print("Frame size: " + str(len(frame)))
+        print(frame)
+        buff.encrypted_frames.append(frame)
 
     def decryptframes(self, buff, i):
         frame = buff.encrypted_frames[-1]
