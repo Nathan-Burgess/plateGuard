@@ -111,11 +111,11 @@ class Server:
         cipher = ChaCha20.new(key=self.key, nonce=nounce)
         decoded = cipher.decrypt(ciphertext)
         print("Decoded size " + str(len(decoded)))
-        frame2 = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
+        decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8))
         outname = "decoded_" + str(i+1) + ".jpg"
-        print("Frame2 size: " + str(len(frame2)))
-        cv2.imwrite(outname, frame2)
-        buff.frames.append(frame2)
+        print("Frame2 size: " + str(len(decoded_frame)))
+        cv2.imwrite(outname, decoded_frame)
+        buff.frames.append(decoded_frame)
 
 
 if __name__ == "__main__":
