@@ -59,10 +59,16 @@ def main():
         print("Client connected from " + str(addr))
         s.handshake(client)
         for i in range(300):
-            print("Receiving frame " + str(i + 1))
-            s.recv_msg(client, buff)
-            print("Received frame " + str(i+1))
-            print("Writing frame " + str(i + 1))
+            for j in range(5):
+                print("Receiving frame " + str(i + 1))
+                s.recv_msg(client, buff)
+                print("Received frame " + str(i+1))
+                print("Writing frame " + str(i + 1))
+            i += 5
+            client.sendall("halo".encode)
+        client.close()
+
+        for i in range(len(buff.encrypted_frames)):
             decoded = buff.encrypted_frames[i]
             decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
             outname = "decoded_" + str(i + 1) + ".jpg"
@@ -72,13 +78,12 @@ def main():
                 buff.frames.append(decoded_frame)
             except TypeError:
                 print("Errored")
-            # print("Writing picture to file...")
-            # frame = buff.encrypted_frames[0]
-            # print(frame)
-            # cv2.imwrite("unencrypted.jpg", frame)
-            # print("Decrypting frame " + str(i + 1))
-            # s.decryptframes(buff, i)
-        client.close()
+        # print("Writing picture to file...")
+        # frame = buff.encrypted_frames[0]
+        # print(frame)
+        # cv2.imwrite("unencrypted.jpg", frame)
+        # print("Decrypting frame " + str(i + 1))
+        # s.decryptframes(buff, i)
 
         d_counter.max = 1
         total_frames += i
