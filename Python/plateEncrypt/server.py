@@ -105,12 +105,16 @@ class Server:
     # @pysnooper.snoop()
     def decryptframes(self, buff, i):
         # frame = buff.encrypted_frames[-1]
+        filename = "decrypted_out" + str(i)
+        f = open(filename, "w")
         data = buff.encrypted_frames[i]
         nounce = data[:8]
         print(len(nounce))
         ciphertext = data[8:]
         cipher = ChaCha20.new(key=self.key, nonce=nounce)
         decoded = cipher.decrypt(ciphertext)
+        f.write(str(decoded))
+        f.close()
         print("Decoded size " + str(len(decoded)))
         decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
         outname = "decoded_" + str(i+1) + ".jpg"
@@ -136,7 +140,7 @@ if __name__ == "__main__":
             # cv2.imwrite("unencrypted.jpg", frame)
         for i in range(20):
             print("Decrypting frame " + str(i+1))
-            s.decryptframes(buff, i+1)
+            s.decryptframes(buff, i)
             # s.decryptframes(data, buff)
         client.sendall("halo".encode())
         client.close()
