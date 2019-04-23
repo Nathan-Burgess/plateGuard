@@ -64,7 +64,7 @@ def main():
                 s.recv_msg(client, buff)
                 print("Received frame " + str(i+1))
                 print("Writing frame " + str(i + 1))
-            i += 5
+                i+=1
             client.sendall("halo".encode)
         client.close()
 
