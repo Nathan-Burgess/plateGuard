@@ -7,7 +7,7 @@ import cv2
 import struct
 #import pysnooper
 import pickle
-
+import marshal
 
 class Server:
     def __init__(self, sock=None):
@@ -145,8 +145,8 @@ class Server:
         data = data[msg_size:]
 
         # Extract frame
-        frame = pickle.loads(frame_data)
-
+        #frame = pickle.loads(frame_data)
+        frame = marshal.loads(frame_data)
         return frame
 
 

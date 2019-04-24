@@ -15,6 +15,7 @@ import dcounter
 import time
 import server
 
+
 DEBUG = True
 
 
@@ -63,6 +64,7 @@ def main():
             print("Receiving frame " + str(i))
             #s.recv_msg(client, buff)
             frame_new = s.pickle_recv(client)
+
             print("Writing frame " + str(i))
             buff.frames.append(frame_new)
 

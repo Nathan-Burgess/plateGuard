@@ -4,6 +4,8 @@ import encrypt
 import connection
 import pickle
 import struct
+import marshal
+import gc
 from Crypto.Random import get_random_bytes
 
 
@@ -43,8 +45,10 @@ def main():
                 # adding ending terminator
                 output = output + str.encode("halo")
                 print("Sending frame " + str(i+1))
-                data = pickle.dumps(frame)
-
+                # gc.disable()
+                # data = pickle.dumps(frame, pickle.HIGHEST_PROTOCOL)
+                data = marshal.dumps(frame)
+                #  gc.enable()
                 # Send message length first
                 message_size = struct.pack("L", len(data))  ### CHANGED
 
