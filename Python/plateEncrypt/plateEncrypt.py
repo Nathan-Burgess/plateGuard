@@ -62,7 +62,7 @@ def main():
 
             print("Receiving frame " + str(i))
             #s.recv_msg(client, buff)
-            frame_new = s.pickle_recv()
+            frame_new = s.pickle_recv(client)
             print("Decoded_frame size: " + str(len(frame_new)))
             print("Writing frame " + str(i))
             buff.frames.append(frame_new)

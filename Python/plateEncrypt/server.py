@@ -124,7 +124,7 @@ class Server:
         buff.frames.append(decoded_frame)
 
 
-    def pickle_recv(self):
+    def pickle_recv(self,client):
 
         data = b''  ### CHANGED
         payload_size = struct.calcsize("L")  ### CHANGED
