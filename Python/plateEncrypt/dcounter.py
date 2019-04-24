@@ -11,7 +11,7 @@ class DCounter:
 
     def update_counter(self):
         if self.max < self.alpr_minimum_run:
-            self.max *= 6
+            self.max *= 3
             if self.max > self.alpr_minimum_run:
                 self.max = self.alpr_minimum_run
         # else:
