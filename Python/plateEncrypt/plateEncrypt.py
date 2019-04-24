@@ -30,7 +30,7 @@ def main():
 
     # TODO Change to pipe from ImageDecrypt
     # Read from file to import video
-    # cap = cv2.VideoCapture("../../test_plates/test_video6.mp4")
+    cap = cv2.VideoCapture("../../test_plates/SDD_Test.mp4")
     # Something for writing out the video, codec related probably
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     # Set up output file
@@ -54,35 +54,45 @@ def main():
     s = server.Server()
     buff = buffer.Buffer()
     while True:
-        print("Waiting for client")
-        client, addr = s.sock.accept()
-        print("Client connected from " + str(addr))
-        s.handshake(client)
-        for i in range(60):
-            for j in range(5):
-                print("Receiving frame " + str(i + j))
-                s.recv_msg(client, buff)
-                print("Received frame " + str(i+j))
-                print("Writing frame " + str(i + j))
-            client.sendall("halo".encode())
-        client.close()
+        # print("Waiting for client")
+        # client, addr = s.sock.accept()
+        # print("Client connected from " + str(addr))
+        # s.handshake(client)
+        # for i in range(60):
+        #     for j in range(5):
+        #         print("Receiving frame " + str(i + j))
+        #         s.recv_msg(client, buff)
+        #         print("Received frame " + str(i+j))
+        #         print("Writing frame " + str(i + j))
+        #     client.sendall("halo".encode())
+        # client.close()
 
-        for i in range(len(buff.encrypted_frames)):
-            decoded = buff.encrypted_frames[i]
-            decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
-            outname = "decoded_" + str(i + 1) + ".jpg"
-            try:
-                print("Decoded_frame size: " + str(len(decoded_frame)))
-                cv2.imwrite(outname, decoded_frame)
-                buff.frames.append(decoded_frame)
-            except TypeError:
-                print("Errored")
+        #
+        # for i in range(len(buff.encrypted_frames)):
+        #     decoded = buff.encrypted_frames[i]
+        #     decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
+        #     outname = "decoded_" + str(i + 1) + ".jpg"
+        #     try:
+        #         print("Decoded_frame size: " + str(len(decoded_frame)))
+        #         cv2.imwrite(outname, decoded_frame)
+        #         buff.frames.append(decoded_frame)
+        #     except TypeError:
+        #         print("Errored")
         # print("Writing picture to file...")
         # frame = buff.encrypted_frames[0]
         # print(frame)
         # cv2.imwrite("unencrypted.jpg", frame)
         # print("Decrypting frame " + str(i + 1))
         # s.decryptframes(buff, i)
+
+        print("Read in frames...")
+        for i in range(300):
+            ret, frame = cap.read()
+
+            if ret is True:
+                buff.frames.append(frame)
+            else:
+                break
 
         d_counter.max = 1
         total_frames += i
