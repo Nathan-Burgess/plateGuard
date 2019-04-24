@@ -34,7 +34,7 @@ def main():
 
     count = 0
     while ret:
-        for i in range(1, 301):
+        for i in range(300):
             ret, frame = cap.read()
             if ret is True:
                 # print(frame)
@@ -53,8 +53,8 @@ def main():
                 # connection.send_message(output, s)
                 print(len(output))
 
-                if i % 5 == 0:
-                    msg = s.recv(4)
+
+                msg = s.recv(4)
             else:
                 break
 

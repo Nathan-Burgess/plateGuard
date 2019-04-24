@@ -131,7 +131,7 @@ class Server:
 
         # Retrieve message size
         while len(data) < payload_size:
-            data += client.recv(4096)
+            data += client.recv(8192)
 
         packed_msg_size = data[:payload_size]
         data = data[payload_size:]
@@ -139,7 +139,7 @@ class Server:
 
         # Retrieve all data based on message size
         while len(data) < msg_size:
-            data += client.recv(4096)
+            data += client.recv(8192)
 
         frame_data = data[:msg_size]
         data = data[msg_size:]
