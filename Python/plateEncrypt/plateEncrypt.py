@@ -58,7 +58,7 @@ def main():
         client, addr = s.sock.accept()
         print("Client connected from " + str(addr))
         s.handshake(client)
-        for i in range(300):
+        for i in range(1, 301):
 
             print("Receiving frame " + str(i))
             #s.recv_msg(client, buff)
@@ -66,7 +66,9 @@ def main():
             print("Decoded_frame size: " + str(len(frame_new)))
             print("Writing frame " + str(i))
             buff.frames.append(frame_new)
-            client.sendall("halo".encode())
+
+            if i % 5 == 0:
+                client.sendall("halo".encode())
         client.close()
 
         # for i in range(len(buff.encrypted_frames)):
