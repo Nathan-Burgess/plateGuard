@@ -58,25 +58,27 @@ def main():
         client, addr = s.sock.accept()
         print("Client connected from " + str(addr))
         s.handshake(client)
-        for i in range(60):
-            for j in range(5):
-                print("Receiving frame " + str(i + j))
-                s.recv_msg(client, buff)
-                print("Received frame " + str(i+j))
-                print("Writing frame " + str(i + j))
+        for i in range(300):
+
+            print("Receiving frame " + str(i))
+            #s.recv_msg(client, buff)
+            frame_new = s.pickle_recv()
+            print("Decoded_frame size: " + str(len(frame_new)))
+            print("Writing frame " + str(i))
+            buff.frames.append(frame_new)
             client.sendall("halo".encode())
         client.close()
 
-        for i in range(len(buff.encrypted_frames)):
-            decoded = buff.encrypted_frames[i]
-            decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
-            outname = "decoded_" + str(i + 1) + ".jpg"
-            try:
-                print("Decoded_frame size: " + str(len(decoded_frame)))
-                cv2.imwrite(outname, decoded_frame)
-                buff.frames.append(decoded_frame)
-            except TypeError:
-                print("Errored")
+        # for i in range(len(buff.encrypted_frames)):
+        #     decoded = buff.encrypted_frames[i]
+        #     decoded_frame = cv2.imdecode(numpy.frombuffer(decoded, numpy.uint8), -1)
+        #     outname = "decoded_" + str(i + 1) + ".jpg"
+        #     try:
+        #         print("Decoded_frame size: " + str(len(decoded_frame)))
+        #         cv2.imwrite(outname, decoded_frame)
+        #         buff.frames.append(decoded_frame)
+        #     except TypeError:
+        #         print("Errored")
         # print("Writing picture to file...")
         # frame = buff.encrypted_frames[0]
         # print(frame)

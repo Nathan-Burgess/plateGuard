@@ -5,7 +5,8 @@ from Crypto.Random import get_random_bytes
 import buffer
 import cv2
 import struct
-import pysnooper
+#import pysnooper
+import pickle
 
 
 class Server:
@@ -121,6 +122,32 @@ class Server:
         print("Decoded_frame size: " + str(len(decoded_frame)))
         cv2.imwrite(outname, decoded_frame)
         buff.frames.append(decoded_frame)
+
+
+    def pickle_recv(self):
+
+        data = b''  ### CHANGED
+        payload_size = struct.calcsize("L")  ### CHANGED
+
+        # Retrieve message size
+        while len(data) < payload_size:
+            data += client.recv(4096)
+
+        packed_msg_size = data[:payload_size]
+        data = data[payload_size:]
+        msg_size = struct.unpack("L", packed_msg_size)[0]  ### CHANGED
+
+        # Retrieve all data based on message size
+        while len(data) < msg_size:
+            data += client.recv(4096)
+
+        frame_data = data[:msg_size]
+        data = data[msg_size:]
+
+        # Extract frame
+        frame = pickle.loads(frame_data)
+
+        return frame
 
 
 if __name__ == "__main__":

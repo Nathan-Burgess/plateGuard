@@ -2,6 +2,8 @@
 import cv2
 import encrypt
 import connection
+import pickle
+import struct
 from Crypto.Random import get_random_bytes
 
 
@@ -41,12 +43,17 @@ def main():
                 # adding ending terminator
                 output = output + str.encode("halo")
                 print("Sending frame " + str(i+1))
-                connection.send_message(output, s)
+                data = pickle.dumps(frame)
+
+                # Send message length first
+                message_size = struct.pack("L", len(data))  ### CHANGED
+
+                # Then data
+                s.sendall(message_size + data)
+                # connection.send_message(output, s)
                 print(len(output))
-                count += 1
-                if count == 5:
-                    count = 0
-                    msg = s.recv(4)
+
+                msg = s.recv(4)
             else:
                 break
 
