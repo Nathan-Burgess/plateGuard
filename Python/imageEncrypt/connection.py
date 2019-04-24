@@ -1,5 +1,6 @@
 import socket
 import sys
+import struct
 
 #Sets up a TCP socket
 def start_connection():
@@ -27,13 +28,13 @@ def connect_to_host(host_name, port, s):
 
 
 #sends a message
-def send_message(message, s):
-
-    s.sendall(message)
+def send_message(msg, s):
+    # msg = struct.pack('>I', len(msg)) + msg
+    s.sendall(msg)
 
 
 #recives a message with given bytes
-def recv_message(bytes, s):
+def recv_message(b, s):
 
-    return s.recv(bytes)
+    return s.recv(b)
 

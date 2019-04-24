@@ -30,21 +30,26 @@ def main():
     # Setting up cipher with correct key
     cipher = encrypt.set_chacha(key)
 
+    count = 0
     while ret:
         for i in range(300):
             ret, frame = cap.read()
             if ret is True:
-                print(frame)
+                # print(frame)
                 # Encrypting frame
-                output = encrypt.encrypt_chacha(frame, cipher)
+                output = encrypt.encrypt_chacha(frame, cipher, i)
                 # adding ending terminator
                 output = output + str.encode("halo")
                 print("Sending frame " + str(i+1))
                 connection.send_message(output, s)
-                msg = s.recv(4)
+                print(len(output))
+                count += 1
+                if count == 5:
+                    count = 0
+                    msg = s.recv(4)
             else:
                 break
-            i += 1
+
 
         ret = False
 

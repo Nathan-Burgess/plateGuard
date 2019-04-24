@@ -10,8 +10,14 @@ def set_chacha(key):
 
 
 #encypts the frame with given cipher, returns encypted string of bytes
-def encrypt_chacha(frame, cipher):
-    data = cv2.imencode('.jpg', frame)[1].tostring()
-    output = cipher.nonce + cipher.encrypt(data)
+def encrypt_chacha(frame, cipher,i):
+    data = cv2.imencode('.jpg', frame)
+    data = data[1].tobytes()
+    # filename = "unecnrypted" + str(i)
+    # f = open(filename, "w")
+    # f.write(str(data))
+    # f.close()
+    # output = cipher.nonce + cipher.encrypt(data)
+    output = data
     return output
 
