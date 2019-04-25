@@ -30,7 +30,7 @@ def main():
 
     # TODO Change to pipe from ImageDecrypt
     # Read from file to import video
-    cap = cv2.VideoCapture("../../test_plates/sdd_test.mp4")
+    cap = cv2.VideoCapture("../../test_plates/test_video6.mp4")
     # Something for writing out the video, codec related probably
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     # Set up output file
@@ -50,9 +50,9 @@ def main():
     buff = buffer.Buffer()
     buff.encrypt_path = "../20190401/0000/"
     # Read in frames
-    print("Read in frames...")
-    s = server.Server()
+    # s = server.Server()
     buff = buffer.Buffer()
+    k = 0
     while ret:
         # print("Waiting for client")
         # client, addr = s.sock.accept()
@@ -112,6 +112,9 @@ def main():
         print("Saving Buffer...")
         save.save_frame(buff, out)
         buff.frames.clear()
+        k += 1
+        if k is 3:
+            break
 
     cap.release()
     out.release()
