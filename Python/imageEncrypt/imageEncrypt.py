@@ -43,11 +43,12 @@ def main():
                 # Encrypting frame
                 output = encrypt.encrypt_chacha(frame, cipher, i)
                 # adding ending terminator
-                output = output + str.encode("halo")
+                # output = output + str.encode("halo")
                 print("Sending frame " + str(i+1))
                 # gc.disable()
+                data = output
                 # data = pickle.dumps(frame, pickle.HIGHEST_PROTOCOL)
-                data = marshal.dumps(frame)
+                # data = marshal.dumps(frame)
                 #  gc.enable()
                 # Send message length first
                 message_size = struct.pack("L", len(data))  ### CHANGED
