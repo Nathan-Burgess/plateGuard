@@ -63,10 +63,10 @@ def main():
 
             print("Receiving frame " + str(i))
             #s.recv_msg(client, buff)
-            frame_new = s.pickle_recv(client)
+            s.pickle_recv(client, buff)
 
             print("Writing frame " + str(i))
-            buff.frames.append(frame_new)
+            # buff.frames.append(frame_new)
 
 
             client.sendall("halo".encode())
