@@ -55,7 +55,7 @@ def main():
                 count += 1
                 if count == 5:
                     print(len(data))
-                    message_size = struct.pack("H", len(data))  ### CHANGED
+                    message_size = struct.pack("L", len(data))  ### CHANGED
                     # Then data
                     s.sendall(message_size + data)
                     data = b''
