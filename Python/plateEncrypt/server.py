@@ -144,7 +144,10 @@ class Server:
 
         frame_data = data[:msg_size]
         for i in range(5):
+            print(i)
             f = frame_data[temp:data.find(self.end)]
+            print(data.find(self.end))
+            print(f)
             frame = cv2.imdecode(numpy.frombuffer(f, numpy.uint8), -1)
             temp = frame_data.find(self.end)+4
             buff.frames.append(frame)
