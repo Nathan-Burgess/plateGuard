@@ -54,17 +54,18 @@ def main():
                 # Send message length first
                 count += 1
                 if count == 5:
-
+                    print(len(data))
                     message_size = struct.pack("H", len(data))  ### CHANGED
                     # Then data
                     s.sendall(message_size + data)
                     data = b''
                     count = 0
+                    msg = s.recv(4)
                 # connection.send_message(output, s)
                 print(len(output))
 
 
-                msg = s.recv(4)
+                # msg = s.recv(4)
             else:
                 break
 
