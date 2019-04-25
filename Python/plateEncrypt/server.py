@@ -146,7 +146,7 @@ class Server:
 
         # Extract frame
         frame = cv2.imdecode(numpy.frombuffer(frame_data, numpy.uint8), -1)
-        print("Decoded_frame size: " + str(len(decoded_frame)))
+        print("Decoded_frame size: " + str(len(frame)))
         #frame = pickle.loads(frame_data)
         # frame = marshal.loads(frame_data)
         return frame
