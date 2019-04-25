@@ -35,6 +35,7 @@ def main():
     cipher = encrypt.set_chacha(key)
 
     count = 0
+    data = b''
     while ret:
         for i in range(300):
             ret, frame = cap.read()
@@ -43,18 +44,22 @@ def main():
                 # Encrypting frame
                 output = encrypt.encrypt_chacha(frame, cipher, i)
                 # adding ending terminator
-                # output = output + str.encode("halo")
+                output = output + str.encode("halo")
                 print("Sending frame " + str(i+1))
                 # gc.disable()
-                data = output
+                data += output
                 # data = pickle.dumps(frame, pickle.HIGHEST_PROTOCOL)
                 # data = marshal.dumps(frame)
                 #  gc.enable()
                 # Send message length first
-                message_size = struct.pack("L", len(data))  ### CHANGED
+                count += 1
+                if count == 5:
 
-                # Then data
-                s.sendall(message_size + data)
+                    message_size = struct.pack("H", len(data))  ### CHANGED
+                    # Then data
+                    s.sendall(message_size + data)
+                    data = b''
+                    count = 0
                 # connection.send_message(output, s)
                 print(len(output))
 
