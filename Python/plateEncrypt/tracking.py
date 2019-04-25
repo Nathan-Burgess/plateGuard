@@ -16,6 +16,7 @@ class Tracker:
         self.length['new'] = 0
         d_counter.counter = 0
         # Calls openalpr and receives results
+        print(self.frame_counter)
         results = detect.detect(buff.frames[self.frame_counter])
         # Calculates KNN or initializes car objects
         processing.calculate_knn(buff, results, self.frame_counter)

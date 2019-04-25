@@ -30,7 +30,7 @@ def main():
 
     # TODO Change to pipe from ImageDecrypt
     # Read from file to import video
-    cap = cv2.VideoCapture("../../test_plates/SDD_Test.mp4")
+    cap = cv2.VideoCapture("../../test_plates/sdd_test.mp4")
     # Something for writing out the video, codec related probably
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     # Set up output file
@@ -53,7 +53,7 @@ def main():
     print("Read in frames...")
     s = server.Server()
     buff = buffer.Buffer()
-    while True:
+    while ret:
         # print("Waiting for client")
         # client, addr = s.sock.accept()
         # print("Client connected from " + str(addr))
@@ -96,6 +96,7 @@ def main():
 
         d_counter.max = 1
         total_frames += i
+        print(len(buff.frames))
         print("Finding Plates...")
         track.frame_counter = 0
         start = time.time()
