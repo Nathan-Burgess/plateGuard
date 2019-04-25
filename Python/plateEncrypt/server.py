@@ -9,6 +9,7 @@ import struct
 import pickle
 import marshal
 
+
 class Server:
     def __init__(self, sock=None):
         if sock is None:
@@ -123,11 +124,11 @@ class Server:
         cv2.imwrite(outname, decoded_frame)
         buff.frames.append(decoded_frame)
 
-
-    def pickle_recv(self,client):
+    def pickle_recv(self, client, buff):
 
         data = b''  ### CHANGED
         payload_size = struct.calcsize("L")  ### CHANGED
+        temp = 0
 
         # Retrieve message size
         while len(data) < payload_size:
@@ -142,14 +143,19 @@ class Server:
             data += client.recv(8192)
 
         frame_data = data[:msg_size]
-        data = data[msg_size:]
+        for i in range(5):
+            f = data[temp:data.find(self.end)]
+            frame = cv2.imdecode(numpy.frombuffer(f, numpy.uint8), -1)
+            temp = data.find(self.end)
+            buff.frames.append(frame)
+        # data = data[msg_size:]
 
         # Extract frame
-        frame = cv2.imdecode(numpy.frombuffer(frame_data, numpy.uint8), -1)
+        # frame = cv2.imdecode(numpy.frombuffer(d[i], numpy.uint8), -1)
         print("Decoded_frame size: " + str(len(frame)))
         #frame = pickle.loads(frame_data)
         # frame = marshal.loads(frame_data)
-        return frame
+        # return frame
 
 
 if __name__ == "__main__":
