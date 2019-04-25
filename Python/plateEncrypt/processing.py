@@ -47,9 +47,17 @@ def clear_plate_area(buff):
                 a, b, c, d = car.coords[i]
                 data['coords'] = {'x1': a['x'], 'x2': c['x'], 'y1': a['y'], 'y2': c['y']}
                 x1 = int(a['x'])
+                if x1 < 0:
+                    x1 = 0
                 x2 = int(c['x'])
+                if x2 >= 3840:
+                    x2 = 3839
                 y1 = int(a['y'])
+                if y1 < 0:
+                    y1 = 0
                 y2 = int(c['y'])
+                if y2 >= 2160:
+                    y2 = 2159
 
                 # Blank each plate to static
                 for x in range(x1, x2):
